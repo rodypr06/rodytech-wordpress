@@ -27,7 +27,7 @@ add_action('after_setup_theme', 'rodytech_setup');
 // Enqueue styles
 function rodytech_scripts() {
     wp_enqueue_style('rodytech-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap', array(), null);
-    wp_enqueue_style('rodytech-style', get_stylesheet_uri(), array(), '6.5');
+    wp_enqueue_style('rodytech-style', get_stylesheet_uri(), array(), '6.6');
     wp_enqueue_script('rodytech-animations', get_template_directory_uri() . '/rodytech-animations.js', array(), '2.2', true);
     wp_add_inline_style(
         'rodytech-style',
@@ -431,6 +431,39 @@ function rodytech_excerpt_more($more) {
     return '...';
 }
 add_filter('excerpt_more', 'rodytech_excerpt_more');
+
+function rodytech_should_noindex_archive() {
+    if (is_search()) {
+        return true;
+    }
+
+    if (is_tag()) {
+        global $wp_query;
+        $tag_count = isset($wp_query->found_posts) ? (int) $wp_query->found_posts : 0;
+        return $tag_count < 2;
+    }
+
+    if (is_category()) {
+        $category = get_queried_object();
+        return $category instanceof WP_Term && (int) $category->count === 0;
+    }
+
+    return false;
+}
+
+function rodytech_archive_robots($robots) {
+    if (!is_array($robots)) {
+        $robots = array();
+    }
+
+    if (rodytech_should_noindex_archive()) {
+        $robots['noindex'] = true;
+        $robots['nofollow'] = false;
+    }
+
+    return $robots;
+}
+add_filter('wp_robots', 'rodytech_archive_robots');
 
 // Normalize author archive requests so valid author slugs consistently resolve to the author template.
 function rodytech_normalize_author_archive_request($query_vars) {

@@ -234,11 +234,15 @@ $paged = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
       $archive_eyebrow = 'Tag';
       $archive_title = $tag_name;
       $tag_count = isset($wp_query->found_posts) ? (int) $wp_query->found_posts : 0;
-      $archive_description = sprintf(
-        '%s article%s filed under this tag across the archive.',
-        number_format_i18n($tag_count),
-        $tag_count === 1 ? '' : 's'
-      );
+      if ($tag_count === 0) {
+        $archive_description = 'No published articles currently use this tag.';
+      } else {
+        $archive_description = sprintf(
+          '%s article%s filed under this tag across the archive.',
+          number_format_i18n($tag_count),
+          $tag_count === 1 ? '' : 's'
+        );
+      }
     } elseif (is_author()) {
       $author_object = get_queried_object();
       $archive_eyebrow = 'Author';
@@ -321,10 +325,14 @@ $paged = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
       $tag_count = isset($wp_query->found_posts) ? (int) $wp_query->found_posts : 0;
       $archive_context = array(
         'label' => 'Tag signal',
-        'title' => $tag_count < 3 ? 'This tag is a narrow slice of the archive.' : 'This tag connects a set of related stories.',
-        'body'  => $tag_count < 3
-          ? 'Thin tag pages work best as pivots. Use the broader category paths below if you want the fuller context around this topic.'
-          : 'Use this tag as a cross-cut through related implementation notes, then jump into the larger category lanes for deeper coverage.',
+        'title' => $tag_count === 0
+          ? 'This tag currently has no published articles.'
+          : ($tag_count < 3 ? 'This tag is a narrow slice of the archive.' : 'This tag connects a set of related stories.'),
+        'body'  => $tag_count === 0
+          ? 'This is a weak archive route right now. Use the broader category paths below to reach the active parts of the library.'
+          : ($tag_count < 3
+            ? 'Thin tag pages work best as pivots. Use the broader category paths below if you want the fuller context around this topic.'
+            : 'Use this tag as a cross-cut through related implementation notes, then jump into the larger category lanes for deeper coverage.'),
         'links' => array(
           array(
             'title' => 'Browse the full archive',
@@ -404,8 +412,32 @@ $paged = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
         </div>
       <?php else : ?>
         <div class="no-posts">
-          <h2>No matching articles</h2>
-          <p>Try a different query or browse the main archive.</p>
+          <h2>
+            <?php
+              if (is_tag()) {
+                echo 'No published articles use this tag yet';
+              } elseif (is_category()) {
+                echo 'No published articles are in this category yet';
+              } elseif (is_search()) {
+                echo 'No matching articles';
+              } else {
+                echo 'No published articles in this archive yet';
+              }
+            ?>
+          </h2>
+          <p>
+            <?php
+              if (is_tag()) {
+                echo 'Use the broader category paths or the full archive to keep exploring.';
+              } elseif (is_category()) {
+                echo 'Browse the full archive while this category is still empty.';
+              } elseif (is_search()) {
+                echo 'Try a different query or browse the main archive.';
+              } else {
+                echo 'Browse the main archive for active writing lanes.';
+              }
+            ?>
+          </p>
           <p class="no-posts-actions">
             <a href="<?php echo esc_url(home_url('/articles')); ?>" class="inline-action-link">Open the full archive</a>
           </p>
