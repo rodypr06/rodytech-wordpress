@@ -218,26 +218,70 @@ $paged = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
 
 <?php else : ?>
   <?php
+    global $wp_query;
+    $archive_eyebrow = 'Archive';
+
     if (is_category()) {
+      $queried_category = get_queried_object();
+      $archive_eyebrow = 'Category';
       $archive_title = single_cat_title('', false);
+      $archive_description = trim(wp_strip_all_tags(get_the_archive_description()));
+      if ($archive_description === '' && $queried_category instanceof WP_Term) {
+        $archive_description = rodytech_get_category_summary($queried_category);
+      }
     } elseif (is_tag()) {
-      $archive_title = single_tag_title('', false);
+      $tag_name = single_tag_title('', false);
+      $archive_eyebrow = 'Tag';
+      $archive_title = $tag_name;
+      $tag_count = isset($wp_query->found_posts) ? (int) $wp_query->found_posts : 0;
+      $archive_description = sprintf(
+        '%s article%s filed under this tag across the archive.',
+        number_format_i18n($tag_count),
+        $tag_count === 1 ? '' : 's'
+      );
     } elseif (is_author()) {
+      $author_object = get_queried_object();
+      $archive_eyebrow = 'Author';
       $archive_title = get_the_author();
+      $archive_description = $author_object && !empty($author_object->description)
+        ? wp_strip_all_tags($author_object->description)
+        : 'Writing collected by author across AI, infrastructure, and software systems.';
     } elseif (is_search()) {
-      $archive_title = 'Search Results';
+      $query = get_search_query();
+      $result_count = isset($wp_query->found_posts) ? (int) $wp_query->found_posts : 0;
+      $archive_eyebrow = 'Search results';
+      $archive_title = sprintf('Results for "%s"', $query);
+      $archive_description = sprintf(
+        '%s article%s matched your search.',
+        number_format_i18n($result_count),
+        $result_count === 1 ? '' : 's'
+      );
+    } elseif (is_day()) {
+      $archive_eyebrow = 'Daily archive';
+      $archive_title = get_the_date('F j, Y');
+      $archive_description = 'Stories published on this day.';
+    } elseif (is_month()) {
+      $archive_eyebrow = 'Monthly archive';
+      $archive_title = get_the_date('F Y');
+      $archive_description = 'Stories published during this month.';
+    } elseif (is_year()) {
+      $archive_eyebrow = 'Yearly archive';
+      $archive_title = get_the_date('Y');
+      $archive_description = 'Stories published during this year.';
     } else {
       $archive_title = wp_strip_all_tags(get_the_archive_title());
+      $archive_description = wp_strip_all_tags(get_the_archive_description());
+      if ($archive_description === '') {
+        $archive_description = 'Browse the archive through the same editorial layout used on the homepage.';
+      }
     }
-    $archive_description = is_search()
-      ? sprintf('Results for "%s".', get_search_query())
-      : wp_strip_all_tags(get_the_archive_description());
+
     $sidebar_categories = rodytech_get_editorial_categories(6);
   ?>
 
   <section class="editorial-hero editorial-hero-archive">
     <div class="editorial-hero-copy">
-      <span class="editorial-eyebrow"><?php echo is_category() ? 'Category' : 'Archive view'; ?></span>
+      <span class="editorial-eyebrow"><?php echo esc_html($archive_eyebrow); ?></span>
       <h1><?php echo esc_html($archive_title); ?></h1>
       <?php if ($archive_description) : ?>
         <p><?php echo esc_html($archive_description); ?></p>
