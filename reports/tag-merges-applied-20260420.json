@@ -1,0 +1,43 @@
+[
+    {
+        "source_id": 148,
+        "source_name": "AI Inferencing",
+        "target_id": 131,
+        "target_name": "AI Inference",
+        "post_ids": [
+            127
+        ],
+        "deleted": true
+    },
+    {
+        "source_id": 77,
+        "source_name": "GenAI",
+        "target_id": 56,
+        "target_name": "Generative AI",
+        "post_ids": [
+            89
+        ],
+        "deleted": true
+    },
+    {
+        "source_id": 15,
+        "source_name": "Multi-agent AI systems",
+        "target_id": 133,
+        "target_name": "Multi-Agent Systems",
+        "post_ids": [
+            59
+        ],
+        "deleted": true
+    },
+    {
+        "source_id": 12,
+        "source_name": "Autonomous agents",
+        "target_id": 139,
+        "target_name": "Autonomous AI Agents",
+        "post_ids": [
+            58,
+            86
+        ],
+        "deleted": true
+    }
+]
