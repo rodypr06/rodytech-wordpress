@@ -26,10 +26,33 @@ add_action('after_setup_theme', 'rodytech_setup');
 // Enqueue styles
 function rodytech_scripts() {
     wp_enqueue_style('rodytech-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap', array(), null);
-    wp_enqueue_style('rodytech-style', get_stylesheet_uri(), array(), '5.0');
-    wp_enqueue_script('rodytech-animations', get_template_directory_uri() . '/rodytech-animations.js', array(), '1.0', true);
+    wp_enqueue_style('rodytech-style', get_stylesheet_uri(), array(), '6.0');
+    wp_enqueue_script('rodytech-animations', get_template_directory_uri() . '/rodytech-animations.js', array(), '2.0', true);
 }
 add_action('wp_enqueue_scripts', 'rodytech_scripts');
+
+// Custom local avatar — overrides Gravatar for any user with rodytech_avatar_url meta
+function rodytech_local_avatar($url, $id_or_email, $args) {
+    $user_id = 0;
+    if (is_numeric($id_or_email)) {
+        $user_id = (int) $id_or_email;
+    } elseif (is_object($id_or_email)) {
+        if (!empty($id_or_email->user_id)) {
+            $user_id = (int) $id_or_email->user_id;
+        } elseif (isset($id_or_email->ID)) {
+            $user_id = (int) $id_or_email->ID;
+        }
+    } elseif (is_string($id_or_email) && is_email($id_or_email)) {
+        $user = get_user_by('email', $id_or_email);
+        if ($user) $user_id = $user->ID;
+    }
+    if ($user_id) {
+        $custom = get_user_meta($user_id, 'rodytech_avatar_url', true);
+        if ($custom) return esc_url($custom);
+    }
+    return $url;
+}
+add_filter('get_avatar_url', 'rodytech_local_avatar', 10, 3);
 
 // Calculate reading time
 function rodytech_reading_time($post_id = null) {

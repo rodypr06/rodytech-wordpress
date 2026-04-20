@@ -1,59 +1,103 @@
 /**
- * RodyTech Blog - Scroll animations & micro-interactions
+ * RodyTech Blog — Animations & micro-interactions
  */
-(function() {
+(function () {
   'use strict';
 
-  // Intersection Observer for scroll-triggered animations
-  const observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
+  /* ── Scroll-triggered fade-up ── */
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
       if (entry.isIntersecting) {
         entry.target.classList.add('is-visible');
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: 0.07, rootMargin: '0px 0px -36px 0px' });
 
-  // Observe article cards and sections
   function initAnimations() {
-    var cards = document.querySelectorAll('.article-card, .related-card, .author-box, .comments-section');
-    cards.forEach(function(el, i) {
+    var targets = document.querySelectorAll(
+      '.article-card:not(.featured), .related-card, .author-box, .author-profile-header, #comments.comments-area, .social-share'
+    );
+    targets.forEach(function (el, i) {
       el.style.opacity = '0';
-      el.style.transform = 'translateY(20px)';
-      el.style.transition = 'opacity 0.55s cubic-bezier(0.22,1,0.36,1) ' + (i * 0.07) + 's, transform 0.55s cubic-bezier(0.22,1,0.36,1) ' + (i * 0.07) + 's';
+      el.style.transform = 'translateY(22px)';
+      el.style.transition =
+        'opacity 0.55s cubic-bezier(0.22,1,0.36,1) ' + (i * 0.065) + 's, ' +
+        'transform 0.55s cubic-bezier(0.22,1,0.36,1) ' + (i * 0.065) + 's';
       observer.observe(el);
+    });
+
+    /* Featured card fades in without translateY */
+    var featured = document.querySelector('.article-card.featured');
+    if (featured) {
+      featured.style.opacity = '0';
+      featured.style.transition = 'opacity 0.7s cubic-bezier(0.22,1,0.36,1) 0.1s';
+      observer.observe(featured);
+    }
+  }
+
+  /* ── Inject .is-visible styles ── */
+  function injectStyles() {
+    var s = document.createElement('style');
+    s.textContent = '.is-visible { opacity: 1 !important; transform: translateY(0) !important; }';
+    document.head.appendChild(s);
+  }
+
+  /* ── Sticky header scroll shadow ── */
+  function initHeaderScroll() {
+    var header = document.getElementById('site-header');
+    if (!header) return;
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        requestAnimationFrame(function () {
+          if (window.scrollY > 40) {
+            header.classList.add('scrolled');
+          } else {
+            header.classList.remove('scrolled');
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
+  /* ── Active nav link highlight ── */
+  function initActiveNav() {
+    var links = document.querySelectorAll('.main-nav a:not(.nav-cta)');
+    var path  = window.location.pathname.replace(/\/$/, '');
+    links.forEach(function (link) {
+      var href = link.getAttribute('href');
+      if (!href) return;
+      var linkPath = href.replace(/\/$/, '');
+      if (linkPath === path || (path === '' && linkPath === window.location.origin)) {
+        link.classList.add('nav-active');
+      }
     });
   }
 
-  // When element enters view
-  document.addEventListener('DOMContentLoaded', function() {
-    initAnimations();
-
-    // Add visible styles via JS
-    var style = document.createElement('style');
-    style.textContent = '.is-visible { opacity: 1 !important; transform: translateY(0) !important; }';
-    document.head.appendChild(style);
-
-    // Smooth active nav link highlight
-    var navLinks = document.querySelectorAll('.main-nav a');
-    var currentPath = window.location.pathname;
-    navLinks.forEach(function(link) {
-      if (link.getAttribute('href') === currentPath || link.href === window.location.href) {
-        link.style.color = 'var(--accent)';
-        link.style.background = 'var(--accent-light)';
-      }
-    });
-
-    // Image lazy load shimmer
-    var images = document.querySelectorAll('.card-image, .related-image');
-    images.forEach(function(img) {
-      if (!img.complete) {
-        img.style.filter = 'blur(8px)';
-        img.addEventListener('load', function() {
-          img.style.transition = 'filter 0.4s ease';
+  /* ── Image lazy-load blur shimmer ── */
+  function initImageShimmer() {
+    var imgs = document.querySelectorAll('.card-image, .related-image, .hero-image');
+    imgs.forEach(function (img) {
+      if (!img.complete || img.naturalWidth === 0) {
+        img.style.filter = 'blur(10px)';
+        img.style.transition = 'filter 0.45s ease';
+        img.addEventListener('load', function () {
           img.style.filter = 'blur(0)';
         });
       }
     });
+  }
+
+  /* ── Boot ── */
+  document.addEventListener('DOMContentLoaded', function () {
+    injectStyles();
+    initAnimations();
+    initHeaderScroll();
+    initActiveNav();
+    initImageShimmer();
   });
-})();
+
+}());

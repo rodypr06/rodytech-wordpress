@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <radialGradient id="bg" cx="42%" cy="32%" r="72%">
+      <stop offset="0%" stop-color="#15213a"/>
+      <stop offset="100%" stop-color="#06070d"/>
+    </radialGradient>
+    <linearGradient id="arc" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff8533"/>
+      <stop offset="100%" stop-color="#cc5200"/>
+    </linearGradient>
+    <linearGradient id="arc2" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#ff6600"/>
+      <stop offset="100%" stop-color="#ff8533"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="28%" r="55%">
+      <stop offset="0%" stop-color="rgba(255,102,0,0.22)"/>
+      <stop offset="100%" stop-color="rgba(255,102,0,0)"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <circle cx="100" cy="100" r="100" fill="url(#bg)"/>
+  <circle cx="100" cy="100" r="100" fill="url(#glow)"/>
+
+  <!-- Outer ring (subtle) -->
+  <circle cx="100" cy="100" r="97" fill="none" stroke="rgba(255,255,255,0.055)" stroke-width="1"/>
+
+  <!-- Orange arc — top-right sweep -->
+  <circle cx="100" cy="100" r="91"
+    fill="none"
+    stroke="url(#arc)"
+    stroke-width="4"
+    stroke-dasharray="150 423"
+    stroke-dashoffset="-28"
+    stroke-linecap="round"
+    opacity="0.88"/>
+
+  <!-- Second accent arc — bottom-left (thin, dimmer) -->
+  <circle cx="100" cy="100" r="88"
+    fill="none"
+    stroke="url(#arc2)"
+    stroke-width="1.5"
+    stroke-dasharray="60 493"
+    stroke-dashoffset="-280"
+    stroke-linecap="round"
+    opacity="0.35"/>
+
+  <!-- Grid lines (very subtle) -->
+  <g opacity="0.045">
+    <line x1="0" y1="100" x2="200" y2="100" stroke="#ff6600" stroke-width="0.5"/>
+    <line x1="100" y1="0" x2="100" y2="200" stroke="#ff6600" stroke-width="0.5"/>
+    <line x1="0" y1="60" x2="200" y2="60" stroke="#ff6600" stroke-width="0.5"/>
+    <line x1="0" y1="140" x2="200" y2="140" stroke="#ff6600" stroke-width="0.5"/>
+    <line x1="60" y1="0" x2="60" y2="200" stroke="#ff6600" stroke-width="0.5"/>
+    <line x1="140" y1="0" x2="140" y2="200" stroke="#ff6600" stroke-width="0.5"/>
+  </g>
+
+  <!-- "R" — bold white monogram -->
+  <text
+    x="101"
+    y="136"
+    font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif"
+    font-size="92"
+    font-weight="800"
+    text-anchor="middle"
+    fill="white"
+    opacity="0.96"
+    letter-spacing="-3">R</text>
+
+  <!-- Orange accent dot (brand marker) -->
+  <circle cx="147" cy="148" r="10" fill="#ff6600" opacity="0.88"/>
+  <circle cx="147" cy="148" r="5.5" fill="#ffaa66"/>
+</svg>
