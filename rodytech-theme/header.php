@@ -7,6 +7,8 @@
 </head>
 <body <?php body_class(); ?>>
 
+<canvas id="network" aria-hidden="true"></canvas>
+
 <!-- Newsletter Bar -->
 <div class="newsletter-bar">
   <div class="newsletter-bar-inner">

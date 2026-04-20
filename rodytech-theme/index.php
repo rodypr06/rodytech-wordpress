@@ -39,9 +39,9 @@ $paged = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
 
   <section class="editorial-hero">
     <div class="editorial-hero-copy">
-      <span class="editorial-eyebrow">RodyTech Blog</span>
-      <h1>Latest <span>Articles</span> with a stronger editorial rhythm.</h1>
-      <p>Field notes on AI, infrastructure, and software systems for operators, builders, and small teams shipping real work.</p>
+      <span class="editorial-eyebrow">RodyTech Journal</span>
+      <h1><span class="editorial-gradient">AI, infrastructure,</span> and software systems for teams that ship.</h1>
+      <p>Clear technical writing for builders and operators working across automation, cloud platforms, developer tools, and the systems that keep production moving.</p>
       <div class="editorial-hero-actions">
         <a href="#latest-stories" class="editorial-btn editorial-btn-primary">Explore latest stories</a>
         <a href="<?php echo esc_url(home_url('/articles')); ?>" class="editorial-btn editorial-btn-secondary">Browse archive</a>

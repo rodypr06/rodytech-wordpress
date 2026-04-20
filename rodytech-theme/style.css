@@ -1,6 +1,6 @@
 /*
 Theme Name: RodyTech Blog
-Version: 6.1
+Version: 6.3
 Description: Dark glass design matching rodytech.net — deep navy, glassmorphism cards, orange accents, Inter typography
 */
 
@@ -47,7 +47,11 @@ Description: Dark glass design matching rodytech.net — deep navy, glassmorphis
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
 body {
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 10% 8%, rgba(255, 102, 0, 0.08), transparent 26%),
+    radial-gradient(circle at 88% 14%, rgba(52, 125, 255, 0.12), transparent 24%),
+    radial-gradient(circle at 50% 90%, rgba(255, 102, 0, 0.07), transparent 30%),
+    linear-gradient(180deg, #06070d 0%, #0a0d18 100%);
   color: var(--text-secondary);
   font-family: var(--font);
   font-size: 16px;
@@ -63,11 +67,19 @@ body::before {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse at 12% 18%, rgba(255, 102, 0, 0.07) 0, transparent 52%),
-    radial-gradient(ellipse at 88% 12%, rgba(255, 133, 51, 0.04) 0, transparent 48%),
-    radial-gradient(ellipse at 55% 88%, rgba(255, 102, 0, 0.05) 0, transparent 52%);
+    radial-gradient(ellipse at 12% 18%, rgba(255, 102, 0, 0.06) 0, transparent 52%),
+    radial-gradient(ellipse at 88% 12%, rgba(52, 125, 255, 0.07) 0, transparent 44%),
+    radial-gradient(ellipse at 55% 88%, rgba(255, 102, 0, 0.04) 0, transparent 52%);
   pointer-events: none;
   z-index: 0;
+}
+
+#network {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.12;
+  pointer-events: none;
 }
 
 /* Grain texture */
@@ -78,7 +90,7 @@ body::after {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
   opacity: 0.028;
   pointer-events: none;
-  z-index: 9998;
+  z-index: 0;
 }
 
 .newsletter-bar, .site-header, .main-content, .site-footer {
@@ -2043,7 +2055,18 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .editorial-hero h1 span {
-  color: var(--accent);
+  color: inherit;
+}
+
+.editorial-gradient {
+  display: inline-block;
+  color: #ff9f54;
+  background: linear-gradient(135deg, #ffd1a6 0%, #ffae63 14%, #ff8b2f 34%, #ff6600 58%, #e15300 76%, #ff9f54 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 10px 30px rgba(255, 102, 0, 0.14);
 }
 
 .editorial-hero p {

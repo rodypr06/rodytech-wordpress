@@ -21,8 +21,8 @@ $articles_query = new WP_Query(array(
 <section class="editorial-hero editorial-hero-archive">
   <div class="editorial-hero-copy">
     <span class="editorial-eyebrow">Editorial archive</span>
-    <h1>All <span>Articles</span></h1>
-    <p>Browse every published article through a cleaner archive view built around category discovery and readable scanning.</p>
+    <h1>Browse the <span class="editorial-gradient">full archive</span> by topic, category, and publication date.</h1>
+    <p>Every published article in one place, organized for faster scanning and easier navigation across the core themes of the blog.</p>
   </div>
 
   <aside class="editorial-hero-sidebar">
