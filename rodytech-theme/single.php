@@ -14,6 +14,11 @@
   $github          = get_the_author_meta('github');
   $next_post       = get_next_post();
   $previous_post   = get_previous_post();
+  $newsletter_status = isset($_GET['newsletter_status']) ? sanitize_key(wp_unslash($_GET['newsletter_status'])) : '';
+  $newsletter_context = isset($_GET['newsletter_context']) ? sanitize_key(wp_unslash($_GET['newsletter_context'])) : '';
+  $article_newsletter_notice = ($newsletter_context === 'article' && function_exists('rodytech_get_newsletter_notice_config'))
+    ? rodytech_get_newsletter_notice_config($newsletter_status)
+    : null;
 ?>
 
 <article class="single-article">
@@ -90,14 +95,20 @@
         </ul>
       </div>
       <div class="article-inline-cta-form-wrap">
-        <?php if (isset($_GET['subscribed'])) : ?>
+        <?php if ($article_newsletter_notice && $article_newsletter_notice['type'] === 'success') : ?>
           <div class="article-inline-cta-success" role="status" aria-live="polite">
             <strong>Subscribed.</strong>
             <span>You’ll get the next article in your inbox.</span>
           </div>
         <?php else : ?>
-          <form class="article-inline-cta-form" method="post" action="">
+          <form class="article-inline-cta-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+            <?php if ($article_newsletter_notice) : ?>
+              <div class="newsletter-notice newsletter-notice-<?php echo esc_attr($article_newsletter_notice['type']); ?>" role="<?php echo $article_newsletter_notice['type'] === 'error' ? 'alert' : 'status'; ?>" aria-live="polite">
+                <?php echo esc_html($article_newsletter_notice['message']); ?>
+              </div>
+            <?php endif; ?>
             <label class="screen-reader-text" for="article-newsletter-email">Email address</label>
+            <?php echo rodytech_newsletter_hidden_fields('article'); ?>
             <input id="article-newsletter-email" type="email" name="newsletter_email" placeholder="your@email.com" required>
             <button type="submit">Subscribe</button>
           </form>

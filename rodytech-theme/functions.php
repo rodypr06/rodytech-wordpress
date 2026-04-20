@@ -27,8 +27,8 @@ add_action('after_setup_theme', 'rodytech_setup');
 // Enqueue styles
 function rodytech_scripts() {
     wp_enqueue_style('rodytech-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap', array(), null);
-    wp_enqueue_style('rodytech-style', get_stylesheet_uri(), array(), '6.4');
-    wp_enqueue_script('rodytech-animations', get_template_directory_uri() . '/rodytech-animations.js', array(), '2.1', true);
+    wp_enqueue_style('rodytech-style', get_stylesheet_uri(), array(), '6.5');
+    wp_enqueue_script('rodytech-animations', get_template_directory_uri() . '/rodytech-animations.js', array(), '2.2', true);
     wp_add_inline_style(
         'rodytech-style',
         '.newsletter-notice{width:100%;margin:0 0 .75rem;padding:.7rem .9rem;border-radius:999px;font-size:.9rem;line-height:1.4}.newsletter-notice-success{background:rgba(24,184,112,.16);border:1px solid rgba(24,184,112,.28);color:#dff8ea}.newsletter-notice-error{background:rgba(255,126,95,.14);border:1px solid rgba(255,126,95,.28);color:#ffe3d9}.newsletter-honeypot{position:absolute !important;left:-9999px !important;opacity:0 !important;pointer-events:none !important;}'

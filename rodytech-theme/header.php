@@ -14,12 +14,8 @@
   <div class="newsletter-bar-inner">
     <span class="newsletter-label">Get new articles in your inbox</span>
     <form class="newsletter-form" method="post" action="">
-      <?php if (isset($_GET['subscribed'])) : ?>
-        <span class="newsletter-success">✓ You're subscribed!</span>
-      <?php else : ?>
-        <input type="email" name="newsletter_email" placeholder="your@email.com" required class="newsletter-input">
-        <button type="submit" class="newsletter-btn">Subscribe</button>
-      <?php endif; ?>
+      <input type="email" name="newsletter_email" placeholder="your@email.com" required class="newsletter-input">
+      <button type="submit" class="newsletter-btn">Subscribe</button>
     </form>
   </div>
 </div>
