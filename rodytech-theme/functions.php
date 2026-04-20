@@ -26,7 +26,7 @@ add_action('after_setup_theme', 'rodytech_setup');
 // Enqueue styles
 function rodytech_scripts() {
     wp_enqueue_style('rodytech-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap', array(), null);
-    wp_enqueue_style('rodytech-style', get_stylesheet_uri(), array(), '6.3');
+    wp_enqueue_style('rodytech-style', get_stylesheet_uri(), array(), '6.4');
     wp_enqueue_script('rodytech-animations', get_template_directory_uri() . '/rodytech-animations.js', array(), '2.1', true);
 }
 add_action('wp_enqueue_scripts', 'rodytech_scripts');

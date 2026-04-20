@@ -1,6 +1,6 @@
 /*
 Theme Name: RodyTech Blog
-Version: 6.3
+Version: 6.4
 Description: Dark glass design matching rodytech.net — deep navy, glassmorphism cards, orange accents, Inter typography
 */
 
@@ -2020,15 +2020,38 @@ img { max-width: 100%; height: auto; display: block; }
 .editorial-hero-copy {
   position: relative;
   padding: 28px 0 16px;
+  isolation: isolate;
 }
 
 .editorial-hero-copy::before {
   content: '';
   position: absolute;
-  inset: 0 auto auto 0;
-  width: min(760px, 100%);
-  height: 320px;
-  background: radial-gradient(ellipse at left top, rgba(255, 102, 0, 0.16) 0, rgba(255, 102, 0, 0.04) 40%, transparent 72%);
+  left: -10%;
+  top: -36px;
+  width: min(720px, 92%);
+  height: 360px;
+  background:
+    radial-gradient(circle at 20% 28%, rgba(255, 126, 45, 0.18) 0, rgba(255, 126, 45, 0.11) 18%, rgba(255, 126, 45, 0.04) 36%, transparent 68%),
+    radial-gradient(circle at 58% 44%, rgba(255, 102, 0, 0.10) 0, rgba(255, 102, 0, 0.03) 26%, transparent 62%);
+  filter: blur(26px);
+  opacity: 0.9;
+  transform: rotate(-8deg);
+  z-index: -2;
+  pointer-events: none;
+}
+
+.editorial-hero-copy::after {
+  content: '';
+  position: absolute;
+  left: 18%;
+  top: 72px;
+  width: min(520px, 72%);
+  height: 240px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.08) 0, rgba(59, 130, 246, 0.025) 34%, transparent 72%);
+  filter: blur(30px);
+  opacity: 0.75;
+  z-index: -3;
   pointer-events: none;
 }
 
@@ -2061,12 +2084,12 @@ img { max-width: 100%; height: auto; display: block; }
 .editorial-gradient {
   display: inline-block;
   color: #ff9f54;
-  background: linear-gradient(135deg, #ffd1a6 0%, #ffae63 14%, #ff8b2f 34%, #ff6600 58%, #e15300 76%, #ff9f54 100%);
+  background: linear-gradient(135deg, #ffe2bf 0%, #ffc07e 18%, #ff9840 42%, #ff7a1a 60%, #ff6600 76%, #ff9f54 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 10px 30px rgba(255, 102, 0, 0.14);
+  text-shadow: 0 14px 40px rgba(255, 102, 0, 0.10);
 }
 
 .editorial-hero p {
