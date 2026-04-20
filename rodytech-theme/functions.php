@@ -66,8 +66,8 @@ function rodytech_reading_time($post_id = null) {
 }
 
 // Get comment count text
-function rodytech_comment_count() {
-    $count = get_comments_number();
+function rodytech_comment_count($post_id = null) {
+    $count = get_comments_number($post_id);
     if ($count == 0) {
         return 'No comments';
     } elseif ($count == 1) {
@@ -129,3 +129,200 @@ function rodytech_excerpt_more($more) {
     return '...';
 }
 add_filter('excerpt_more', 'rodytech_excerpt_more');
+
+// Primary category helper
+function rodytech_get_primary_category($post_id = null) {
+    $post_id = $post_id ? (int) $post_id : get_the_ID();
+    $categories = get_the_category($post_id);
+
+    if (!empty($categories) && !is_wp_error($categories)) {
+        return $categories[0];
+    }
+
+    return null;
+}
+
+// Compact editorial category set used across the homepage and archive layouts
+function rodytech_get_editorial_categories($limit = 5) {
+    $uncategorized_id = get_cat_ID('Uncategorized');
+
+    $args = array(
+        'hide_empty' => true,
+        'orderby'    => 'count',
+        'order'      => 'DESC',
+        'number'     => $limit,
+    );
+
+    if ($uncategorized_id) {
+        $args['exclude'] = array($uncategorized_id);
+    }
+
+    return get_categories($args);
+}
+
+// Fallback summaries keep category collection cards useful even without term descriptions
+function rodytech_get_category_summary($category) {
+    if (!$category instanceof WP_Term) {
+        return '';
+    }
+
+    $description = trim(strip_tags(term_description($category, 'category')));
+    if ($description !== '') {
+        return wp_trim_words($description, 18, '...');
+    }
+
+    $fallbacks = array(
+        'Artificial Intelligence'   => 'Applied AI systems, agent workflows, model operations, and automation that small teams can ship.',
+        'Cloud & Infrastructure'    => 'Practical infrastructure guides covering homelabs, proxies, deployment patterns, and resilient ops.',
+        'Developer Tools'           => 'Frameworks, workflow upgrades, and build tooling that make engineering teams faster in practice.',
+        'Security'                  => 'Security posture, safer defaults, and field-tested approaches to protecting modern internal platforms.',
+        'OpenClaw'                  => 'Notes from building OpenClaw, Helix, and the internal systems behind agent-driven product work.',
+        'Business & Strategy'       => 'Operational lessons on growing technical systems that still stay useful for real businesses.',
+    );
+
+    if (isset($fallbacks[$category->name])) {
+        return $fallbacks[$category->name];
+    }
+
+    return 'Recent writing and field notes from the RodyTech editorial archive.';
+}
+
+// Blog-level stats used in hero and sidebar callouts
+function rodytech_get_blog_stats() {
+    $post_counts = wp_count_posts('post');
+    $published_posts = isset($post_counts->publish) ? (int) $post_counts->publish : 0;
+    $categories = rodytech_get_editorial_categories(1);
+    $top_category = !empty($categories) ? $categories[0] : null;
+
+    $recent_query = new WP_Query(array(
+        'post_type'           => 'post',
+        'post_status'         => 'publish',
+        'posts_per_page'      => 1,
+        'ignore_sticky_posts' => true,
+        'date_query'          => array(
+            array(
+                'after' => '30 days ago',
+            ),
+        ),
+    ));
+
+    $fresh_posts = (int) $recent_query->found_posts;
+    wp_reset_postdata();
+
+    return array(
+        'published_posts' => $published_posts,
+        'fresh_posts'     => $fresh_posts,
+        'top_category'    => $top_category,
+        'category_count'  => count(get_categories(array('hide_empty' => true))),
+    );
+}
+
+function rodytech_get_editorial_excerpt($post_id, $length = 22) {
+    $excerpt = get_the_excerpt($post_id);
+
+    if ($excerpt === '') {
+        $post = get_post($post_id);
+        $excerpt = $post ? wp_strip_all_tags($post->post_content) : '';
+    }
+
+    return wp_trim_words($excerpt, $length, '...');
+}
+
+function rodytech_render_story_meta($post_id, $show_comments = true) {
+    $author_id = (int) get_post_field('post_author', $post_id);
+    $author_name = get_the_author_meta('display_name', $author_id);
+    $author_avatar = get_avatar_url($author_id, array('size' => 80));
+
+    ob_start();
+    ?>
+    <div class="story-meta">
+      <div class="story-author">
+        <?php if ($author_avatar) : ?>
+          <img src="<?php echo esc_url($author_avatar); ?>" alt="<?php echo esc_attr($author_name); ?>" class="story-author-avatar">
+        <?php endif; ?>
+        <span class="story-author-name"><?php echo esc_html($author_name); ?></span>
+      </div>
+      <div class="story-meta-stats">
+        <time datetime="<?php echo esc_attr(get_the_date('c', $post_id)); ?>"><?php echo esc_html(get_the_date('M j, Y', $post_id)); ?></time>
+        <span class="meta-separator">•</span>
+        <span><?php echo esc_html(rodytech_reading_time($post_id)); ?></span>
+        <?php if ($show_comments) : ?>
+          <span class="meta-separator">•</span>
+          <a href="<?php echo esc_url(get_permalink($post_id) . '#comments'); ?>" class="comment-link"><?php echo esc_html(rodytech_comment_count($post_id)); ?></a>
+        <?php endif; ?>
+      </div>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
+function rodytech_render_story_card($post_id, $variant = 'standard') {
+    $post = get_post($post_id);
+
+    if (!$post instanceof WP_Post) {
+        return '';
+    }
+
+    $category = rodytech_get_primary_category($post_id);
+    $category_name = $category ? $category->name : 'Article';
+    $permalink = get_permalink($post_id);
+    $title = get_the_title($post_id);
+    $show_comments = ($variant === 'standard');
+    $excerpt_length = ($variant === 'featured') ? 28 : (($variant === 'compact') ? 18 : 22);
+    $image_size = ($variant === 'featured') ? 'featured-large' : 'featured-medium';
+    $image_class = ($variant === 'compact') ? 'story-card-thumb-image' : 'story-card-image';
+
+    ob_start();
+    ?>
+    <article class="story-card story-card-<?php echo esc_attr($variant); ?>">
+      <a href="<?php echo esc_url($permalink); ?>" class="story-card-link">
+        <?php if ($variant === 'featured') : ?>
+          <div class="story-card-media story-card-media-featured">
+            <?php if (has_post_thumbnail($post_id)) : ?>
+              <?php echo get_the_post_thumbnail($post_id, $image_size, array('class' => 'story-card-image')); ?>
+            <?php else : ?>
+              <div class="story-card-placeholder"><span><?php echo esc_html($category_name); ?></span></div>
+            <?php endif; ?>
+          </div>
+          <div class="story-card-surface">
+            <span class="story-card-category"><?php echo esc_html($category_name); ?></span>
+            <div class="story-card-body">
+              <h2 class="story-card-title"><?php echo esc_html($title); ?></h2>
+              <p class="story-card-excerpt"><?php echo esc_html(rodytech_get_editorial_excerpt($post_id, $excerpt_length)); ?></p>
+              <?php echo rodytech_render_story_meta($post_id, false); ?>
+            </div>
+          </div>
+        <?php elseif ($variant === 'compact') : ?>
+          <div class="story-card-thumb">
+            <?php if (has_post_thumbnail($post_id)) : ?>
+              <?php echo get_the_post_thumbnail($post_id, $image_size, array('class' => $image_class)); ?>
+            <?php else : ?>
+              <div class="story-card-placeholder"><span><?php echo esc_html($category_name); ?></span></div>
+            <?php endif; ?>
+          </div>
+          <div class="story-card-body">
+            <span class="story-card-kicker"><?php echo esc_html($category_name); ?></span>
+            <h3 class="story-card-title"><?php echo esc_html($title); ?></h3>
+            <p class="story-card-excerpt"><?php echo esc_html(rodytech_get_editorial_excerpt($post_id, $excerpt_length)); ?></p>
+            <?php echo rodytech_render_story_meta($post_id, false); ?>
+          </div>
+        <?php else : ?>
+          <div class="story-card-media">
+            <?php if (has_post_thumbnail($post_id)) : ?>
+              <?php echo get_the_post_thumbnail($post_id, $image_size, array('class' => 'story-card-image')); ?>
+            <?php else : ?>
+              <div class="story-card-placeholder"><span><?php echo esc_html($category_name); ?></span></div>
+            <?php endif; ?>
+            <span class="story-card-category"><?php echo esc_html($category_name); ?></span>
+          </div>
+          <div class="story-card-body">
+            <h3 class="story-card-title"><?php echo esc_html($title); ?></h3>
+            <p class="story-card-excerpt"><?php echo esc_html(rodytech_get_editorial_excerpt($post_id, $excerpt_length)); ?></p>
+            <?php echo rodytech_render_story_meta($post_id, $show_comments); ?>
+          </div>
+        <?php endif; ?>
+      </a>
+    </article>
+    <?php
+    return ob_get_clean();
+}

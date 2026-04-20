@@ -2,142 +2,121 @@
 /**
  * Template Name: Articles Page
  */
-get_header(); ?>
+get_header();
 
-<div class="blog-header">
-  <h1>All <span>Articles</span></h1>
-  <p>Browse every post — filtered by category or chronologically.</p>
-</div>
-
-<?php
-  $categories = get_categories(array('hide_empty' => true));
+$paged = max(1, get_query_var('paged'));
+$stats = rodytech_get_blog_stats();
+$categories = get_categories(array('hide_empty' => true));
+$articles_query = new WP_Query(array(
+  'post_type'           => 'post',
+  'post_status'         => 'publish',
+  'posts_per_page'      => 12,
+  'paged'               => $paged,
+  'orderby'             => 'date',
+  'order'               => 'DESC',
+  'ignore_sticky_posts' => true,
+));
 ?>
 
+<section class="editorial-hero editorial-hero-archive">
+  <div class="editorial-hero-copy">
+    <span class="editorial-eyebrow">Editorial archive</span>
+    <h1>All <span>Articles</span></h1>
+    <p>Browse every published article through a cleaner archive view built around category discovery and readable scanning.</p>
+  </div>
+
+  <aside class="editorial-hero-sidebar">
+    <div class="editorial-note-card">
+      <h2>Archive scale</h2>
+      <div class="editorial-note-stats">
+        <div>
+          <span>Published</span>
+          <strong><?php echo esc_html($stats['published_posts']); ?></strong>
+        </div>
+        <div>
+          <span>Categories</span>
+          <strong><?php echo esc_html($stats['category_count']); ?></strong>
+        </div>
+      </div>
+    </div>
+  </aside>
+</section>
+
 <?php if (!empty($categories)) : ?>
-  <div class="category-filter">
-    <a href="<?php echo get_permalink(); ?>" class="cat-btn active">All</a>
-    <?php foreach ($categories as $cat) : ?>
-      <a href="<?php echo get_category_link($cat->term_id); ?>" class="cat-btn">
-        <?php echo esc_html($cat->name); ?>
+  <div class="editorial-topic-row editorial-topic-row-archive" aria-label="Archive categories">
+    <a href="<?php echo esc_url(get_permalink()); ?>" class="editorial-topic-pill editorial-topic-pill-static">
+      <span>All</span>
+      <strong><?php echo esc_html($stats['published_posts']); ?></strong>
+    </a>
+    <?php foreach ($categories as $category) : ?>
+      <a href="<?php echo esc_url(get_category_link($category->term_id)); ?>" class="editorial-topic-pill">
+        <span><?php echo esc_html($category->name); ?></span>
+        <strong><?php echo esc_html($category->count); ?></strong>
       </a>
     <?php endforeach; ?>
   </div>
 <?php endif; ?>
 
-<?php
-  $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
-  $articles_query = new WP_Query(array(
-    'post_type'      => 'post',
-    'post_status'    => 'publish',
-    'posts_per_page' => 12,
-    'paged'          => $paged,
-    'orderby'        => 'date',
-    'order'          => 'DESC',
-  ));
-?>
+<section class="editorial-content-grid editorial-content-grid-archive">
+  <div class="editorial-main-column">
+    <div class="editorial-section-heading">
+      <div>
+        <span class="section-label">Archive list</span>
+        <h2>Every article, in chronological order</h2>
+      </div>
+    </div>
 
-<?php if ($articles_query->have_posts()) : ?>
-  <div class="articles-grid">
-    <?php
-      $post_count = 0;
-      while ($articles_query->have_posts()) : $articles_query->the_post();
-        $post_count++;
-        $is_featured  = ($post_count === 1 && $paged === 1);
-        $category     = get_the_category();
-        $cat_name     = !empty($category) ? esc_html($category[0]->name) : 'Technology';
-        $author_id    = get_the_author_meta('ID');
-        $author_name  = esc_html(get_the_author());
-        $author_avatar = esc_url(get_avatar_url($author_id, array('size' => 80)));
-    ?>
+    <?php if ($articles_query->have_posts()) : ?>
+      <div class="story-grid">
+        <?php while ($articles_query->have_posts()) : $articles_query->the_post(); ?>
+          <?php echo rodytech_render_story_card(get_the_ID(), 'standard'); ?>
+        <?php endwhile; ?>
+      </div>
 
-      <?php if ($is_featured) : ?>
-
-        <article class="article-card featured">
-          <a href="<?php the_permalink(); ?>" class="card-link">
-            <div class="card-image-wrapper">
-              <?php if (has_post_thumbnail()) : ?>
-                <?php the_post_thumbnail('featured-large', array('class' => 'card-image')); ?>
-              <?php else : ?>
-                <div class="card-image-placeholder"><span><?php echo $cat_name; ?></span></div>
-              <?php endif; ?>
-            </div>
-            <div class="featured-overlay">
-              <span class="card-category"><?php echo $cat_name; ?></span>
-              <div class="card-content">
-                <h2 class="card-title"><?php the_title(); ?></h2>
-                <p class="card-excerpt"><?php echo get_the_excerpt(); ?></p>
-                <div class="card-meta">
-                  <div class="card-authors">
-                    <img src="<?php echo $author_avatar; ?>" alt="<?php echo $author_name; ?>" class="author-avatar-small">
-                    <span class="author-name"><?php echo $author_name; ?></span>
-                  </div>
-                  <div class="card-stats">
-                    <time><?php echo get_the_date('M j, Y'); ?></time>
-                    <span class="meta-separator">•</span>
-                    <span><?php echo rodytech_reading_time(); ?></span>
-                  </div>
-                  <span class="read-article-hint">Read Article →</span>
-                </div>
-              </div>
-            </div>
-          </a>
-        </article>
-
-      <?php else : ?>
-
-        <article class="article-card">
-          <a href="<?php the_permalink(); ?>" class="card-link">
-            <div class="card-image-wrapper">
-              <?php if (has_post_thumbnail()) : ?>
-                <?php the_post_thumbnail('featured-medium', array('class' => 'card-image')); ?>
-              <?php else : ?>
-                <div class="card-image-placeholder"><span><?php echo $cat_name; ?></span></div>
-              <?php endif; ?>
-              <span class="card-category"><?php echo $cat_name; ?></span>
-            </div>
-            <div class="card-content">
-              <h2 class="card-title"><?php the_title(); ?></h2>
-              <p class="card-excerpt"><?php echo get_the_excerpt(); ?></p>
-              <div class="card-meta">
-                <div class="card-authors">
-                  <img src="<?php echo $author_avatar; ?>" alt="<?php echo $author_name; ?>" class="author-avatar-small">
-                  <span class="author-name"><?php echo $author_name; ?></span>
-                </div>
-                <div class="card-stats">
-                  <time><?php echo get_the_date('M j, Y'); ?></time>
-                  <span class="meta-separator">•</span>
-                  <span><?php echo rodytech_reading_time(); ?></span>
-                  <span class="meta-separator">•</span>
-                  <a href="<?php the_permalink(); ?>#comments" class="comment-link"><?php echo rodytech_comment_count(); ?></a>
-                </div>
-              </div>
-            </div>
-          </a>
-        </article>
-
-      <?php endif; ?>
-
-    <?php endwhile; ?>
+      <div class="pagination editorial-pagination">
+        <?php
+          echo paginate_links(array(
+            'base'      => trailingslashit(get_permalink()) . 'page/%#%/',
+            'format'    => '',
+            'current'   => $paged,
+            'total'     => $articles_query->max_num_pages,
+            'prev_text' => '← Newer',
+            'next_text' => 'Older →',
+            'mid_size'  => 2,
+          ));
+        ?>
+      </div>
+    <?php else : ?>
+      <div class="no-posts">
+        <h2>No articles yet</h2>
+        <p>Check back soon — new writing lands regularly.</p>
+      </div>
+    <?php endif; wp_reset_postdata(); ?>
   </div>
 
-  <div class="pagination">
-    <?php echo paginate_links(array(
-      'base'      => get_permalink() . '%_%',
-      'format'    => 'page/%#%/',
-      'current'   => $paged,
-      'total'     => $articles_query->max_num_pages,
-      'prev_text' => '← Newer',
-      'next_text' => 'Older →',
-      'mid_size'  => 2,
-    )); ?>
-  </div>
+  <aside class="editorial-sidebar">
+    <div class="sidebar-card">
+      <span class="sidebar-card-label">How to use this archive</span>
+      <h3>Start with a category, then follow the article trail.</h3>
+      <p>The archive is organized for scanning: jump into a category or work top-down from the latest posts.</p>
+    </div>
 
-<?php else : ?>
-  <div class="no-posts">
-    <h2>No articles yet</h2>
-    <p>Check back soon — new content drops regularly.</p>
-  </div>
-<?php endif;
-wp_reset_postdata(); ?>
+    <?php if (!empty($categories)) : ?>
+      <div class="sidebar-card">
+        <span class="sidebar-card-label">Category map</span>
+        <ul class="sidebar-category-list">
+          <?php foreach (array_slice($categories, 0, 8) as $category) : ?>
+            <li>
+              <a href="<?php echo esc_url(get_category_link($category->term_id)); ?>">
+                <span><?php echo esc_html($category->name); ?></span>
+                <strong><?php echo esc_html($category->count); ?></strong>
+              </a>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
+    <?php endif; ?>
+  </aside>
+</section>
 
 <?php get_footer(); ?>

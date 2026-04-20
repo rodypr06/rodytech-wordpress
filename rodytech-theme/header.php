@@ -24,6 +24,11 @@
 
 <header class="site-header" id="site-header">
   <div class="header-inner">
+    <?php
+      $home_active = (is_home() || is_front_page()) ? 'nav-active' : '';
+      $articles_active = (is_page('articles') || is_single() || is_archive() || is_search()) ? 'nav-active' : '';
+      $about_active = is_page('about') ? 'nav-active' : '';
+    ?>
     <div class="site-branding">
       <a href="<?php echo home_url(); ?>" class="site-logo">
         <span class="logo-text"><span class="rody">Rody</span><span class="tech">Tech</span></span>
@@ -32,9 +37,9 @@
       </a>
     </div>
     <nav class="main-nav">
-      <a href="<?php echo home_url(); ?>">Home</a>
-      <a href="<?php echo home_url('/articles'); ?>">Articles</a>
-      <a href="<?php echo home_url('/about'); ?>">About</a>
+      <a href="<?php echo home_url(); ?>" class="<?php echo esc_attr($home_active); ?>">Home</a>
+      <a href="<?php echo home_url('/articles'); ?>" class="<?php echo esc_attr($articles_active); ?>">Articles</a>
+      <a href="<?php echo home_url('/about'); ?>" class="<?php echo esc_attr($about_active); ?>">About</a>
       <a href="https://rodytech.net" target="_blank" class="nav-cta">rodytech.net ↗</a>
     </nav>
   </div>
