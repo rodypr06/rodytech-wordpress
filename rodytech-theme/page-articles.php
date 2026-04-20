@@ -4,7 +4,7 @@
  */
 get_header();
 
-$paged = max(1, get_query_var('paged'));
+$paged = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
 $stats = rodytech_get_blog_stats();
 $categories = get_categories(array('hide_empty' => true));
 $articles_query = new WP_Query(array(
@@ -76,7 +76,7 @@ $articles_query = new WP_Query(array(
       <div class="pagination editorial-pagination">
         <?php
           echo paginate_links(array(
-            'base'      => trailingslashit(get_permalink()) . 'page/%#%/',
+            'base'      => trailingslashit(get_permalink()) . user_trailingslashit('page/%#%/', 'paged'),
             'format'    => '',
             'current'   => $paged,
             'total'     => $articles_query->max_num_pages,

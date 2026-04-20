@@ -1,17 +1,18 @@
 <?php get_header(); ?>
 
 <?php
-$paged = max(1, get_query_var('paged'));
+$paged = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
 ?>
 
 <?php if (is_home() || is_front_page()) : ?>
   <?php
     $stats = rodytech_get_blog_stats();
     $top_categories = rodytech_get_editorial_categories(5);
+    $featured_count = min(3, (int) $stats['published_posts']);
     $featured_posts = ($paged === 1) ? get_posts(array(
       'post_type'           => 'post',
       'post_status'         => 'publish',
-      'numberposts'         => 3,
+      'numberposts'         => $featured_count,
       'orderby'             => 'date',
       'order'               => 'DESC',
       'ignore_sticky_posts' => true,
@@ -19,7 +20,7 @@ $paged = max(1, get_query_var('paged'));
     $featured_ids = wp_list_pluck($featured_posts, 'ID');
 
     $river_per_page = 6;
-    $river_offset = count($featured_ids) + (($paged - 1) * $river_per_page);
+    $river_offset = $featured_count + (($paged - 1) * $river_per_page);
     $river_query = new WP_Query(array(
       'post_type'           => 'post',
       'post_status'         => 'publish',
@@ -31,7 +32,7 @@ $paged = max(1, get_query_var('paged'));
     ));
 
     $total_posts = (int) $stats['published_posts'];
-    $remaining_posts = max(0, $total_posts - count($featured_ids));
+    $remaining_posts = max(0, $total_posts - $featured_count);
     $total_pages = max(1, (int) ceil($remaining_posts / $river_per_page));
     $collection_categories = rodytech_get_editorial_categories(3);
   ?>
