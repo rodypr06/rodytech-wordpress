@@ -42,7 +42,7 @@
       <a href="<?php echo home_url(); ?>" class="<?php echo esc_attr($home_active); ?>">Home</a>
       <a href="<?php echo home_url('/articles'); ?>" class="<?php echo esc_attr($articles_active); ?>">Articles</a>
       <a href="<?php echo home_url('/about'); ?>" class="<?php echo esc_attr($about_active); ?>">About</a>
-      <a href="https://rodytech.net" target="_blank" class="nav-cta">rodytech.net ↗</a>
+      <a href="https://rodytech.ai" target="_blank" class="nav-cta">rodytech.ai ↗</a>
     </nav>
   </div>
 </header>

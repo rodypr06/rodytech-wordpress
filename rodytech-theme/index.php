@@ -218,7 +218,17 @@ $paged = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
 
 <?php else : ?>
   <?php
-    $archive_title = is_search() ? 'Search Results' : get_the_archive_title();
+    if (is_category()) {
+      $archive_title = single_cat_title('', false);
+    } elseif (is_tag()) {
+      $archive_title = single_tag_title('', false);
+    } elseif (is_author()) {
+      $archive_title = get_the_author();
+    } elseif (is_search()) {
+      $archive_title = 'Search Results';
+    } else {
+      $archive_title = wp_strip_all_tags(get_the_archive_title());
+    }
     $archive_description = is_search()
       ? sprintf('Results for "%s".', get_search_query())
       : wp_strip_all_tags(get_the_archive_description());
@@ -227,7 +237,7 @@ $paged = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
 
   <section class="editorial-hero editorial-hero-archive">
     <div class="editorial-hero-copy">
-      <span class="editorial-eyebrow">Archive view</span>
+      <span class="editorial-eyebrow"><?php echo is_category() ? 'Category' : 'Archive view'; ?></span>
       <h1><?php echo esc_html($archive_title); ?></h1>
       <?php if ($archive_description) : ?>
         <p><?php echo esc_html($archive_description); ?></p>

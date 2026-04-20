@@ -21,7 +21,7 @@
         <a href="<?php echo home_url(); ?>">Home</a>
         <a href="<?php echo home_url('/articles'); ?>">Articles</a>
         <a href="<?php echo home_url('/about'); ?>">About</a>
-        <a href="https://rodytech.net" target="_blank">Main Site ↗</a>
+        <a href="https://rodytech.ai" target="_blank">Main Site ↗</a>
       </div>
     </div>
 

@@ -35,7 +35,7 @@ if (!$avatar_url) {
         <p>Based in Iowa, building tools and systems that help businesses move faster with AI. I write about what I'm actually building, testing, and deploying — not theory. If it's on this blog, it's battle-tested.</p>
         <p>RodyTech started as a one-person consultancy and grew into a full product studio. We build AI agents, custom automation, and software for small and mid-sized businesses who want enterprise power without enterprise overhead.</p>
         <div class="about-bio-links">
-          <a href="https://rodytech.net" target="_blank" rel="noopener" class="about-bio-btn primary">rodytech.net ↗</a>
+          <a href="https://rodytech.ai" target="_blank" rel="noopener" class="about-bio-btn primary">rodytech.ai ↗</a>
           <a href="https://linkedin.com/in/roderick-rabelo-78ba9648/" target="_blank" rel="noopener" class="about-bio-btn secondary">LinkedIn</a>
           <a href="<?php echo home_url('/contact'); ?>" class="about-bio-btn secondary">Contact</a>
         </div>
@@ -114,7 +114,7 @@ if (!$avatar_url) {
     <p>Browse the latest articles or head to the main RodyTech site to see what we're building.</p>
     <div class="about-cta-buttons">
       <a href="<?php echo home_url(); ?>" class="about-cta-primary">Read the Blog</a>
-      <a href="https://rodytech.net" target="_blank" rel="noopener" class="about-cta-ghost">Visit rodytech.net ↗</a>
+      <a href="https://rodytech.ai" target="_blank" rel="noopener" class="about-cta-ghost">Visit rodytech.ai ↗</a>
     </div>
   </section>
 
