@@ -248,7 +248,7 @@ function rodytech_render_story_meta($post_id, $show_comments = true) {
         <span><?php echo esc_html(rodytech_reading_time($post_id)); ?></span>
         <?php if ($show_comments) : ?>
           <span class="meta-separator">•</span>
-          <a href="<?php echo esc_url(get_permalink($post_id) . '#comments'); ?>" class="comment-link"><?php echo esc_html(rodytech_comment_count($post_id)); ?></a>
+          <span class="comment-count"><?php echo esc_html(rodytech_comment_count($post_id)); ?></span>
         <?php endif; ?>
       </div>
     </div>
