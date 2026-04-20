@@ -21,6 +21,7 @@ $github = get_the_author_meta('github', $author_id);
       <?php echo $author_avatar; ?>
     </div>
     <div class="author-profile-info">
+      <span class="editorial-eyebrow">Author</span>
       <h1 class="author-profile-name"><?php echo esc_html($author_name); ?></h1>
       <?php if ($author_position) : ?>
         <span class="author-profile-position"><?php echo esc_html($author_position); ?></span>
@@ -28,6 +29,8 @@ $github = get_the_author_meta('github', $author_id);
       
       <?php if ($author_bio) : ?>
         <p class="author-profile-bio"><?php echo esc_html($author_bio); ?></p>
+      <?php else : ?>
+        <p class="author-profile-bio">Writing on AI, infrastructure, and software systems from the RodyTech archive.</p>
       <?php endif; ?>
       
       <div class="author-profile-social">
