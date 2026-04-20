@@ -5,7 +5,41 @@
 get_header(); 
 
 $author = get_queried_object();
-$author_id = $author->ID;
+
+if (!$author instanceof WP_User) {
+  $author_name_query_var = get_query_var('author_name');
+  $author_id_query_var = get_query_var('author');
+
+  if (is_string($author_name_query_var) && $author_name_query_var !== '') {
+    $author = get_user_by('slug', sanitize_title_for_query(wp_unslash($author_name_query_var)));
+  }
+
+  if (!$author instanceof WP_User && is_numeric($author_id_query_var)) {
+    $author = get_user_by('id', (int) $author_id_query_var);
+  }
+}
+
+if (!$author instanceof WP_User) {
+  global $wp_query;
+  $wp_query->set_404();
+  status_header(404);
+  nocache_headers();
+  ?>
+  <main class="main-content">
+    <section class="editorial-hero editorial-hero-archive">
+      <div class="editorial-hero-copy">
+        <span class="editorial-eyebrow">Author</span>
+        <h1>Author not found</h1>
+        <p>The requested author archive could not be resolved.</p>
+      </div>
+    </section>
+  </main>
+  <?php
+  get_footer();
+  return;
+}
+
+$author_id = (int) $author->ID;
 $author_name = $author->display_name;
 $author_bio = $author->description;
 $author_avatar = get_avatar($author_id, 160, '', '', array('class' => 'author-profile-avatar'));

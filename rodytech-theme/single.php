@@ -3,6 +3,8 @@
 <?php if (have_posts()) : while (have_posts()) : the_post();
   $category        = get_the_category();
   $cat_name        = !empty($category) ? esc_html($category[0]->name) : 'Article';
+  $primary_category = function_exists('rodytech_get_primary_category') ? rodytech_get_primary_category(get_the_ID()) : null;
+  $category_url     = $primary_category ? get_category_link($primary_category->term_id) : home_url('/articles/');
   $author_id       = get_the_author_meta('ID');
   $author_name     = esc_html(get_the_author());
   $author_bio      = get_the_author_meta('description');
@@ -10,6 +12,8 @@
   $twitter         = get_the_author_meta('twitter');
   $linkedin        = get_the_author_meta('linkedin');
   $github          = get_the_author_meta('github');
+  $next_post       = get_next_post();
+  $previous_post   = get_previous_post();
 ?>
 
 <article class="single-article">
@@ -74,6 +78,39 @@
       <?php the_content(); ?>
     </div>
 
+    <section class="article-inline-cta" aria-labelledby="article-inline-cta-title">
+      <div class="article-inline-cta-copy">
+        <span class="article-inline-cta-kicker">Stay in the loop</span>
+        <h2 id="article-inline-cta-title">Get the next deep dive before it hits search.</h2>
+        <p>RodyTech publishes practical writing on AI systems, infrastructure, and software that teams can actually ship. Subscribe for new posts without waiting for an algorithm to surface them.</p>
+        <ul class="article-inline-cta-points" aria-label="Newsletter benefits">
+          <li>One useful email when a new article is worth your time</li>
+          <li>Hands-on notes from real builds, deployments, and ops work</li>
+          <li>No generic growth funnel copy, just the writing</li>
+        </ul>
+      </div>
+      <div class="article-inline-cta-form-wrap">
+        <?php if (isset($_GET['subscribed'])) : ?>
+          <div class="article-inline-cta-success" role="status" aria-live="polite">
+            <strong>Subscribed.</strong>
+            <span>You’ll get the next article in your inbox.</span>
+          </div>
+        <?php else : ?>
+          <form class="article-inline-cta-form" method="post" action="">
+            <label class="screen-reader-text" for="article-newsletter-email">Email address</label>
+            <input id="article-newsletter-email" type="email" name="newsletter_email" placeholder="your@email.com" required>
+            <button type="submit">Subscribe</button>
+          </form>
+          <div class="article-inline-cta-actions">
+            <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="article-inline-link">Browse all articles</a>
+            <?php if ($primary_category) : ?>
+              <a href="<?php echo esc_url($category_url); ?>" class="article-inline-link">More in <?php echo esc_html($primary_category->name); ?></a>
+            <?php endif; ?>
+          </div>
+        <?php endif; ?>
+      </div>
+    </section>
+
     <!-- Share -->
     <div class="social-share">
       <span class="share-label">Share</span>
@@ -120,6 +157,43 @@
       </div>
     </div>
   </div>
+
+  <section class="post-conversion-band" aria-labelledby="post-conversion-title">
+    <div class="post-conversion-card post-conversion-card-primary">
+      <span class="post-conversion-kicker">Next step</span>
+      <h3 id="post-conversion-title">Turn one article into a working reading loop.</h3>
+      <p>Keep the context warm: subscribe for new writing, revisit the archive, or stay inside the same topic while the thread is still fresh.</p>
+      <div class="post-conversion-actions">
+        <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="post-conversion-btn post-conversion-btn-primary">Explore the archive</a>
+        <?php if ($primary_category) : ?>
+          <a href="<?php echo esc_url($category_url); ?>" class="post-conversion-btn post-conversion-btn-secondary">More <?php echo esc_html($primary_category->name); ?></a>
+        <?php endif; ?>
+      </div>
+    </div>
+    <div class="post-conversion-card post-conversion-card-secondary">
+      <span class="post-conversion-kicker">Keep reading</span>
+      <div class="post-conversion-links">
+        <?php if ($next_post) : ?>
+          <a class="post-conversion-story" href="<?php echo esc_url(get_permalink($next_post->ID)); ?>">
+            <span class="post-conversion-story-label">Next article</span>
+            <strong><?php echo esc_html(get_the_title($next_post->ID)); ?></strong>
+          </a>
+        <?php endif; ?>
+        <?php if ($previous_post) : ?>
+          <a class="post-conversion-story" href="<?php echo esc_url(get_permalink($previous_post->ID)); ?>">
+            <span class="post-conversion-story-label">Previous article</span>
+            <strong><?php echo esc_html(get_the_title($previous_post->ID)); ?></strong>
+          </a>
+        <?php endif; ?>
+        <?php if (!$next_post && !$previous_post) : ?>
+          <div class="post-conversion-empty">
+            <span class="post-conversion-story-label">Reading path</span>
+            <strong>Use the archive and related articles below to continue.</strong>
+          </div>
+        <?php endif; ?>
+      </div>
+    </div>
+  </section>
 
   <!-- Related Posts -->
   <?php

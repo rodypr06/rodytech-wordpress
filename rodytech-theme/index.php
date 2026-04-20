@@ -277,6 +277,99 @@ $paged = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
     }
 
     $sidebar_categories = rodytech_get_editorial_categories(6);
+    $archive_context = array(
+      'label' => 'Archive guide',
+      'title' => 'Find the next useful path.',
+      'body'  => 'Use the archive context and category paths below to move through the library without guessing where to go next.',
+      'links' => array(
+        array(
+          'title' => 'Browse the full archive',
+          'url'   => home_url('/articles'),
+        ),
+      ),
+    );
+    $archive_recent_posts = array();
+
+    if (is_category() && isset($queried_category) && $queried_category instanceof WP_Term) {
+      $archive_context = array(
+        'label' => 'Inside this category',
+        'title' => sprintf('%s posts currently sit in %s.', number_format_i18n((int) $queried_category->count), $queried_category->name),
+        'body'  => $archive_description ?: 'This category collects a focused lane of practical writing from the wider archive.',
+        'links' => array(
+          array(
+            'title' => 'Browse the full archive',
+            'url'   => home_url('/articles'),
+          ),
+        ),
+      );
+      $archive_recent_posts = get_posts(array(
+        'post_type'           => 'post',
+        'post_status'         => 'publish',
+        'posts_per_page'      => 3,
+        'ignore_sticky_posts' => true,
+        'category'            => $queried_category->term_id,
+      ));
+      $sidebar_categories = get_categories(array(
+        'hide_empty' => true,
+        'exclude'    => array($queried_category->term_id),
+        'orderby'    => 'count',
+        'order'      => 'DESC',
+        'number'     => 6,
+      ));
+    } elseif (is_tag()) {
+      $tag_object = get_queried_object();
+      $tag_count = isset($wp_query->found_posts) ? (int) $wp_query->found_posts : 0;
+      $archive_context = array(
+        'label' => 'Tag signal',
+        'title' => $tag_count < 3 ? 'This tag is a narrow slice of the archive.' : 'This tag connects a set of related stories.',
+        'body'  => $tag_count < 3
+          ? 'Thin tag pages work best as pivots. Use the broader category paths below if you want the fuller context around this topic.'
+          : 'Use this tag as a cross-cut through related implementation notes, then jump into the larger category lanes for deeper coverage.',
+        'links' => array(
+          array(
+            'title' => 'Browse the full archive',
+            'url'   => home_url('/articles'),
+          ),
+        ),
+      );
+      if ($tag_object instanceof WP_Term) {
+        $archive_recent_posts = get_posts(array(
+          'post_type'           => 'post',
+          'post_status'         => 'publish',
+          'posts_per_page'      => 3,
+          'ignore_sticky_posts' => true,
+          'tag_id'              => $tag_object->term_id,
+        ));
+      }
+    } elseif (is_search()) {
+      $archive_context = array(
+        'label' => 'Search guide',
+        'title' => 'Broaden or narrow the query from here.',
+        'body'  => 'Search works best when paired with the category paths below. If the result set feels thin, use a broader term and then move into a category archive.',
+        'links' => array(
+          array(
+            'title' => 'Browse the full archive',
+            'url'   => home_url('/articles'),
+          ),
+          array(
+            'title' => 'Reset to homepage',
+            'url'   => home_url('/'),
+          ),
+        ),
+      );
+    } elseif (is_author()) {
+      $archive_context = array(
+        'label' => 'Author archive',
+        'title' => 'Follow this author across the archive.',
+        'body'  => $archive_description ?: 'This archive collects writing from one author across AI, infrastructure, and software systems.',
+        'links' => array(
+          array(
+            'title' => 'Browse the full archive',
+            'url'   => home_url('/articles'),
+          ),
+        ),
+      );
+    }
   ?>
 
   <section class="editorial-hero editorial-hero-archive">
@@ -313,14 +406,45 @@ $paged = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
         <div class="no-posts">
           <h2>No matching articles</h2>
           <p>Try a different query or browse the main archive.</p>
+          <p class="no-posts-actions">
+            <a href="<?php echo esc_url(home_url('/articles')); ?>" class="inline-action-link">Open the full archive</a>
+          </p>
         </div>
       <?php endif; ?>
     </div>
 
     <aside class="editorial-sidebar">
+      <div class="sidebar-card sidebar-card-context">
+        <span class="sidebar-card-label"><?php echo esc_html($archive_context['label']); ?></span>
+        <h3><?php echo esc_html($archive_context['title']); ?></h3>
+        <p><?php echo esc_html($archive_context['body']); ?></p>
+        <?php if (!empty($archive_context['links'])) : ?>
+          <div class="sidebar-link-list">
+            <?php foreach ($archive_context['links'] as $link) : ?>
+              <a href="<?php echo esc_url($link['url']); ?>" class="inline-action-link"><?php echo esc_html($link['title']); ?></a>
+            <?php endforeach; ?>
+          </div>
+        <?php endif; ?>
+      </div>
+
+      <?php if (!empty($archive_recent_posts)) : ?>
+        <div class="sidebar-card">
+          <span class="sidebar-card-label">Recent in this lane</span>
+          <ul class="sidebar-link-stack">
+            <?php foreach ($archive_recent_posts as $archive_recent_post) : ?>
+              <li>
+                <a href="<?php echo esc_url(get_permalink($archive_recent_post->ID)); ?>">
+                  <?php echo esc_html(get_the_title($archive_recent_post->ID)); ?>
+                </a>
+              </li>
+            <?php endforeach; ?>
+          </ul>
+        </div>
+      <?php endif; ?>
+
       <?php if (!empty($sidebar_categories)) : ?>
         <div class="sidebar-card">
-          <span class="sidebar-card-label">Popular paths</span>
+          <span class="sidebar-card-label"><?php echo is_category() ? 'Related categories' : 'Popular paths'; ?></span>
           <ul class="sidebar-category-list">
             <?php foreach ($sidebar_categories as $category) : ?>
               <li>
