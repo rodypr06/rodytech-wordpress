@@ -1,0 +1,186 @@
+{
+    "categories": [
+        {
+            "term_id": 2,
+            "name": "AI",
+            "slug": "ai",
+            "result": true
+        },
+        {
+            "term_id": 51,
+            "name": "Machine Learning",
+            "slug": "machine-learning",
+            "result": true
+        },
+        {
+            "term_id": 48,
+            "name": "Open Source",
+            "slug": "open-source",
+            "result": true
+        }
+    ],
+    "tags": [
+        {
+            "term_id": 96,
+            "name": "AI",
+            "slug": "ai",
+            "result": true
+        },
+        {
+            "term_id": 128,
+            "name": "AI Frameworks",
+            "slug": "ai-frameworks",
+            "result": true
+        },
+        {
+            "term_id": 101,
+            "name": "Apple M4 Pro",
+            "slug": "apple-m4-pro",
+            "result": true
+        },
+        {
+            "term_id": 104,
+            "name": "Apple Silicon",
+            "slug": "apple-silicon",
+            "result": true
+        },
+        {
+            "term_id": 93,
+            "name": "AWS Lambda",
+            "slug": "aws-lambda",
+            "result": true
+        },
+        {
+            "term_id": 125,
+            "name": "Cryptography",
+            "slug": "cryptography",
+            "result": true
+        },
+        {
+            "term_id": 117,
+            "name": "Enterprise AI",
+            "slug": "enterprise-ai",
+            "result": true
+        },
+        {
+            "term_id": 153,
+            "name": "Linux Security",
+            "slug": "linux-security",
+            "result": true
+        },
+        {
+            "term_id": 108,
+            "name": "LLaMA-4",
+            "slug": "llama-4-2",
+            "result": true
+        },
+        {
+            "term_id": 116,
+            "name": "LLM Inference",
+            "slug": "llm-inference",
+            "result": true
+        },
+        {
+            "term_id": 65,
+            "name": "LLM Optimization",
+            "slug": "llm-optimization",
+            "result": true
+        },
+        {
+            "term_id": 63,
+            "name": "Mamba",
+            "slug": "mamba",
+            "result": true
+        },
+        {
+            "term_id": 123,
+            "name": "ML-KEM",
+            "slug": "ml-kem",
+            "result": true
+        },
+        {
+            "term_id": 155,
+            "name": "Mobile NLP",
+            "slug": "mobile-nlp",
+            "result": true
+        },
+        {
+            "term_id": 127,
+            "name": "Native AI Agents",
+            "slug": "native-ai-agents",
+            "result": true
+        },
+        {
+            "term_id": 102,
+            "name": "Neural Engine",
+            "slug": "neural-engine",
+            "result": true
+        },
+        {
+            "term_id": 152,
+            "name": "NIST PQC",
+            "slug": "nist-pqc",
+            "result": true
+        },
+        {
+            "term_id": 103,
+            "name": "On-device AI",
+            "slug": "on-device-ai",
+            "result": true
+        },
+        {
+            "term_id": 154,
+            "name": "OpenSSH",
+            "slug": "openssh",
+            "result": true
+        },
+        {
+            "term_id": 124,
+            "name": "OpenSSL 3.4",
+            "slug": "openssl-3-4",
+            "result": true
+        },
+        {
+            "term_id": 122,
+            "name": "Post-Quantum TLS",
+            "slug": "post-quantum-tls",
+            "result": true
+        },
+        {
+            "term_id": 94,
+            "name": "Serverless",
+            "slug": "serverless",
+            "result": true
+        },
+        {
+            "term_id": 126,
+            "name": "torch.agent API",
+            "slug": "torch-agent-api",
+            "result": true
+        },
+        {
+            "term_id": 109,
+            "name": "Transformer",
+            "slug": "transformer",
+            "result": true
+        },
+        {
+            "term_id": 64,
+            "name": "Transformers",
+            "slug": "transformers",
+            "result": true
+        },
+        {
+            "term_id": 151,
+            "name": "Ubuntu 26.04 LTS",
+            "slug": "ubuntu-26-04-lts",
+            "result": true
+        },
+        {
+            "term_id": 115,
+            "name": "vLLM 2.0",
+            "slug": "vllm-2-0",
+            "result": true
+        }
+    ]
+}
