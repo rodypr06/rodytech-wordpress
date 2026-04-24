@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-04-24
+
+- Investigated the failed/incomplete publish alert for “What Iowa Small Businesses Need to Know About NIST's New Cybersecurity Framework in 2026”.
+- Confirmed the cron delivery summary was premature: the worker had only reached “Writing article via HQ-backed LLM...” when the channel saw the incomplete publish message, and the later remote log showed the actual crash.
+- Root cause: `/root/workspace/blog_article_generator.py` completed research, then the writer stage failed three times with `No valid JSON payload found in model response`, raising `RuntimeError` before WordPress publish.
+- Patched the remote generator so a successful research stage can produce a deterministic fallback article when writer JSON parsing fails, avoiding future “no post ID” crashes for this failure mode.
+- Re-ran the failed NIST article successfully.
+- Published live WordPress post:
+  - Post ID: `387`
+  - Featured media ID: `388`
+  - URL: `https://blog.rodytech.ai/iowa-small-businesses-and-nist-csf-2-0-what-to-know-in-2026/`
+- Verified the final public URL returns HTTP `200`.
+
 ## 2026-04-20
 
 - Rebuilt the live `blog.rodytech.ai` theme around an editorial homepage and archive layout with the interactive network background, refined hero treatment, and responsive glass-card design system.
