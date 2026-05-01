@@ -15,9 +15,9 @@ if (!$avatar_url) {
   <!-- ── Hero ── -->
   <section class="about-hero">
     <div class="about-hero-inner">
-      <span class="about-eyebrow">About RodyTech Blog</span>
-      <h1>Technology that works<br>for <span>real businesses</span></h1>
-      <p>Practical AI and tech insights — no hype, no filler. Built by a builder, written for people who actually build things.</p>
+      <span class="about-eyebrow">Start Here</span>
+      <h1>Practical technology notes<br>for <span>real operators</span></h1>
+      <p>RodyTech Blog is a small, curated field notebook on automation, infrastructure, security, and Iowa tech. The goal is useful judgment, not content volume.</p>
     </div>
   </section>
 
@@ -32,8 +32,8 @@ if (!$avatar_url) {
         <span class="about-bio-label">The Author</span>
         <h2 class="about-bio-name">Roderick <span>"Rody"</span> Rabelo</h2>
         <span class="about-bio-role">Founder &amp; CEO · RodyTech LLC</span>
-        <p>Based in Iowa, building tools and systems that help businesses move faster with AI. I write about what I'm actually building, testing, and deploying — not theory. If it's on this blog, it's battle-tested.</p>
-        <p>RodyTech started as a one-person consultancy and grew into a full product studio. We build AI agents, custom automation, and software for small and mid-sized businesses who want enterprise power without enterprise overhead.</p>
+        <p>Based in Iowa, building tools and systems that help businesses move faster with automation, AI, and practical software. I write from the builder side: what looks useful, what breaks down, and what tradeoffs matter before money or time gets spent.</p>
+        <p>The public archive is intentionally small while older drafts are being reviewed. I would rather publish fewer pieces that hold up than flood the site with generic tech commentary.</p>
         <div class="about-bio-links">
           <a href="https://rodytech.ai" target="_blank" rel="noopener noreferrer" class="about-bio-btn primary">rodytech.ai ↗</a>
           <a href="https://linkedin.com/in/roderick-rabelo-78ba9648/" target="_blank" rel="noopener noreferrer" class="about-bio-btn secondary">LinkedIn</a>
@@ -53,7 +53,7 @@ if (!$avatar_url) {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 6v6l4 2"/><path d="M22 12c0-2.76-1.12-5.26-2.93-7.07L16 8"/><path d="M22 5v7h-7"/></svg>
         </div>
         <h3>AI Tools &amp; Agents</h3>
-        <p>Hands-on reviews, tutorials, and breakdowns of the AI tools that are actually useful for running a business — from LLMs to autonomous agents.</p>
+        <p>Hands-on notes on AI tools, agents, and automation patterns that can survive real business constraints.</p>
       </div>
 
       <div class="about-topic-card">
@@ -61,7 +61,7 @@ if (!$avatar_url) {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/><path d="M7 8h10M7 12h6"/></svg>
         </div>
         <h3>Business Automation</h3>
-        <p>Workflows, scripts, and systems that eliminate repetitive work. Built for Iowa businesses and beyond — practical automation that pays for itself.</p>
+        <p>Workflows, scripts, and systems that reduce repetitive work without creating a brittle mess nobody can maintain.</p>
       </div>
 
       <div class="about-topic-card">
@@ -69,7 +69,7 @@ if (!$avatar_url) {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
         </div>
         <h3>Developer Resources</h3>
-        <p>Code snippets, architecture patterns, and build logs from real projects. If you're a developer, you'll find things you can actually use today.</p>
+        <p>Code snippets, architecture patterns, and build notes for developers who care about shipping maintainable systems.</p>
       </div>
 
       <div class="about-topic-card">
@@ -77,7 +77,7 @@ if (!$avatar_url) {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         </div>
         <h3>Iowa Tech Scene</h3>
-        <p>Spotlights on local entrepreneurs, events, and the growing tech community across Iowa. Big things are being built here — we cover them.</p>
+        <p>Practical reads on Iowa companies, workforce signals, infrastructure, and where durable technical work appears to be forming.</p>
       </div>
 
       <div class="about-topic-card">
@@ -85,7 +85,7 @@ if (!$avatar_url) {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M8.46 8.46a5 5 0 0 0 0 7.07"/></svg>
         </div>
         <h3>Security &amp; Infrastructure</h3>
-        <p>Practical guides on hardening your stack, infrastructure-as-code, and the security practices that actually matter for small teams.</p>
+        <p>Guides on hardening systems, managing infrastructure, and making security decisions small teams can actually execute.</p>
       </div>
 
       <div class="about-topic-card">
@@ -93,7 +93,7 @@ if (!$avatar_url) {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
         </div>
         <h3>RodyTech Updates</h3>
-        <p>Behind-the-scenes looks at what RodyTech LLC is building — new products, experiments, and lessons learned shipping real software.</p>
+        <p>Occasional behind-the-scenes notes from RodyTech LLC: products, experiments, and lessons from building real software.</p>
       </div>
 
     </div>
@@ -103,15 +103,15 @@ if (!$avatar_url) {
   <section class="about-mission-section">
     <div class="about-mission-card">
       <div class="about-mission-quote">"</div>
-      <blockquote class="about-mission-text">Technology should work for everyone — not just the Fortune 500. My mission is to close that gap, one article, one tool, and one business at a time.</blockquote>
+      <blockquote class="about-mission-text">Good technology writing should help you make a better decision before you buy a tool, change a system, or chase a trend.</blockquote>
       <cite class="about-mission-cite">— Rody Rabelo, Founder RodyTech LLC</cite>
     </div>
   </section>
 
   <!-- ── CTA ── -->
   <section class="about-cta-section">
-    <h2>Ready to explore?</h2>
-    <p>Browse the latest articles or head to the main RodyTech site to see what we're building.</p>
+    <h2>Start with the curated articles</h2>
+    <p>The current public set is intentionally small while the broader archive is reviewed and rewritten to a higher standard.</p>
     <div class="about-cta-buttons">
       <a href="<?php echo home_url(); ?>" class="about-cta-primary">Read the Blog</a>
       <a href="https://rodytech.ai" target="_blank" rel="noopener noreferrer" class="about-cta-ghost">Visit rodytech.ai ↗</a>
