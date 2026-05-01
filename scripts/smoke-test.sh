@@ -64,10 +64,12 @@ check_route() {
 }
 
 check_route "/" "editorial-hero"
-check_route "/" "story-grid"
+check_route "/" "editorial-feature-grid"
 check_route "/articles" "editorial-hero editorial-hero-archive"
 check_route "/author/rody/" "Author"
-check_route "/category/artificial-intelligence/" "Category"
-check_route "/?s=ansible" "Search results"
+check_route "/category/iowa-tech/" "Iowa Tech"
+check_route "/iowa-small-business-cybersecurity-in-2026-a-practical-nist-csf-2-0-guide/" "NIST CSF 2.0"
+check_route "/why-every-developer-should-learn-ansible-in-2026-and-start-this-weekend/" "Ansible"
+check_route "/?s=ansible" "Ansible"
 
 printf 'Smoke tests passed for %s\n' "${SITE_URL}"

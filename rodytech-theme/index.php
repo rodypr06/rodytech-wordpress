@@ -132,6 +132,14 @@ $paged = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
             ?>
           </div>
         <?php endif; ?>
+      <?php elseif ($paged === 1 && !empty($featured_posts)) : ?>
+        <div class="no-posts no-posts-curated">
+          <h2>Curated archive in progress</h2>
+          <p>The strongest articles are featured above while the broader archive is being reviewed and tightened for publication.</p>
+          <p class="no-posts-actions">
+            <a href="<?php echo esc_url(home_url('/articles')); ?>" class="inline-action-link">Open the curated archive</a>
+          </p>
+        </div>
       <?php else : ?>
         <div class="no-posts">
           <h2>No articles yet</h2>
@@ -296,10 +304,15 @@ $paged = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
     $archive_recent_posts = array();
 
     if (is_category() && isset($queried_category) && $queried_category instanceof WP_Term) {
+      $category_count = (int) $queried_category->count;
       $archive_context = array(
         'label' => 'Inside this category',
-        'title' => sprintf('%s posts currently sit in %s.', number_format_i18n((int) $queried_category->count), $queried_category->name),
-        'body'  => $archive_description ?: 'This category collects a focused lane of practical writing from the wider archive.',
+        'title' => $category_count > 0
+          ? sprintf('%s published post%s currently sit in %s.', number_format_i18n($category_count), $category_count === 1 ? '' : 's', $queried_category->name)
+          : sprintf('%s is paused while the archive is being reviewed.', $queried_category->name),
+        'body'  => $category_count > 0
+          ? ($archive_description ?: 'This category collects a focused lane of practical writing from the wider archive.')
+          : 'The older posts in this category are offline for editorial cleanup. Use the curated archive for what is ready to share today.',
         'links' => array(
           array(
             'title' => 'Browse the full archive',
