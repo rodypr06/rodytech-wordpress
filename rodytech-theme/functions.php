@@ -330,7 +330,7 @@ function rodytech_newsletter_admin_page() {
                 <td><?php echo esc_html($subscriber['email']); ?></td>
                 <td><?php echo esc_html(ucfirst($subscriber['context'])); ?></td>
                 <td><?php echo esc_html(mysql2date('Y-m-d H:i:s', $subscriber['subscribed_at'])); ?></td>
-                <td><a href="<?php echo esc_url($subscriber['source_url']); ?>" target="_blank" rel="noreferrer"><?php echo esc_html($subscriber['source_url']); ?></a></td>
+                <td><a href="<?php echo esc_url($subscriber['source_url']); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($subscriber['source_url']); ?></a></td>
               </tr>
             <?php endforeach; ?>
           <?php endif; ?>

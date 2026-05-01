@@ -65,7 +65,7 @@
           <?php echo esc_html($link['label']); ?>
         </a>
       <?php endforeach; ?>
-      <a href="https://rodytech.ai" target="_blank" class="nav-cta">rodytech.ai ↗</a>
+      <a href="https://rodytech.ai" target="_blank" rel="noopener noreferrer" class="nav-cta">rodytech.ai ↗</a>
     </nav>
   </div>
 </header>
