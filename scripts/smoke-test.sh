@@ -66,6 +66,7 @@ check_route() {
 check_route "/" "editorial-hero"
 check_route "/" "story-grid"
 check_route "/articles" "editorial-hero editorial-hero-archive"
+check_route "/author/rody/" "Author"
 check_route "/category/artificial-intelligence/" "Category"
 check_route "/?s=ansible" "Search results"
 

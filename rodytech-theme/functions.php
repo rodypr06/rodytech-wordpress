@@ -465,6 +465,44 @@ function rodytech_archive_robots($robots) {
 }
 add_filter('wp_robots', 'rodytech_archive_robots');
 
+function rodytech_author_slug_aliases() {
+    return array(
+        'rody'     => 'helix',
+        'rodytech' => 'helix',
+    );
+}
+
+function rodytech_register_author_alias_rewrites() {
+    foreach (rodytech_author_slug_aliases() as $alias => $canonical_slug) {
+        add_rewrite_rule(
+            '^author/' . preg_quote($alias, '/') . '/?$',
+            'index.php?author_name=' . rawurlencode($canonical_slug),
+            'top'
+        );
+    }
+}
+add_action('init', 'rodytech_register_author_alias_rewrites');
+
+function rodytech_flush_author_alias_rewrites() {
+    $rewrite_version = '20260501-author-aliases';
+
+    if (get_option('rodytech_rewrite_version') === $rewrite_version) {
+        return;
+    }
+
+    rodytech_register_author_alias_rewrites();
+    flush_rewrite_rules(false);
+    update_option('rodytech_rewrite_version', $rewrite_version, false);
+}
+add_action('after_switch_theme', 'rodytech_flush_author_alias_rewrites');
+add_action('init', 'rodytech_flush_author_alias_rewrites', 20);
+
+function rodytech_canonical_author_slug($author_slug) {
+    $aliases = rodytech_author_slug_aliases();
+
+    return isset($aliases[$author_slug]) ? $aliases[$author_slug] : $author_slug;
+}
+
 // Normalize author archive requests so valid author slugs consistently resolve to the author template.
 function rodytech_normalize_author_archive_request($query_vars) {
     if (is_admin()) {
@@ -486,7 +524,7 @@ function rodytech_normalize_author_archive_request($query_vars) {
         return $query_vars;
     }
 
-    $author = get_user_by('slug', $author_slug);
+    $author = get_user_by('slug', rodytech_canonical_author_slug($author_slug));
     if (!$author instanceof WP_User) {
         return $query_vars;
     }
