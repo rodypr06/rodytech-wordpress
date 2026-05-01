@@ -64,11 +64,10 @@
         <span class="footer-logo"><span>Rody</span><span class="tech">Tech</span> Blog</span>
       </a>
       <p class="footer-tagline">Technology insights for Iowa businesses and the people building the future.</p>
-      <p class="footer-newsletter-label">Stay updated</p>
-      <form class="footer-newsletter-form" method="post" action="">
-        <input type="email" name="newsletter_email" placeholder="your@email.com" required>
-        <button type="submit">Subscribe</button>
-      </form>
+      <div class="footer-brand-actions">
+        <a href="<?php echo esc_url(home_url('/articles')); ?>">Explore articles</a>
+        <a href="https://rodytech.ai" target="_blank" rel="noopener noreferrer">Visit RodyTech</a>
+      </div>
     </div>
 
     <div class="footer-col-group">

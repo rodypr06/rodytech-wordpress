@@ -164,9 +164,10 @@ $paged = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
       <?php endif; ?>
 
       <div class="sidebar-card sidebar-card-accent">
-        <span class="sidebar-card-label">Stay updated</span>
-        <h3>Subscribe from the header or footer.</h3>
-        <p>The newsletter CTA stays visible across the site, so the homepage can prioritize reading flow instead of repeating the same form block.</p>
+        <span class="sidebar-card-label">Start here</span>
+        <h3>Use the archive as a map, not a feed.</h3>
+        <p>Pick a category, follow the latest stories, or jump into a collection built around the systems RodyTech is actively exploring.</p>
+        <a href="<?php echo esc_url(home_url('/articles')); ?>" class="inline-action-link">Open the full archive</a>
       </div>
     </aside>
   </section>

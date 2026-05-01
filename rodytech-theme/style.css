@@ -93,7 +93,7 @@ body::after {
   z-index: 0;
 }
 
-.newsletter-bar, .site-header, .main-content, .site-footer {
+.site-header, .main-content, .site-footer {
   position: relative;
   z-index: 1;
 }
@@ -108,79 +108,6 @@ textarea:focus-visible {
   outline-offset: 3px;
 }
 img { max-width: 100%; height: auto; display: block; }
-
-
-/* ===== Newsletter Bar ===== */
-.newsletter-bar {
-  background: rgba(6, 7, 13, 0.96);
-  border-bottom: 1px solid rgba(255, 102, 0, 0.1);
-  padding: 9px 24px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.newsletter-bar-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-.newsletter-label {
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.newsletter-label::before { content: '✦ '; color: var(--accent); opacity: 0.7; }
-
-.newsletter-form { display: flex; gap: 6px; }
-
-.newsletter-input {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255, 102, 0, 0.2);
-  border-radius: 6px;
-  padding: 5px 12px;
-  color: var(--text);
-  font-size: 0.8rem;
-  font-family: var(--font);
-  outline: none;
-  width: 195px;
-  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
-}
-
-.newsletter-input::placeholder { color: var(--text-dim); }
-.newsletter-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,102,0,0.1); }
-
-.newsletter-btn {
-  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 5px 14px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  font-family: var(--font);
-  cursor: pointer;
-  transition: all 0.2s var(--ease);
-  box-shadow: 0 2px 12px rgba(255,102,0,0.25);
-}
-
-.newsletter-btn:hover {
-  background: linear-gradient(135deg, var(--accent-hover), var(--accent));
-  box-shadow: 0 4px 20px rgba(255,102,0,0.4);
-  transform: translateY(-1px);
-}
-
-.newsletter-success {
-  color: #4ade80;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
 
 /* ===== Site Header ===== */
 .site-header {
@@ -1061,36 +988,7 @@ img { max-width: 100%; height: auto; display: block; }
   border-radius: calc(var(--radius-lg) - 6px);
 }
 
-.article-inline-cta-form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.article-inline-cta-form input {
-  width: 100%;
-  background: rgba(5,7,12,0.72);
-  border: 1px solid rgba(255,255,255,0.12);
-  color: var(--text);
-  padding: 14px 15px;
-  border-radius: var(--radius-sm);
-  font-size: 0.95rem;
-  font-family: var(--font);
-  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease), background 0.2s var(--ease);
-}
-
-.article-inline-cta-form input::placeholder {
-  color: rgba(200,212,232,0.48);
-}
-
-.article-inline-cta-form input:focus {
-  outline: none;
-  border-color: rgba(255,102,0,0.55);
-  box-shadow: 0 0 0 4px rgba(255,102,0,0.12);
-  background: rgba(8,10,16,0.92);
-}
-
-.article-inline-cta-form button,
+.article-inline-btn,
 .post-conversion-btn {
   display: inline-flex;
   align-items: center;
@@ -1104,44 +1002,48 @@ img { max-width: 100%; height: auto; display: block; }
   transition: transform 0.22s var(--ease), box-shadow 0.22s var(--ease), background 0.22s var(--ease), border-color 0.22s var(--ease), color 0.22s var(--ease);
 }
 
-.article-inline-cta-form button {
+.article-inline-btn {
+  padding: 0 20px;
+}
+
+.article-inline-btn-primary {
   width: 100%;
-  border: none;
-  cursor: pointer;
-  padding: 0 18px;
-  font-family: var(--font);
   color: #fff;
   background: linear-gradient(135deg, rgba(255,102,0,0.96), rgba(255,140,44,0.86));
   box-shadow: 0 14px 34px rgba(255,102,0,0.22);
 }
 
-.article-inline-cta-form button:hover,
+.article-inline-btn-secondary {
+  width: 100%;
+  color: var(--text-secondary);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.article-inline-btn:hover,
 .post-conversion-btn:hover {
   transform: translateY(-2px);
 }
 
-.article-inline-cta-form button:hover {
+.article-inline-btn-primary:hover {
+  color: #fff;
   box-shadow: 0 18px 38px rgba(255,102,0,0.28);
 }
 
-.article-inline-cta-success {
-  display: grid;
-  gap: 4px;
-  padding: 18px 18px 18px 20px;
-  border-radius: var(--radius);
-  border: 1px solid rgba(71,187,120,0.24);
-  background: rgba(22,61,36,0.38);
-  color: rgba(226,244,231,0.92);
-}
-
-.article-inline-cta-success strong {
-  color: #d8ffe4;
+.article-inline-btn-secondary:hover {
+  color: var(--accent);
+  border-color: rgba(255,102,0,0.35);
+  background: rgba(255,102,0,0.08);
 }
 
 .article-inline-cta-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+}
+
+.article-inline-cta-actions-stacked {
+  display: grid;
 }
 
 .article-inline-link {
@@ -1760,50 +1662,30 @@ img { max-width: 100%; height: auto; display: block; }
   margin-bottom: 24px;
 }
 
-.footer-newsletter-label {
-  color: var(--text-secondary);
-  font-size: 0.875rem;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.footer-newsletter-form {
+.footer-brand-actions {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
 }
 
-.footer-newsletter-form input {
+.footer-brand-actions a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 15px;
+  border-radius: var(--radius-pill);
+  color: var(--text-secondary);
   background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,102,0,0.18);
-  border-radius: 6px;
-  padding: 7px 12px;
-  color: var(--text);
-  font-size: 0.875rem;
-  font-family: var(--font);
-  outline: none;
-  flex: 1;
-  min-width: 140px;
-  transition: border-color 0.2s var(--ease);
-}
-.footer-newsletter-form input:focus { border-color: var(--accent); }
-.footer-newsletter-form input::placeholder { color: var(--text-dim); }
-
-.footer-newsletter-form button {
-  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 7px 16px;
+  border: 1px solid rgba(255,255,255,0.08);
   font-size: 0.875rem;
   font-weight: 600;
-  font-family: var(--font);
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.2s var(--ease);
+  transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background 0.2s var(--ease), transform 0.2s var(--ease);
 }
-.footer-newsletter-form button:hover {
-  background: linear-gradient(135deg, var(--accent-hover), var(--accent));
+
+.footer-brand-actions a:hover {
+  color: var(--accent);
+  border-color: rgba(255,102,0,0.3);
+  background: rgba(255,102,0,0.08);
   transform: translateY(-1px);
 }
 

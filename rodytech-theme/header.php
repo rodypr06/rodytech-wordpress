@@ -9,17 +9,6 @@
 
 <canvas id="network" aria-hidden="true"></canvas>
 
-<!-- Newsletter Bar -->
-<div class="newsletter-bar">
-  <div class="newsletter-bar-inner">
-    <span class="newsletter-label">Get new articles in your inbox</span>
-    <form class="newsletter-form" method="post" action="">
-      <input type="email" name="newsletter_email" placeholder="your@email.com" required class="newsletter-input">
-      <button type="submit" class="newsletter-btn">Subscribe</button>
-    </form>
-  </div>
-</div>
-
 <header class="site-header" id="site-header">
   <div class="header-inner">
     <?php

@@ -14,11 +14,6 @@
   $github          = get_the_author_meta('github');
   $next_post       = get_next_post();
   $previous_post   = get_previous_post();
-  $newsletter_status = isset($_GET['newsletter_status']) ? sanitize_key(wp_unslash($_GET['newsletter_status'])) : '';
-  $newsletter_context = isset($_GET['newsletter_context']) ? sanitize_key(wp_unslash($_GET['newsletter_context'])) : '';
-  $article_newsletter_notice = ($newsletter_context === 'article' && function_exists('rodytech_get_newsletter_notice_config'))
-    ? rodytech_get_newsletter_notice_config($newsletter_status)
-    : null;
 ?>
 
 <article class="single-article">
@@ -85,40 +80,23 @@
 
     <section class="article-inline-cta" aria-labelledby="article-inline-cta-title">
       <div class="article-inline-cta-copy">
-        <span class="article-inline-cta-kicker">Stay in the loop</span>
-        <h2 id="article-inline-cta-title">Get the next deep dive before it hits search.</h2>
-        <p>RodyTech publishes practical writing on AI systems, infrastructure, and software that teams can actually ship. Subscribe for new posts without waiting for an algorithm to surface them.</p>
-        <ul class="article-inline-cta-points" aria-label="Newsletter benefits">
-          <li>One useful email when a new article is worth your time</li>
+        <span class="article-inline-cta-kicker">Keep exploring</span>
+        <h2 id="article-inline-cta-title">Find more practical writing from the RodyTech archive.</h2>
+        <p>RodyTech publishes practical writing on AI systems, infrastructure, and software that teams can actually ship. Use the archive paths below to keep reading by topic or browse the full library.</p>
+        <ul class="article-inline-cta-points" aria-label="Reading paths">
+          <li>Browse the full archive by publication date and topic</li>
           <li>Hands-on notes from real builds, deployments, and ops work</li>
-          <li>No generic growth funnel copy, just the writing</li>
+          <li>Category paths for AI, infrastructure, developer tools, and security</li>
         </ul>
       </div>
       <div class="article-inline-cta-form-wrap">
-        <?php if ($article_newsletter_notice && $article_newsletter_notice['type'] === 'success') : ?>
-          <div class="article-inline-cta-success" role="status" aria-live="polite">
-            <strong>Subscribed.</strong>
-            <span>You’ll get the next article in your inbox.</span>
-          </div>
-        <?php else : ?>
-          <form class="article-inline-cta-form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-            <?php if ($article_newsletter_notice) : ?>
-              <div class="newsletter-notice newsletter-notice-<?php echo esc_attr($article_newsletter_notice['type']); ?>" role="<?php echo $article_newsletter_notice['type'] === 'error' ? 'alert' : 'status'; ?>" aria-live="polite">
-                <?php echo esc_html($article_newsletter_notice['message']); ?>
-              </div>
-            <?php endif; ?>
-            <label class="screen-reader-text" for="article-newsletter-email">Email address</label>
-            <?php echo rodytech_newsletter_hidden_fields('article'); ?>
-            <input id="article-newsletter-email" type="email" name="newsletter_email" placeholder="your@email.com" required>
-            <button type="submit">Subscribe</button>
-          </form>
-          <div class="article-inline-cta-actions">
-            <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="article-inline-link">Browse all articles</a>
-            <?php if ($primary_category) : ?>
-              <a href="<?php echo esc_url($category_url); ?>" class="article-inline-link">More in <?php echo esc_html($primary_category->name); ?></a>
-            <?php endif; ?>
-          </div>
-        <?php endif; ?>
+        <div class="article-inline-cta-actions article-inline-cta-actions-stacked">
+          <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="article-inline-btn article-inline-btn-primary">Browse all articles</a>
+          <?php if ($primary_category) : ?>
+            <a href="<?php echo esc_url($category_url); ?>" class="article-inline-btn article-inline-btn-secondary">More in <?php echo esc_html($primary_category->name); ?></a>
+          <?php endif; ?>
+          <a href="https://rodytech.ai" target="_blank" rel="noopener noreferrer" class="article-inline-link">Visit the main RodyTech site</a>
+        </div>
       </div>
     </section>
 
@@ -173,7 +151,7 @@
     <div class="post-conversion-card post-conversion-card-primary">
       <span class="post-conversion-kicker">Next step</span>
       <h3 id="post-conversion-title">Turn one article into a working reading loop.</h3>
-      <p>Keep the context warm: subscribe for new writing, revisit the archive, or stay inside the same topic while the thread is still fresh.</p>
+      <p>Keep the context warm: revisit the archive or stay inside the same topic while the thread is still fresh.</p>
       <div class="post-conversion-actions">
         <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="post-conversion-btn post-conversion-btn-primary">Explore the archive</a>
         <?php if ($primary_category) : ?>
