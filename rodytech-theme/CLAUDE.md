@@ -20,7 +20,7 @@ All changes to `.php`, `.css`, or `.js` files take effect immediately after savi
 |------|---------|
 | `style.css` | All theme styles + theme metadata header (required by WordPress) |
 | `functions.php` | Theme setup, asset enqueuing, helper functions |
-| `header.php` | Newsletter bar, sticky nav, opens `<main>` |
+| `header.php` | Sticky nav, opens `<main>` |
 | `footer.php` | Footer links/brand, closes `<main>`, `wp_footer()` |
 | `index.php` | Homepage — 3-column article grid; first post gets `.featured` (full-width, 2-col layout) |
 | `single.php` | Single post — hero image, article body, social share, author box, related posts, comments |
@@ -43,7 +43,7 @@ All tokens are CSS custom properties defined in `:root` in `style.css`:
 - `--radius` `12px`, `--ease` `cubic-bezier(0.22,1,0.36,1)` — shared animation curve
 - Font: **Inter** (Google Fonts), weights 300–900
 
-Breakpoints: `1024px` (2-col grid), `768px` (1-col, stacked nav), `480px` (newsletter stacked).
+Breakpoints: `1024px` (2-col grid), `768px` (1-col, stacked nav), `480px` (compact mobile refinements).
 
 ## Key Patterns
 
@@ -62,7 +62,7 @@ Three custom sizes registered in `functions.php`:
 Registered via `user_contactmethods` filter: `twitter`, `linkedin`, `github`, `position`. Used in `single.php` and `author.php`.
 
 ### Newsletter Subscription
-Handled server-side in `functions.php` via `init` action hook — reads `$_POST['newsletter_email']`, sets a 1-year cookie, and redirects with `?subscribed=1`. **No external service integrated yet** — the cookie storage is a placeholder for Mailchimp/ConvertKit integration.
+Newsletter and subscribe CTAs are intentionally disabled for now. Do not add public email capture back until there is a real subscription provider, consent language, privacy handling, and an owner-approved launch plan.
 
 ### Featured Post Logic
 In both `index.php` and `page-articles.php`, `$post_count === 1` (and on page 1 for the articles template) triggers `class="article-card featured"`, which spans the full grid width with a side-by-side image+content layout via CSS Grid.

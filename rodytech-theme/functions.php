@@ -120,6 +120,30 @@ function rodytech_excerpt_more($more) {
 }
 add_filter('excerpt_more', 'rodytech_excerpt_more');
 
+function rodytech_clean_imported_content_markup($content) {
+    if (stripos($content, 'content_html') === false) {
+        return $content;
+    }
+
+    $cleaned = preg_replace(
+        '/^\s*<p>\s*\{\s*<br\s*\/?>.*?content_html.*?<\/p>\s*/is',
+        '',
+        $content,
+        1
+    );
+
+    if (!is_string($cleaned) || $cleaned === $content) {
+        return $content;
+    }
+
+    $cleaned = preg_replace('/<p>\s*n+\s*<\/p>\s*/i', '', $cleaned);
+    $cleaned = preg_replace('/p&gt;\s*n+/i', '', $cleaned);
+    $cleaned = preg_replace('/<p>\s*(?:&#8221;|&rdquo;|"|”)?\s*\}\s*<\/p>\s*$/i', '', $cleaned);
+
+    return $cleaned;
+}
+add_filter('the_content', 'rodytech_clean_imported_content_markup', 12);
+
 function rodytech_should_noindex_archive() {
     if (is_search()) {
         return true;
@@ -354,12 +378,55 @@ function rodytech_get_blog_stats() {
     );
 }
 
-function rodytech_get_editorial_excerpt($post_id, $length = 22) {
-    $excerpt = get_the_excerpt($post_id);
+function rodytech_normalize_editorial_excerpt_source($text) {
+    $plain = trim(wp_strip_all_tags((string) $text));
+    $plain = wp_specialchars_decode($plain, ENT_QUOTES);
+    $plain = preg_replace('/\s+/', ' ', $plain);
 
-    if ($excerpt === '') {
-        $post = get_post($post_id);
-        $excerpt = $post ? wp_strip_all_tags($post->post_content) : '';
+    if ($plain === '' || strpos(ltrim($plain), '{') !== 0) {
+        return $plain;
+    }
+
+    $candidate = ltrim($plain);
+    if (preg_match('/["“](meta description|meta_description|description|excerpt)["”]\s*:\s*["“]([^"”]+)["”]/iu', $candidate, $matches)) {
+        return trim(preg_replace('/\s+/', ' ', wp_strip_all_tags($matches[2])));
+    }
+
+    $max_scan = min(strlen($candidate), 5000);
+
+    for ($index = 0; $index < $max_scan; $index++) {
+        if ($candidate[$index] !== '}') {
+            continue;
+        }
+
+        $metadata = json_decode(substr($candidate, 0, $index + 1), true);
+        if (!is_array($metadata)) {
+            continue;
+        }
+
+        foreach (array('meta description', 'meta_description', 'description', 'excerpt') as $key) {
+            if (!empty($metadata[$key]) && is_string($metadata[$key])) {
+                return trim(preg_replace('/\s+/', ' ', wp_strip_all_tags($metadata[$key])));
+            }
+        }
+
+        return trim(substr($candidate, $index + 1));
+    }
+
+    return $plain;
+}
+
+function rodytech_get_editorial_excerpt($post_id, $length = 22) {
+    $post = get_post($post_id);
+    $excerpt = '';
+
+    if ($post instanceof WP_Post) {
+        $excerpt = has_excerpt($post_id) ? $post->post_excerpt : $post->post_content;
+    }
+
+    $excerpt = rodytech_normalize_editorial_excerpt_source($excerpt);
+    if (has_excerpt($post_id) && strpos(ltrim($excerpt), '{') === 0 && $post instanceof WP_Post) {
+        $excerpt = rodytech_normalize_editorial_excerpt_source($post->post_content);
     }
 
     return wp_trim_words($excerpt, $length, '...');

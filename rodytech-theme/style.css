@@ -1817,10 +1817,6 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 @media (max-width: 480px) {
-  .newsletter-bar-inner { flex-direction: column; text-align: center; gap: 10px; }
-  .newsletter-form { width: 100%; flex-direction: column; }
-  .newsletter-input { width: 100%; }
-
   .logo-sep, .logo-tagline { display: none; }
 
   .blog-header h1 { font-size: 2rem; }
@@ -1854,8 +1850,8 @@ img { max-width: 100%; height: auto; display: block; }
   .related-card:hover,
   .share-btn:hover,
   .main-nav .nav-cta:hover,
-  .newsletter-btn:hover,
-  .footer-newsletter-form button:hover,
+  .footer-brand-actions a:hover,
+  .article-inline-btn:hover,
   .submit-btn:hover,
   .comment-form .submit:hover,
   .form-submit .submit:hover {
