@@ -861,6 +861,21 @@ img { max-width: 100%; height: auto; display: block; }
   border: 0;
 }
 
+.skip-link:focus {
+  width: auto;
+  height: auto;
+  clip: auto;
+  white-space: normal;
+  top: 14px;
+  left: 14px;
+  z-index: 1000;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  background: var(--accent);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+}
+
 
 /* ===== Article Conversion ===== */
 .article-inline-cta,

@@ -7,6 +7,8 @@
 </head>
 <body <?php body_class(); ?>>
 
+<a class="skip-link screen-reader-text" href="#main-content">Skip to content</a>
+
 <canvas id="network" aria-hidden="true"></canvas>
 
 <header class="site-header" id="site-header">
@@ -59,4 +61,4 @@
   </div>
 </header>
 
-<main class="main-content">
+<main class="main-content" id="main-content">
