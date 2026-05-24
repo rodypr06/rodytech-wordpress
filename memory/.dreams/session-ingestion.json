@@ -1,0 +1,37 @@
+{
+  "version": 3,
+  "files": {
+    "codex:sessions/codex/9ebf61a2-f3be-4b72-9017-d8a5e75938fe-topic-1507786164361232514.jsonl": {
+      "mtimeMs": 1779555465511,
+      "size": 1797,
+      "contentHash": "a8d4070c41ff5568e83e5e6b4f87f94cc222d0d80a12cff1be50bc1175c1aa8e",
+      "lineCount": 3,
+      "lastContentLine": 3
+    },
+    "codex:sessions/codex/ec1f884a-cde6-4d31-a01b-35c70a798eee.jsonl": {
+      "mtimeMs": 1779550931095,
+      "size": 6050,
+      "contentHash": "f75f242270a77c927dd6decabc4021613695d970da81d1d227c7566d8ec1c373",
+      "lineCount": 9,
+      "lastContentLine": 9
+    }
+  },
+  "seenMessages": {
+    "codex:9ebf61a2-f3be-4b72-9017-d8a5e75938fe-topic-1507786164361232514": [
+      "98eeaa04e55c167ac76c9e40ebca49945fe219c7",
+      "51f406b6f3aabc4280128b7dfd387e30f818060f",
+      "9bf8c3f5a3d45da9b40ddd822d193792ad816375"
+    ],
+    "codex:ec1f884a-cde6-4d31-a01b-35c70a798eee": [
+      "34537d28a2388e601b2835436efd2e1794542ff2",
+      "48a2aef4e624b3bf6053738ccadb4dcae12824a3",
+      "42e65ac8455ff3845fa0fddee8bce3d7c161ae89",
+      "5b877ccedb705bee19053a5a7c8d1fdc238fac9e",
+      "90b232fce26d46180163c111c3b9ffcf74106479",
+      "19bf44a1cd3a0779b3467572ee8fd752bdeba80a",
+      "af468824253fd13e69c6131d85f4a11942896b1d",
+      "201e68f56d7baaf95bdebe96d7c249aa4067c2b1",
+      "7dc54a0f3c1b0e9489c349f9a115bc4e3e4722e9"
+    ]
+  }
+}

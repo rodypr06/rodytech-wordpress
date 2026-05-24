@@ -1,0 +1,355 @@
+{
+  "version": 1,
+  "updatedAt": "2026-05-24T08:01:21.965Z",
+  "entries": {
+    "memory:memory/.dreams/session-corpus/2026-05-23.txt:1:1": {
+      "key": "memory:memory/.dreams/session-corpus/2026-05-23.txt:1:1",
+      "path": "memory/.dreams/session-corpus/2026-05-23.txt",
+      "startLine": 1,
+      "endLine": 1,
+      "source": "memory",
+      "snippet": "User: is everything wokring?>",
+      "recallCount": 0,
+      "dailyCount": 1,
+      "groundedCount": 0,
+      "totalScore": 0.58,
+      "maxScore": 0.58,
+      "firstRecalledAt": "2026-05-24T08:01:21.965Z",
+      "lastRecalledAt": "2026-05-24T08:01:21.965Z",
+      "queryHashes": [
+        "f61ede95966f"
+      ],
+      "recallDays": [
+        "2026-05-24"
+      ],
+      "conceptTags": [
+        "everything",
+        "wokring"
+      ]
+    },
+    "memory:memory/.dreams/session-corpus/2026-05-23.txt:2:2": {
+      "key": "memory:memory/.dreams/session-corpus/2026-05-23.txt:2:2",
+      "path": "memory/.dreams/session-corpus/2026-05-23.txt",
+      "startLine": 2,
+      "endLine": 2,
+      "source": "memory",
+      "snippet": "Assistant: I’ll verify this from the workspace state instead of guessing. I’m going to read the required context files first, then run the restore/check commands that indicate what “working” currently means here. There’s no `BOOTSTRAP.md`, preconscious buffer, or session handoff",
+      "recallCount": 0,
+      "dailyCount": 1,
+      "groundedCount": 0,
+      "totalScore": 0.58,
+      "maxScore": 0.58,
+      "firstRecalledAt": "2026-05-24T08:01:21.965Z",
+      "lastRecalledAt": "2026-05-24T08:01:21.965Z",
+      "queryHashes": [
+        "f61ede95966f"
+      ],
+      "recallDays": [
+        "2026-05-24"
+      ],
+      "conceptTags": [
+        "restore/check",
+        "bootstrap.md",
+        "i’ll",
+        "verify",
+        "state",
+        "instead",
+        "guessing",
+        "i’m"
+      ]
+    },
+    "memory:memory/.dreams/session-corpus/2026-05-23.txt:3:3": {
+      "key": "memory:memory/.dreams/session-corpus/2026-05-23.txt:3:3",
+      "path": "memory/.dreams/session-corpus/2026-05-23.txt",
+      "startLine": 3,
+      "endLine": 3,
+      "source": "memory",
+      "snippet": "User: 🪵LogHub — Codex",
+      "recallCount": 0,
+      "dailyCount": 1,
+      "groundedCount": 0,
+      "totalScore": 0.58,
+      "maxScore": 0.58,
+      "firstRecalledAt": "2026-05-24T08:01:21.965Z",
+      "lastRecalledAt": "2026-05-24T08:01:21.965Z",
+      "queryHashes": [
+        "f61ede95966f"
+      ],
+      "recallDays": [
+        "2026-05-24"
+      ],
+      "conceptTags": [
+        "loghub",
+        "codex"
+      ]
+    },
+    "memory:memory/.dreams/session-corpus/2026-05-23.txt:4:4": {
+      "key": "memory:memory/.dreams/session-corpus/2026-05-23.txt:4:4",
+      "path": "memory/.dreams/session-corpus/2026-05-23.txt",
+      "startLine": 4,
+      "endLine": 4,
+      "source": "memory",
+      "snippet": "User: Dedicated Codex development lane for Helix LogHub / Log Hub. Important operational notes: - Do NOT set reasoning_effort/high thinking. Prior run failed because Codex ACP rejected `session/set_config_option reasoning_effort=high`. - Do NOT use model alias `gpt`. Prior retry",
+      "recallCount": 0,
+      "dailyCount": 1,
+      "groundedCount": 0,
+      "totalScore": 0.58,
+      "maxScore": 0.58,
+      "firstRecalledAt": "2026-05-24T08:01:21.965Z",
+      "lastRecalledAt": "2026-05-24T08:01:21.965Z",
+      "queryHashes": [
+        "f61ede95966f"
+      ],
+      "recallDays": [
+        "2026-05-24"
+      ],
+      "conceptTags": [
+        "gpt",
+        "reasoning-effort/high",
+        "session/set-config-option",
+        "reasoning-effort",
+        "dedicated",
+        "codex",
+        "development",
+        "lane"
+      ]
+    },
+    "memory:memory/.dreams/session-corpus/2026-05-23.txt:5:5": {
+      "key": "memory:memory/.dreams/session-corpus/2026-05-23.txt:5:5",
+      "path": "memory/.dreams/session-corpus/2026-05-23.txt",
+      "startLine": 5,
+      "endLine": 5,
+      "source": "memory",
+      "snippet": "User: file `/etc/helix-loghub/token`, port `1515`, Loki at `127.0.0.1:3100`. - `tmp/loghub-smoke.sh`: smoke tests. - `tmp/query-loghub.py`, `tmp/query-recent-loghub.py`: Loki query helpers. - Intent: centralized observability dashboard backed by Loki, safe JSON ingest, bearer-tok",
+      "recallCount": 0,
+      "dailyCount": 1,
+      "groundedCount": 0,
+      "totalScore": 0.58,
+      "maxScore": 0.58,
+      "firstRecalledAt": "2026-05-24T08:01:21.965Z",
+      "lastRecalledAt": "2026-05-24T08:01:21.965Z",
+      "queryHashes": [
+        "f61ede95966f"
+      ],
+      "recallDays": [
+        "2026-05-24"
+      ],
+      "conceptTags": [
+        "etc/helix-loghub/token",
+        "127.0.0.1",
+        "tmp/loghub-smoke.sh",
+        "tmp/query-loghub.py",
+        "tmp/query-recent-loghub.py",
+        "bearer-tok",
+        "etc",
+        "helix"
+      ]
+    },
+    "memory:memory/.dreams/session-corpus/2026-05-23.txt:6:6": {
+      "key": "memory:memory/.dreams/session-corpus/2026-05-23.txt:6:6",
+      "path": "memory/.dreams/session-corpus/2026-05-23.txt",
+      "startLine": 6,
+      "endLine": 6,
+      "source": "memory",
+      "snippet": "User: steps. Keep it concise.",
+      "recallCount": 0,
+      "dailyCount": 1,
+      "groundedCount": 0,
+      "totalScore": 0.58,
+      "maxScore": 0.58,
+      "firstRecalledAt": "2026-05-24T08:01:21.965Z",
+      "lastRecalledAt": "2026-05-24T08:01:21.965Z",
+      "queryHashes": [
+        "f61ede95966f"
+      ],
+      "recallDays": [
+        "2026-05-24"
+      ],
+      "conceptTags": [
+        "steps",
+        "keep",
+        "concise"
+      ]
+    },
+    "memory:memory/.dreams/session-corpus/2026-05-23.txt:7:7": {
+      "key": "memory:memory/.dreams/session-corpus/2026-05-23.txt:7:7",
+      "path": "memory/.dreams/session-corpus/2026-05-23.txt",
+      "startLine": 7,
+      "endLine": 7,
+      "source": "memory",
+      "snippet": "Assistant: Codex lane is alive on gpt-5.5; prior failures were unsupported reasoning_effort and then invalid gpt alias. I’ll load the workspace operating context first, then inspect the LogHub artifacts and identify the next implementation steps.The restore script is running but",
+      "recallCount": 0,
+      "dailyCount": 1,
+      "groundedCount": 0,
+      "totalScore": 0.58,
+      "maxScore": 0.58,
+      "firstRecalledAt": "2026-05-24T08:01:21.965Z",
+      "lastRecalledAt": "2026-05-24T08:01:21.965Z",
+      "queryHashes": [
+        "f61ede95966f"
+      ],
+      "recallDays": [
+        "2026-05-24"
+      ],
+      "conceptTags": [
+        "gpt",
+        "gpt-5.5",
+        "reasoning-effort",
+        "steps.the",
+        "codex",
+        "lane",
+        "alive",
+        "5.5"
+      ]
+    },
+    "memory:memory/.dreams/session-corpus/2026-05-23.txt:8:8": {
+      "key": "memory:memory/.dreams/session-corpus/2026-05-23.txt:8:8",
+      "path": "memory/.dreams/session-corpus/2026-05-23.txt",
+      "startLine": 8,
+      "endLine": 8,
+      "source": "memory",
+      "snippet": "Assistant: assumptions.Inspected the LogHub artifacts. Current draft is coherent: stdlib HTTP service, bearer-protected `/ingest`, Loki push/query, dashboard UI, token-file systemd unit, and a smoke script. Next implementation steps: 1. Harden the ingest/query path: - Require tok",
+      "recallCount": 0,
+      "dailyCount": 1,
+      "groundedCount": 0,
+      "totalScore": 0.58,
+      "maxScore": 0.58,
+      "firstRecalledAt": "2026-05-24T08:01:21.965Z",
+      "lastRecalledAt": "2026-05-24T08:01:21.965Z",
+      "queryHashes": [
+        "f61ede95966f"
+      ],
+      "recallDays": [
+        "2026-05-24"
+      ],
+      "conceptTags": [
+        "assumptions.inspected",
+        "bearer-protected",
+        "push/query",
+        "token-file",
+        "ingest/query",
+        "loghub",
+        "artifacts",
+        "current"
+      ]
+    },
+    "memory:memory/.dreams/session-corpus/2026-05-23.txt:9:9": {
+      "key": "memory:memory/.dreams/session-corpus/2026-05-23.txt:9:9",
+      "path": "memory/.dreams/session-corpus/2026-05-23.txt",
+      "startLine": 9,
+      "endLine": 9,
+      "source": "memory",
+      "snippet": "Assistant: - Standardize fields: `service`, `level`, `event`, `requestId`, `message`, `durationMs`, `status`. - Run smoke tests against local Loki before touching routing.",
+      "recallCount": 0,
+      "dailyCount": 1,
+      "groundedCount": 0,
+      "totalScore": 0.58,
+      "maxScore": 0.58,
+      "firstRecalledAt": "2026-05-24T08:01:21.965Z",
+      "lastRecalledAt": "2026-05-24T08:01:21.965Z",
+      "queryHashes": [
+        "f61ede95966f"
+      ],
+      "recallDays": [
+        "2026-05-24"
+      ],
+      "conceptTags": [
+        "standardize",
+        "fields",
+        "service",
+        "level",
+        "event",
+        "requestid",
+        "message",
+        "durationms"
+      ]
+    },
+    "memory:memory/.dreams/session-corpus/2026-05-23.txt:10:10": {
+      "key": "memory:memory/.dreams/session-corpus/2026-05-23.txt:10:10",
+      "path": "memory/.dreams/session-corpus/2026-05-23.txt",
+      "startLine": 10,
+      "endLine": 10,
+      "source": "memory",
+      "snippet": "User: what happened",
+      "recallCount": 0,
+      "dailyCount": 1,
+      "groundedCount": 0,
+      "totalScore": 0.58,
+      "maxScore": 0.58,
+      "firstRecalledAt": "2026-05-24T08:01:21.965Z",
+      "lastRecalledAt": "2026-05-24T08:01:21.965Z",
+      "queryHashes": [
+        "f61ede95966f"
+      ],
+      "recallDays": [
+        "2026-05-24"
+      ],
+      "conceptTags": [
+        "what",
+        "happened"
+      ]
+    },
+    "memory:memory/.dreams/session-corpus/2026-05-23.txt:11:11": {
+      "key": "memory:memory/.dreams/session-corpus/2026-05-23.txt:11:11",
+      "path": "memory/.dreams/session-corpus/2026-05-23.txt",
+      "startLine": 11,
+      "endLine": 11,
+      "source": "memory",
+      "snippet": "Assistant: You interrupted right as I was about to write the first LogHub project file, so that patch was aborted before it landed. I’m checking the worker status and whether anything else is still running, then I’ll give you the clean state.You interrupted at the moment I starte",
+      "recallCount": 0,
+      "dailyCount": 1,
+      "groundedCount": 0,
+      "totalScore": 0.58,
+      "maxScore": 0.58,
+      "firstRecalledAt": "2026-05-24T08:01:21.965Z",
+      "lastRecalledAt": "2026-05-24T08:01:21.965Z",
+      "queryHashes": [
+        "f61ede95966f"
+      ],
+      "recallDays": [
+        "2026-05-24"
+      ],
+      "conceptTags": [
+        "state.you",
+        "interrupted",
+        "right",
+        "was",
+        "write",
+        "first",
+        "loghub",
+        "project"
+      ]
+    },
+    "memory:memory/.dreams/session-corpus/2026-05-23.txt:12:12": {
+      "key": "memory:memory/.dreams/session-corpus/2026-05-23.txt:12:12",
+      "path": "memory/.dreams/session-corpus/2026-05-23.txt",
+      "startLine": 12,
+      "endLine": 12,
+      "source": "memory",
+      "snippet": "Assistant: API routes already call `logInfo`, `logWarn`, `logError`. - I spawned one worker to inspect producer wiring, but it has not returned yet. No deployment files were successfully written from my patch before the abort.",
+      "recallCount": 0,
+      "dailyCount": 1,
+      "groundedCount": 0,
+      "totalScore": 0.58,
+      "maxScore": 0.58,
+      "firstRecalledAt": "2026-05-24T08:01:21.965Z",
+      "lastRecalledAt": "2026-05-24T08:01:21.965Z",
+      "queryHashes": [
+        "f61ede95966f"
+      ],
+      "recallDays": [
+        "2026-05-24"
+      ],
+      "conceptTags": [
+        "api",
+        "routes",
+        "already",
+        "call",
+        "loginfo",
+        "logwarn",
+        "logerror",
+        "spawned"
+      ]
+    }
+  }
+}
