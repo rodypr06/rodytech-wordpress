@@ -1,13 +1,6 @@
 {
   "version": 3,
   "files": {
-    "codex:sessions/codex/9ebf61a2-f3be-4b72-9017-d8a5e75938fe-topic-1507786164361232514.jsonl": {
-      "mtimeMs": 1779747271047,
-      "size": 8879,
-      "contentHash": "45a389bf09055192676d40033f354ddac8173cd7194439838020124260838d74",
-      "lineCount": 14,
-      "lastContentLine": 14
-    },
     "codex:sessions/codex/ec1f884a-cde6-4d31-a01b-35c70a798eee.jsonl.deleted.2026-05-26T21-45-14.298Z": {
       "mtimeMs": 1779550931095,
       "size": 6050,
