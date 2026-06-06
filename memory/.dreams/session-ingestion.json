@@ -1,6 +1,14 @@
 {
   "version": 3,
-  "files": {},
+  "files": {
+    "codex:sessions/codex/8d31956f-7f37-4335-8b0a-6f7d6fecbb34.jsonl": {
+      "mtimeMs": 1780693041805,
+      "size": 923,
+      "contentHash": "93cefc560f109c4b69093a5fbc17ef8f9685c0c3dad3d195faba48bf4911f15b",
+      "lineCount": 2,
+      "lastContentLine": 2
+    }
+  },
   "seenMessages": {
     "codex:9ebf61a2-f3be-4b72-9017-d8a5e75938fe-topic-1507786164361232514": [
       "98eeaa04e55c167ac76c9e40ebca49945fe219c7",
@@ -27,6 +35,10 @@
       "af468824253fd13e69c6131d85f4a11942896b1d",
       "201e68f56d7baaf95bdebe96d7c249aa4067c2b1",
       "7dc54a0f3c1b0e9489c349f9a115bc4e3e4722e9"
+    ],
+    "codex:8d31956f-7f37-4335-8b0a-6f7d6fecbb34": [
+      "595d064882373726560889e869356516c1ae2dc1",
+      "ae4bcae21c998eff23eb407f32993ee6267a97a7"
     ]
   }
 }

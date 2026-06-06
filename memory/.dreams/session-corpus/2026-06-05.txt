@@ -1,0 +1,2 @@
+[codex/sessions/codex/8d31956f-7f37-4335-8b0a-6f7d6fecbb34.jsonl#L2] User: Reply with exactly ACP_HEALTHCHECK_OK and no other words.
+[codex/sessions/codex/8d31956f-7f37-4335-8b0a-6f7d6fecbb34.jsonl#L3] Assistant: ACP_HEALTHCHECK_OK

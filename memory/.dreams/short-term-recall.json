@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-05-26T08:00:03.636Z",
+  "updatedAt": "2026-06-06T08:00:00.989Z",
   "entries": {
     "memory:memory/.dreams/session-corpus/2026-05-23.txt:1:1": {
       "key": "memory:memory/.dreams/session-corpus/2026-05-23.txt:1:1",
@@ -639,6 +639,58 @@
         "board",
         "creation",
         "now"
+      ]
+    },
+    "memory:memory/.dreams/session-corpus/2026-06-05.txt:1:1": {
+      "key": "memory:memory/.dreams/session-corpus/2026-06-05.txt:1:1",
+      "path": "memory/.dreams/session-corpus/2026-06-05.txt",
+      "startLine": 1,
+      "endLine": 1,
+      "source": "memory",
+      "snippet": "User: Reply with exactly ACP_HEALTHCHECK_OK and no other words.",
+      "recallCount": 0,
+      "dailyCount": 1,
+      "groundedCount": 0,
+      "totalScore": 0.58,
+      "maxScore": 0.58,
+      "firstRecalledAt": "2026-06-06T08:00:00.989Z",
+      "lastRecalledAt": "2026-06-06T08:00:00.989Z",
+      "queryHashes": [
+        "d131cc37f49c"
+      ],
+      "recallDays": [
+        "2026-06-06"
+      ],
+      "conceptTags": [
+        "acp-healthcheck-ok",
+        "reply",
+        "exactly",
+        "other",
+        "words"
+      ]
+    },
+    "memory:memory/.dreams/session-corpus/2026-06-05.txt:2:2": {
+      "key": "memory:memory/.dreams/session-corpus/2026-06-05.txt:2:2",
+      "path": "memory/.dreams/session-corpus/2026-06-05.txt",
+      "startLine": 2,
+      "endLine": 2,
+      "source": "memory",
+      "snippet": "Assistant: ACP_HEALTHCHECK_OK",
+      "recallCount": 0,
+      "dailyCount": 1,
+      "groundedCount": 0,
+      "totalScore": 0.58,
+      "maxScore": 0.58,
+      "firstRecalledAt": "2026-06-06T08:00:00.989Z",
+      "lastRecalledAt": "2026-06-06T08:00:00.989Z",
+      "queryHashes": [
+        "d131cc37f49c"
+      ],
+      "recallDays": [
+        "2026-06-06"
+      ],
+      "conceptTags": [
+        "acp-healthcheck-ok"
       ]
     }
   }
