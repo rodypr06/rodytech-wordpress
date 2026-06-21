@@ -1,0 +1,2 @@
+[codex/sessions/codex/991d89ba-cce2-42e1-a608-b67e9fff879a.jsonl#L5] User: Return exactly CODEX_HARNESS_OK if this harness is registered.
+[codex/sessions/codex/991d89ba-cce2-42e1-a608-b67e9fff879a.jsonl#L6] Assistant: CODEX_HARNESS_OK
