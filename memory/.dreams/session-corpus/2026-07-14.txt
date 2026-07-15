@@ -1,0 +1,2 @@
+[codex/sessions/codex/ef86af38-f0b1-4f72-a006-0615cce2e704.jsonl#L2] User: Reply with exactly CODEX_PLUGIN_OK
+[codex/sessions/codex/ef86af38-f0b1-4f72-a006-0615cce2e704.jsonl#L3] Assistant: CODEX_PLUGIN_OK
