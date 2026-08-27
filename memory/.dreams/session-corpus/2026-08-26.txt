@@ -1,0 +1,2 @@
+[codex/sessions/codex/60dd1f72-cba8-4a87-96b1-a4b71bcdb56c.jsonl#L2] User: You are the dedicated coding lane canary. Do not use tools, do not read or modify files, and do not send messages. Reply with exactly: VOICE_STAGING_CODEX_SOL_OK
+[codex/sessions/codex/60dd1f72-cba8-4a87-96b1-a4b71bcdb56c.jsonl#L3] Assistant: VOICE_STAGING_CODEX_SOL_OK
