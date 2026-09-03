@@ -10,7 +10,10 @@ Provide the staging coordinates through environment variables or matching comman
 
 ```bash
 export RODYTECH_STAGING_HOST=<ssh-alias>
-export RODYTECH_STAGING_THEME_DIR=<staging-theme-path>
+export RODYTECH_STAGING_THEME_DIR=<staging-theme-path-ending-in-rodytech-theme>
+export RODYTECH_STAGING_ALLOWED_THEME_PREFIX=<approved-staging-theme-root>
+export RODYTECH_STAGING_BACKUP_ROOT=<staging-backup-root>
+export RODYTECH_STAGING_ALLOWED_BACKUP_PREFIX=<approved-staging-backup-root>
 export RODYTECH_STAGING_SITE_URL=<staging-url>
 ./scripts/deploy-theme.sh --staging
 ```
@@ -41,7 +44,7 @@ export RODYTECH_PRODUCTION_THEME_DIR=<production-theme-path>
   --expected-sha "$(git rev-parse HEAD)"
 ```
 
-Production refuses `--no-backup` and `--skip-smoke`. Founder approval remains an operational prerequisite; CLI gates do not replace that approval.
+Production refuses `--no-backup` and `--skip-smoke`. Theme and backup paths are constrained to approved absolute prefixes; override the production prefix variables only during an explicitly reviewed migration. Founder approval remains an operational prerequisite; CLI gates do not replace that approval.
 
 ## What the deploy does
 

@@ -53,16 +53,33 @@
       <span class="nav-toggle-lines" aria-hidden="true"><span></span><span></span><span></span></span>
     </button>
     <nav class="main-nav" id="primary-navigation" aria-label="Primary">
-      <?php foreach ($primary_links as $link) : ?>
-        <a
-          href="<?php echo esc_url($link['url']); ?>"
-          class="<?php echo esc_attr($link['class']); ?>"
-          <?php if (!empty($link['target'])) : ?>target="<?php echo esc_attr($link['target']); ?>"<?php endif; ?>
-          <?php if (!empty($link['rel'])) : ?>rel="<?php echo esc_attr($link['rel']); ?>"<?php endif; ?>
-        >
-          <?php echo esc_html($link['label']); ?>
-        </a>
-      <?php endforeach; ?>
+      <?php if (has_nav_menu('primary')) : ?>
+        <?php
+          wp_nav_menu(array(
+            'theme_location' => 'primary',
+            'container'      => false,
+            'menu_class'     => 'primary-menu',
+            'menu_id'        => '',
+            'depth'          => 3,
+            'fallback_cb'    => false,
+          ));
+        ?>
+      <?php else : ?>
+        <ul class="primary-menu">
+          <?php foreach ($primary_links as $link) : ?>
+            <li>
+              <a
+                href="<?php echo esc_url($link['url']); ?>"
+                class="<?php echo esc_attr($link['class']); ?>"
+                <?php if (!empty($link['target'])) : ?>target="<?php echo esc_attr($link['target']); ?>"<?php endif; ?>
+                <?php if (!empty($link['rel'])) : ?>rel="<?php echo esc_attr($link['rel']); ?>"<?php endif; ?>
+              >
+                <?php echo esc_html($link['label']); ?>
+              </a>
+            </li>
+          <?php endforeach; ?>
+        </ul>
+      <?php endif; ?>
       <form class="nav-search" role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>">
         <label class="screen-reader-text" for="header-search-field">Search articles</label>
         <input id="header-search-field" type="search" name="s" value="<?php echo esc_attr(get_search_query()); ?>" placeholder="Search articles">

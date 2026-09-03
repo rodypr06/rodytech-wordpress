@@ -266,10 +266,6 @@ function rodytech_get_menu_links($location, $fallback_items = array()) {
 
         if (!empty($menu_items) && !is_wp_error($menu_items)) {
             foreach ($menu_items as $item) {
-                if ((int) $item->menu_item_parent !== 0) {
-                    continue;
-                }
-
                 $classes = is_array($item->classes) ? $item->classes : array();
                 $is_current = array_intersect($classes, array(
                     'current-menu-item',
@@ -308,6 +304,21 @@ function rodytech_get_menu_links($location, $fallback_items = array()) {
 
     return $fallback_items;
 }
+
+// Prevent reverse-tabnabbing for editor-managed menu links in every menu location.
+function rodytech_secure_menu_link_attributes($atts) {
+    if (($atts['target'] ?? '') !== '_blank') {
+        return $atts;
+    }
+
+    $tokens = !empty($atts['rel']) ? preg_split('/\s+/', trim($atts['rel'])) : array();
+    $tokens[] = 'noopener';
+    $tokens[] = 'noreferrer';
+    $atts['rel'] = implode(' ', array_values(array_unique(array_filter($tokens))));
+
+    return $atts;
+}
+add_filter('nav_menu_link_attributes', 'rodytech_secure_menu_link_attributes');
 
 // Primary category helper
 function rodytech_get_primary_category($post_id = null) {

@@ -15,6 +15,28 @@ NO_BACKUP=0
 DRY_RUN=0
 CONFIRM_PRODUCTION=0
 EXPECTED_SHA=""
+ALLOWED_THEME_PREFIX=""
+ALLOWED_BACKUP_PREFIX=""
+
+fail() {
+  printf '%s\n' "$1" >&2
+  exit 1
+}
+
+validate_host() {
+  [[ "$1" =~ ^[A-Za-z0-9][A-Za-z0-9._@-]*$ ]] || fail "Unsafe deployment host."
+}
+
+validate_remote_path() {
+  local path="$1" prefix="$2" label="$3"
+  [[ "$path" == /* && "$path" != "/" ]] || fail "$label must be an absolute non-root path."
+  [[ "$prefix" == /* && "$prefix" != "/" ]] || fail "$label requires an approved absolute prefix."
+  [[ "$path" =~ ^/[A-Za-z0-9._/-]+$ ]] || fail "$label contains unsafe characters."
+  [[ "$prefix" =~ ^/[A-Za-z0-9._/-]+$ ]] || fail "$label prefix contains unsafe characters."
+  [[ "$path" != *"/../"* && "$path" != */.. && "$path" != *"/./"* ]] || fail "$label contains traversal segments."
+  prefix="${prefix%/}"
+  [[ "$path" == "$prefix" || "$path" == "$prefix/"* ]] || fail "$label is outside its approved prefix."
+}
 
 usage() {
   cat <<'EOF'
@@ -70,19 +92,29 @@ if [[ "$TARGET" == "production" ]]; then
   REMOTE_THEME_DIR="${REMOTE_THEME_DIR:-${RODYTECH_PRODUCTION_THEME_DIR:-}}"
   REMOTE_BACKUP_ROOT="${REMOTE_BACKUP_ROOT:-${RODYTECH_PRODUCTION_BACKUP_ROOT:-/root/theme-backups}}"
   SITE_URL="${SITE_URL:-${RODYTECH_PRODUCTION_SITE_URL:-https://blog.rodytech.ai}}"
+  ALLOWED_THEME_PREFIX="${RODYTECH_PRODUCTION_ALLOWED_THEME_PREFIX:-/var/lib/docker/volumes/wordpress-local_wordpress_data/_data/wp-content/themes}"
+  ALLOWED_BACKUP_PREFIX="${RODYTECH_PRODUCTION_ALLOWED_BACKUP_PREFIX:-/root/theme-backups}"
 else
   DEPLOY_HOST="${DEPLOY_HOST:-${RODYTECH_STAGING_HOST:-}}"
   REMOTE_THEME_DIR="${REMOTE_THEME_DIR:-${RODYTECH_STAGING_THEME_DIR:-}}"
   REMOTE_BACKUP_ROOT="${REMOTE_BACKUP_ROOT:-${RODYTECH_STAGING_BACKUP_ROOT:-/root/theme-backups/staging}}"
   SITE_URL="${SITE_URL:-${RODYTECH_STAGING_SITE_URL:-}}"
+  ALLOWED_THEME_PREFIX="${RODYTECH_STAGING_ALLOWED_THEME_PREFIX:-}"
+  ALLOWED_BACKUP_PREFIX="${RODYTECH_STAGING_ALLOWED_BACKUP_PREFIX:-/root/theme-backups/staging}"
 fi
 
-for value_name in DEPLOY_HOST REMOTE_THEME_DIR SITE_URL; do
+for value_name in DEPLOY_HOST REMOTE_THEME_DIR REMOTE_BACKUP_ROOT SITE_URL ALLOWED_THEME_PREFIX ALLOWED_BACKUP_PREFIX; do
   if [[ -z "${!value_name}" ]]; then
     printf '%s is required for the %s target.\n' "$value_name" "$TARGET" >&2
     exit 1
   fi
 done
+
+validate_host "$DEPLOY_HOST"
+validate_remote_path "$REMOTE_THEME_DIR" "$ALLOWED_THEME_PREFIX" "REMOTE_THEME_DIR"
+validate_remote_path "$REMOTE_BACKUP_ROOT" "$ALLOWED_BACKUP_PREFIX" "REMOTE_BACKUP_ROOT"
+[[ "${REMOTE_THEME_DIR##*/}" == "rodytech-theme" ]] || fail "REMOTE_THEME_DIR must end in /rodytech-theme."
+[[ "$SITE_URL" =~ ^https?://[A-Za-z0-9._:/-]+$ ]] || fail "SITE_URL contains unsafe characters."
 
 if [[ ! -d "$LOCAL_THEME_DIR" ]]; then
   printf 'Local theme directory not found: %s\n' "$LOCAL_THEME_DIR" >&2
