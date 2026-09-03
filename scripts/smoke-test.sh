@@ -9,8 +9,6 @@ usage() {
   cat <<'EOF'
 Usage: scripts/smoke-test.sh [options]
 
-Run public smoke tests against the RodyTech blog.
-
 Options:
   --site-url URL          Base site URL (default: https://blog.rodytech.ai)
   --timeout SECONDS       curl timeout per request (default: 20)
@@ -20,56 +18,49 @@ EOF
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --site-url)
-      SITE_URL="$2"
-      shift 2
-      ;;
-    --timeout)
-      TIMEOUT_SECONDS="$2"
-      shift 2
-      ;;
-    -h|--help)
-      usage
-      exit 0
-      ;;
-    *)
-      printf 'Unknown argument: %s\n' "$1" >&2
-      usage >&2
-      exit 1
-      ;;
+    --site-url) SITE_URL="$2"; shift 2 ;;
+    --timeout) TIMEOUT_SECONDS="$2"; shift 2 ;;
+    -h|--help) usage; exit 0 ;;
+    *) printf 'Unknown argument: %s\n' "$1" >&2; usage >&2; exit 1 ;;
   esac
 done
 
-if ! command -v curl >/dev/null 2>&1; then
-  printf 'curl is required but not installed.\n' >&2
-  exit 1
-fi
+command -v curl >/dev/null 2>&1 || { printf 'curl is required.\n' >&2; exit 1; }
 
 check_route() {
-  local path="$1"
-  local marker="$2"
-  local url="${SITE_URL%/}${path}"
-  local body
-
-  printf 'Checking %s ... ' "${url}"
-  body="$(curl -fsSL -L --max-time "${TIMEOUT_SECONDS}" "${url}")"
-
-  if [[ "${body}" != *"${marker}"* ]]; then
-    printf 'FAIL\n' >&2
-    printf 'Expected marker not found: %s\n' "${marker}" >&2
+  local name="$1" path="$2" expected_code="$3" marker="$4"
+  local body code
+  body="$(mktemp)"
+  code="$(curl -sS -L --max-time "$TIMEOUT_SECONDS" -o "$body" -w '%{http_code}' "${SITE_URL%/}${path}")"
+  if [[ "$code" != "$expected_code" ]] || ! grep -Fq "$marker" "$body"; then
+    rm -f "$body"
+    printf '%s FAIL (HTTP %s; expected %s and marker %s)\n' "$name" "$code" "$expected_code" "$marker" >&2
     exit 1
   fi
-
-  printf 'OK\n'
+  rm -f "$body"
+  printf '%s OK (HTTP %s)\n' "$name" "$code"
 }
 
-check_route "/" "editorial-hero"
-check_route "/" "editorial-feature-grid"
-check_route "/articles" "editorial-hero editorial-hero-archive"
-check_route "/author/rody/" "Author"
-check_route "/category/iowa-tech/" "Iowa Tech"
-check_route "/iowa-small-business-cybersecurity-in-2026-a-practical-nist-csf-2-0-guide/" "NIST CSF 2.0"
-check_route "/why-every-developer-should-learn-ansible-in-2026-and-start-this-weekend/" "Ansible"
-check_route "/?s=ansible" "Ansible"
+check_route home / 200 editorial-hero
+check_route articles /articles/ 200 editorial-hero-archive
+check_route search '/?s=ansible' 200 archive-search-form
+check_route not-found /definitely-missing-rodytech-route/ 404 'Page not found'
 
-printf 'Smoke tests passed for %s\n' "${SITE_URL}"
+LATEST_JSON="$(mktemp)"
+trap 'rm -f "$LATEST_JSON"' EXIT
+curl -fsSL --max-time "$TIMEOUT_SECONDS" "${SITE_URL%/}/wp-json/wp/v2/posts?per_page=1&_fields=link" > "$LATEST_JSON"
+LATEST_LINK="$(python3 -c 'import json,sys; rows=json.load(open(sys.argv[1])); print(rows[0]["link"] if rows else "")' "$LATEST_JSON")"
+if [[ -z "$LATEST_LINK" ]]; then
+  printf 'single FAIL (no published post returned by REST)\n' >&2
+  exit 1
+fi
+SINGLE_BODY="$(mktemp)"
+SINGLE_CODE="$(curl -sS -L --max-time "$TIMEOUT_SECONDS" -o "$SINGLE_BODY" -w '%{http_code}' "$LATEST_LINK")"
+if [[ "$SINGLE_CODE" != "200" ]] || ! grep -Fq 'article-content' "$SINGLE_BODY"; then
+  rm -f "$SINGLE_BODY"
+  printf 'single FAIL (HTTP %s)\n' "$SINGLE_CODE" >&2
+  exit 1
+fi
+rm -f "$SINGLE_BODY"
+printf 'single OK (HTTP 200)\n'
+printf 'Smoke tests passed for %s\n' "$SITE_URL"

@@ -25,15 +25,13 @@ if (!$author instanceof WP_User) {
   status_header(404);
   nocache_headers();
   ?>
-  <main class="main-content">
-    <section class="editorial-hero editorial-hero-archive">
+  <section class="editorial-hero editorial-hero-archive">
       <div class="editorial-hero-copy">
         <span class="editorial-eyebrow">Author</span>
         <h1>Author not found</h1>
         <p>The requested author archive could not be resolved.</p>
       </div>
-    </section>
-  </main>
+  </section>
   <?php
   get_footer();
   return;

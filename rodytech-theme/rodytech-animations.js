@@ -287,6 +287,58 @@
     }, { passive: true });
   }
 
+  /* ── Accessible mobile navigation ── */
+  function initMobileNav() {
+    var toggle = document.querySelector('.nav-toggle');
+    var nav = document.getElementById('primary-navigation');
+    if (!toggle || !nav) return;
+
+    document.documentElement.classList.add('nav-enhanced');
+
+    function closeNav(returnFocus) {
+      toggle.setAttribute('aria-expanded', 'false');
+      nav.classList.remove('nav-open');
+      document.body.classList.remove('mobile-nav-open');
+      if (returnFocus) toggle.focus();
+    }
+
+    function openNav() {
+      toggle.setAttribute('aria-expanded', 'true');
+      nav.classList.add('nav-open');
+      document.body.classList.add('mobile-nav-open');
+      var firstTarget = nav.querySelector('a, input, button');
+      if (firstTarget) firstTarget.focus();
+    }
+
+    toggle.addEventListener('click', function () {
+      if (toggle.getAttribute('aria-expanded') === 'true') {
+        closeNav(false);
+      } else {
+        openNav();
+      }
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        closeNav(true);
+      }
+    });
+
+    document.addEventListener('click', function (event) {
+      if (toggle.getAttribute('aria-expanded') === 'true' && !nav.contains(event.target) && !toggle.contains(event.target)) {
+        closeNav(false);
+      }
+    });
+
+    nav.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () { closeNav(false); });
+    });
+
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 768) closeNav(false);
+    });
+  }
+
   /* ── Active nav link highlight ── */
   function initActiveNav() {
     var links = document.querySelectorAll('.main-nav a:not(.nav-cta)');
@@ -320,6 +372,7 @@
     injectStyles();
     initAnimations();
     initHeaderScroll();
+    initMobileNav();
     initActiveNav();
     initImageShimmer();
     initNetworkField();

@@ -1,136 +1,73 @@
 # RodyTech Blog Deployment Workflow
 
-This repo now includes a repeatable deployment path for the live WordPress theme on `helix-worker`.
+The theme deploy path is intentionally fail-closed. Running the deploy script with no configured staging target cannot touch production.
 
-## Scope
+## Targets
 
-- Local theme source: `rodytech-theme/`
-- Remote host: `helix-worker`
-- Live theme path:
-  `/var/lib/docker/volumes/wordpress-local_wordpress_data/_data/wp-content/themes/rodytech-theme/`
-- Public site:
-  `https://blog.rodytech.ai`
+### Staging (default)
 
-The workflow is intentionally conservative:
-
-- It creates a remote backup before deploy.
-- It syncs files with `rsync` but does **not** use `--delete`.
-- It runs public smoke tests after deploy.
-
-That choice avoids accidentally removing remote files during concurrent work. If you intentionally need a remote cleanup, do it as a separate, explicit step.
-
-## Files
-
-- `scripts/deploy-theme.sh`
-  Main deployment entrypoint.
-- `scripts/smoke-test.sh`
-  Public route smoke checks for the live site.
-
-## Requirements
-
-- Local `ssh`
-- Local `rsync`
-- Local `curl`
-- SSH access to `helix-worker`
-
-## Standard Deploy
-
-From the repo root:
+Provide the staging coordinates through environment variables or matching command-line options:
 
 ```bash
-./scripts/deploy-theme.sh
+export RODYTECH_STAGING_HOST=<ssh-alias>
+export RODYTECH_STAGING_THEME_DIR=<staging-theme-path>
+export RODYTECH_STAGING_SITE_URL=<staging-url>
+./scripts/deploy-theme.sh --staging
 ```
 
-This does:
-
-1. Verifies the remote theme path exists.
-2. Creates a remote backup under `/root/theme-backups/<timestamp>/`.
-3. Syncs `rodytech-theme/` to the live theme path.
-4. Normalizes remote ownership and permissions.
-5. Runs smoke tests against `https://blog.rodytech.ai`.
-
-## Dry Run
-
-Preview the sync before deploying:
+A dry run is available:
 
 ```bash
-./scripts/deploy-theme.sh --dry-run --skip-smoke
+./scripts/deploy-theme.sh --staging --dry-run
 ```
 
-## Smoke Tests Only
+### Production
 
-Run the public checks without deploying:
+Production requires every gate below:
+
+1. `--production`
+2. `--confirm-production`
+3. `--expected-sha` exactly matching the checked-out commit
+4. A clean Git working tree
+5. A successful pre-deploy backup
+6. Post-deploy smoke tests
 
 ```bash
-./scripts/smoke-test.sh
+export RODYTECH_PRODUCTION_HOST=<ssh-alias>
+export RODYTECH_PRODUCTION_THEME_DIR=<production-theme-path>
+./scripts/deploy-theme.sh \
+  --production \
+  --confirm-production \
+  --expected-sha "$(git rev-parse HEAD)"
 ```
 
-Current smoke coverage:
+Production refuses `--no-backup` and `--skip-smoke`. Founder approval remains an operational prerequisite; CLI gates do not replace that approval.
 
-- `/`
-- `/articles`
-- `/category/artificial-intelligence/`
-- `/?s=ansible`
+## What the deploy does
 
-These routes were chosen because they are stable public surfaces and do not depend on workstreams that are still in progress, such as author routing.
+1. Validates the target and required tools.
+2. Records the exact Git commit being deployed.
+3. Verifies the remote theme directory exists.
+4. Creates a timestamped backup unless staging explicitly opts out or the command is a dry run.
+5. Synchronizes only the theme directory.
+6. Normalizes theme ownership and permissions.
+7. Runs route smoke tests unless staging explicitly opts out.
 
-## Useful Options
+The script does not deploy plugins, uploads, database content, credentials, ads, or publisher configuration.
 
-Deploy to a different host alias:
+## Smoke coverage
 
-```bash
-./scripts/deploy-theme.sh --host some-other-host
-```
+`scripts/smoke-test.sh` verifies:
 
-Deploy to a different public URL:
+- `/` returns 200 and the editorial homepage marker.
+- `/articles/` returns 200 and the archive marker.
+- Search returns 200 with the search form.
+- A deliberately missing route returns the theme’s 404 page.
+- WordPress REST returns the current latest post.
+- The latest post URL returns 200 with article content.
 
-```bash
-./scripts/deploy-theme.sh --site-url https://staging.example.com
-```
-
-Skip backup or smoke tests when you have a specific reason:
-
-```bash
-./scripts/deploy-theme.sh --no-backup --skip-smoke
-```
-
-Those flags should be exceptional, not the default path.
+The latest post is discovered through WordPress REST rather than depending on a hardcoded slug.
 
 ## Rollback
 
-Every standard deploy prints the backup directory it created, for example:
-
-```text
-Backup: /root/theme-backups/20260420-184500
-```
-
-To roll back manually on `helix-worker`:
-
-```bash
-ssh helix-worker
-cp -a /root/theme-backups/20260420-184500/. /var/lib/docker/volumes/wordpress-local_wordpress_data/_data/wp-content/themes/rodytech-theme/
-chown -R root:root /var/lib/docker/volumes/wordpress-local_wordpress_data/_data/wp-content/themes/rodytech-theme/
-find /var/lib/docker/volumes/wordpress-local_wordpress_data/_data/wp-content/themes/rodytech-theme/ -type d -exec chmod 755 {} +
-find /var/lib/docker/volumes/wordpress-local_wordpress_data/_data/wp-content/themes/rodytech-theme/ -type f -exec chmod 644 {} +
-```
-
-Then re-run:
-
-```bash
-./scripts/smoke-test.sh
-```
-
-## Recommended Operator Sequence
-
-1. Review local changes:
-   `git status --short`
-2. Dry run the deploy:
-   `./scripts/deploy-theme.sh --dry-run --skip-smoke`
-3. Perform the real deploy:
-   `./scripts/deploy-theme.sh`
-4. If smoke tests fail, stop and inspect before making another deploy.
-
-## Notes
-
-- This workflow deploys only theme files. It does not handle database migrations, uploads, plugins, or WordPress settings.
-- If a future workstream introduces new critical public routes, add them to `scripts/smoke-test.sh`.
+Each standard deployment prints its timestamped backup directory. Restore that directory to the configured theme target, normalize ownership and permissions, and rerun the smoke suite. Do not combine rollback with database, plugin, or publisher changes.

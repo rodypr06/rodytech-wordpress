@@ -35,8 +35,8 @@ add_action('after_setup_theme', 'rodytech_setup');
 // Enqueue styles
 function rodytech_scripts() {
     wp_enqueue_style('rodytech-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap', array(), null);
-    wp_enqueue_style('rodytech-style', get_stylesheet_uri(), array(), '6.7');
-    wp_enqueue_script('rodytech-animations', get_template_directory_uri() . '/rodytech-animations.js', array(), '2.2', true);
+    wp_enqueue_style('rodytech-style', get_stylesheet_uri(), array(), '6.8');
+    wp_enqueue_script('rodytech-animations', get_template_directory_uri() . '/rodytech-animations.js', array(), '2.3', true);
 }
 add_action('wp_enqueue_scripts', 'rodytech_scripts');
 
@@ -281,12 +281,22 @@ function rodytech_get_menu_links($location, $fallback_items = array()) {
                     'current-page-parent',
                 ));
 
+                $target = !empty($item->target) ? $item->target : '';
+                $rel_tokens = !empty($item->xfn) ? preg_split('/\s+/', trim($item->xfn)) : array();
+
+                if ($target === '_blank') {
+                    $rel_tokens[] = 'noopener';
+                    $rel_tokens[] = 'noreferrer';
+                }
+
+                $rel_tokens = array_values(array_unique(array_filter($rel_tokens)));
+
                 $links[] = array(
                     'label'  => $item->title,
                     'url'    => $item->url,
                     'class'  => $is_current ? 'nav-active' : '',
-                    'target' => !empty($item->target) ? $item->target : '',
-                    'rel'    => !empty($item->xfn) ? $item->xfn : '',
+                    'target' => $target,
+                    'rel'    => implode(' ', $rel_tokens),
                 );
             }
         }
