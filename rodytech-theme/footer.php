@@ -65,7 +65,7 @@
         <img src="<?php echo esc_url($lockup_src); ?>" alt="RodyTech" class="footer-logo-mark" width="145" height="90">
         <span class="footer-logo-blog">Blog</span>
       </a>
-      <p class="footer-tagline">Notes from an AI consultant and systems builder. Current practice vertical: tailoring.</p>
+      <p class="footer-tagline">Notes from an AI consultant and systems builder. Industry is how a system is tailored, not a specialist identity.</p>
       <div class="footer-brand-actions">
         <a href="<?php echo esc_url(home_url('/articles')); ?>">Explore articles</a>
         <a href="<?php echo esc_url(rodytech_marketing_url()); ?>" target="_blank" rel="noopener noreferrer">Visit RodyTech</a>

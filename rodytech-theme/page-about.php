@@ -16,7 +16,7 @@ if (!$avatar_url) {
     <div class="about-hero-inner">
       <span class="about-eyebrow">Start Here</span>
       <h1>AI consulting and systems<br>for <span>operators who build</span></h1>
-      <p>RodyTech Blog is a small, curated field notebook from an AI consultant and systems builder. The current practice vertical is tailoring. The goal is useful judgment, not content volume.</p>
+      <p>RodyTech Blog is a small, curated field notebook from an AI consultant and systems builder. Industry is how a system is tailored, not a specialist identity. The goal is useful judgment, not content volume.</p>
     </div>
   </section>
 
@@ -30,7 +30,7 @@ if (!$avatar_url) {
         <span class="about-bio-label">The Author</span>
         <h2 class="about-bio-name">Roderick <span>"Rody"</span> Rabelo</h2>
         <span class="about-bio-role">AI consultant &amp; systems builder · RodyTech LLC</span>
-        <p>Based in Iowa. I design and ship practical systems: automation, applied AI, and software that helps operators move with more judgment and less waste. The current vertical is tailoring.</p>
+        <p>Based in Iowa. I design and ship practical systems: automation, applied AI, and software that helps operators move with more judgment and less waste. Vertical is a tailor, never a brand claim.</p>
         <p>The public archive is intentionally small while older drafts are reviewed. I would rather publish fewer pieces that hold up than flood the site with generic tech commentary.</p>
         <div class="about-bio-links">
           <a href="<?php echo esc_url(rodytech_marketing_url()); ?>" target="_blank" rel="noopener noreferrer" class="about-bio-btn primary">Visit RodyTech</a>
