@@ -1,6 +1,6 @@
 /*
 Theme Name: RodyTech Blog
-Version: 6.8
+Version: 6.9
 Description: Dark glass RodyTech blog theme — navy, glassmorphism, orange accents, official lockup
 */
 
@@ -1939,11 +1939,11 @@ img { max-width: 100%; height: auto; display: block; }
     z-index: 90;
     pointer-events: auto;
   }
-  .main-nav a { width: 100%; padding: 10px 12px; font-size: 0.9375rem; }
-  .main-nav .nav-cta { margin-left: 0; text-align: center; padding: 10px 12px; }
+  .main-nav a { display: flex; align-items: center; width: 100%; min-height: 44px; padding: 10px 12px; font-size: 0.9375rem; }
+  .main-nav .nav-cta { justify-content: center; margin-left: 0; text-align: center; padding: 10px 12px; }
   .nav-search { width: 100%; margin-left: 0; }
-  .nav-search input[type="search"] { width: 100%; flex: 1; padding: 10px 12px; }
-  .nav-search button { padding: 10px 12px; }
+  .nav-search input[type="search"] { width: 100%; min-height: 44px; flex: 1; padding: 10px 12px; }
+  .nav-search button { min-height: 44px; padding: 10px 12px; }
   body.mobile-nav-open { overflow: hidden; }
 
   .main-content { padding: 32px 16px; }

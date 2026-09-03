@@ -34,6 +34,7 @@ assert "aria-expanded" in scripts and "nav-open" in scripts
 assert ".nav-enhanced .main-nav.nav-open" in styles
 assert "background: #06070d;" in styles
 assert "width: 44px;" in styles and "height: 44px;" in styles
+assert "min-height: 44px;" in styles
 assert "<main" not in author.lower(), "author template must rely on the single main landmark opened by header.php"
 assert "$target === '_blank'" in functions and "noopener" in functions and "noreferrer" in functions
 assert "wp_nav_menu" in header and "'depth'          => 3" in header
