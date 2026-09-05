@@ -3,6 +3,8 @@
 <?php if (have_posts()) : while (have_posts()) : the_post();
   $category        = get_the_category();
   $cat_name        = !empty($category) ? esc_html($category[0]->name) : 'Article';
+  $primary_category = function_exists('rodytech_get_primary_category') ? rodytech_get_primary_category(get_the_ID()) : null;
+  $category_url     = $primary_category ? get_category_link($primary_category->term_id) : home_url('/articles/');
   $author_id       = get_the_author_meta('ID');
   $author_name     = esc_html(get_the_author());
   $author_bio      = get_the_author_meta('description');
@@ -10,6 +12,8 @@
   $twitter         = get_the_author_meta('twitter');
   $linkedin        = get_the_author_meta('linkedin');
   $github          = get_the_author_meta('github');
+  $next_post       = get_next_post();
+  $previous_post   = get_previous_post();
 ?>
 
 <article class="single-article">
@@ -74,19 +78,41 @@
       <?php the_content(); ?>
     </div>
 
+    <section class="article-inline-cta" aria-labelledby="article-inline-cta-title">
+      <div class="article-inline-cta-copy">
+        <span class="article-inline-cta-kicker">Keep exploring</span>
+        <h2 id="article-inline-cta-title">Find more practical writing from the RodyTech archive.</h2>
+        <p>RodyTech publishes practical writing on AI systems, infrastructure, and software that teams can actually ship. Use the archive paths below to keep reading by topic or browse the full library.</p>
+        <ul class="article-inline-cta-points" aria-label="Reading paths">
+          <li>Browse the full archive by publication date and topic</li>
+          <li>Hands-on notes from real builds, deployments, and ops work</li>
+          <li>Category paths for AI, infrastructure, developer tools, and security</li>
+        </ul>
+      </div>
+      <div class="article-inline-cta-form-wrap">
+        <div class="article-inline-cta-actions article-inline-cta-actions-stacked">
+          <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="article-inline-btn article-inline-btn-primary">Browse all articles</a>
+          <?php if ($primary_category) : ?>
+            <a href="<?php echo esc_url($category_url); ?>" class="article-inline-btn article-inline-btn-secondary">More in <?php echo esc_html($primary_category->name); ?></a>
+          <?php endif; ?>
+          <a href="<?php echo esc_url(rodytech_marketing_url()); ?>" target="_blank" rel="noopener noreferrer" class="article-inline-link">Visit the main RodyTech site</a>
+        </div>
+      </div>
+    </section>
+
     <!-- Share -->
     <div class="social-share">
       <span class="share-label">Share</span>
       <div class="share-buttons">
-        <a href="<?php echo esc_url(rodytech_social_share('twitter')); ?>" target="_blank" rel="noopener" class="share-btn twitter" aria-label="Share on X / Twitter">
+        <a href="<?php echo esc_url(rodytech_social_share('twitter')); ?>" target="_blank" rel="noopener noreferrer" class="share-btn twitter" aria-label="Share on X / Twitter">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
           X / Twitter
         </a>
-        <a href="<?php echo esc_url(rodytech_social_share('linkedin')); ?>" target="_blank" rel="noopener" class="share-btn linkedin" aria-label="Share on LinkedIn">
+        <a href="<?php echo esc_url(rodytech_social_share('linkedin')); ?>" target="_blank" rel="noopener noreferrer" class="share-btn linkedin" aria-label="Share on LinkedIn">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
           LinkedIn
         </a>
-        <a href="<?php echo esc_url(rodytech_social_share('facebook')); ?>" target="_blank" rel="noopener" class="share-btn facebook" aria-label="Share on Facebook">
+        <a href="<?php echo esc_url(rodytech_social_share('facebook')); ?>" target="_blank" rel="noopener noreferrer" class="share-btn facebook" aria-label="Share on Facebook">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
           Facebook
         </a>
@@ -109,17 +135,54 @@
       <p class="author-box-bio"><?php echo esc_html($author_bio ? $author_bio : 'Author at RodyTech Blog.'); ?></p>
       <div class="author-box-social">
         <?php if ($twitter) : ?>
-          <a href="<?php echo esc_url($twitter); ?>" target="_blank" rel="noopener" class="social-link">Twitter</a>
+          <a href="<?php echo esc_url($twitter); ?>" target="_blank" rel="noopener noreferrer" class="social-link">Twitter</a>
         <?php endif; ?>
         <?php if ($linkedin) : ?>
-          <a href="<?php echo esc_url($linkedin); ?>" target="_blank" rel="noopener" class="social-link">LinkedIn</a>
+          <a href="<?php echo esc_url($linkedin); ?>" target="_blank" rel="noopener noreferrer" class="social-link">LinkedIn</a>
         <?php endif; ?>
         <?php if ($github) : ?>
-          <a href="<?php echo esc_url($github); ?>" target="_blank" rel="noopener" class="social-link">GitHub</a>
+          <a href="<?php echo esc_url($github); ?>" target="_blank" rel="noopener noreferrer" class="social-link">GitHub</a>
         <?php endif; ?>
       </div>
     </div>
   </div>
+
+  <section class="post-conversion-band" aria-labelledby="post-conversion-title">
+    <div class="post-conversion-card post-conversion-card-primary">
+      <span class="post-conversion-kicker">Next step</span>
+      <h3 id="post-conversion-title">Turn one article into a working reading loop.</h3>
+      <p>Keep the context warm: revisit the archive or stay inside the same topic while the thread is still fresh.</p>
+      <div class="post-conversion-actions">
+        <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="post-conversion-btn post-conversion-btn-primary">Explore the archive</a>
+        <?php if ($primary_category) : ?>
+          <a href="<?php echo esc_url($category_url); ?>" class="post-conversion-btn post-conversion-btn-secondary">More <?php echo esc_html($primary_category->name); ?></a>
+        <?php endif; ?>
+      </div>
+    </div>
+    <div class="post-conversion-card post-conversion-card-secondary">
+      <span class="post-conversion-kicker">Keep reading</span>
+      <div class="post-conversion-links">
+        <?php if ($next_post) : ?>
+          <a class="post-conversion-story" href="<?php echo esc_url(get_permalink($next_post->ID)); ?>">
+            <span class="post-conversion-story-label">Next article</span>
+            <strong><?php echo esc_html(get_the_title($next_post->ID)); ?></strong>
+          </a>
+        <?php endif; ?>
+        <?php if ($previous_post) : ?>
+          <a class="post-conversion-story" href="<?php echo esc_url(get_permalink($previous_post->ID)); ?>">
+            <span class="post-conversion-story-label">Previous article</span>
+            <strong><?php echo esc_html(get_the_title($previous_post->ID)); ?></strong>
+          </a>
+        <?php endif; ?>
+        <?php if (!$next_post && !$previous_post) : ?>
+          <div class="post-conversion-empty">
+            <span class="post-conversion-story-label">Reading path</span>
+            <strong>Use the archive and related articles below to continue.</strong>
+          </div>
+        <?php endif; ?>
+      </div>
+    </div>
+  </section>
 
   <!-- Related Posts -->
   <?php
