@@ -5,6 +5,7 @@ Updated September 5, 2026. Owner authorization: complete this project autonomous
 ## Current state
 
 - Branch: codex/journal-growth-foundation, based on origin/main 0797f2b.
+- Pushed implementation: dd6caca4cc142bdf877000cfb9b74db56886645a. PR: https://github.com/rodypr06/rodytech-wordpress/pull/5 (open; not merged or deployed).
 - Implemented locally: reusable article/footer signup card, provider-hosted signup configuration with explicit verification gate, free operator scorecard, free builder checklist, copy/print behavior, local analytics integration hook, and About-page positioning.
 - Newsletter service is NOT connected. No subscribers have been collected or mail sent by this implementation.
 - Production deployment is NOT complete. The configured SSH route timed out on September 5. Do not imply a successful deployment from a Git push.
@@ -22,7 +23,7 @@ Provider details need verification inside the actual account. Kit's help pages c
 
 ## Next work in order
 
-1. Push the verified foundation; record PR and exact SHA. Validation: 66 browser checks passed across desktop, tablet and mobile after scoping the existing RSS test to its masthead link. The 18 growth cases were rerun after preserving the Journal appearance preference on resource pages. Theme contract and PHP 8.3 newsletter contract passed. Mobile visual review covered the article invitation and field kit.
+1. Review/merge PR #5 and retain the exact deployment SHA. Foundation is pushed. Validation: 66 browser checks passed across desktop, tablet and mobile after scoping the existing RSS test to its masthead link. The 18 growth cases were rerun and passed after preserving the Journal appearance preference on resource pages. Theme contract and PHP 8.3 newsletter contract passed. Mobile visual review covered the article invitation and field kit.
 2. Read Slack replies and connect the chosen provider. Follow NEWSLETTER-RUNBOOK.md. Keep the public enable flag off until the full consent-to-unsubscribe journey passes.
 3. Restore the approved deployment route. Use the theme deployment script's backup, clean-tree, exact-SHA and smoke gates. Do not alter the existing automated publisher cadence incidentally.
 4. Publish verified resources and the first article after an editorial pass, checking that it does not duplicate an existing post. The owner has authorized the growth program, but interviews, vendor terms and any expenditure still depend on actual access and constraints.
