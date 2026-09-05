@@ -23,7 +23,7 @@
 
   function initAnimations() {
     var targets = document.querySelectorAll(
-      '.article-card:not(.featured), .story-card:not(.story-card-featured), .collection-card, .editorial-note-card, .sidebar-card, .related-card, .author-box, .author-profile-header, #comments.comments-area, .social-share'
+      '.publication-story-list, .publication-story-brief, .article-card:not(.featured), .story-card:not(.story-card-featured), .collection-card, .editorial-note-card, .sidebar-card, .related-card, .author-box, .author-profile-header, #comments.comments-area, .social-share'
     );
 
     if (!observer) {
@@ -164,7 +164,7 @@
   /* Local light and notebook depth: event-driven, with no ambient render loop. */
   function initReactiveLight() {
     var fine = window.matchMedia('(hover: hover) and (pointer: fine)');
-    var targets = document.querySelectorAll('.story-card, .collection-card, .editorial-hero-copy, .journal-object');
+    var targets = document.querySelectorAll('.story-card, .collection-card, .editorial-hero-copy, .journal-object, .publication-story');
     targets.forEach(function (element) {
       var frame = 0;
       function reset() {
@@ -174,6 +174,8 @@
         element.style.removeProperty('--pointer-y');
         element.style.removeProperty('--light-x');
         element.style.removeProperty('--light-y');
+        element.style.removeProperty('--depth-x');
+        element.style.removeProperty('--depth-y');
       }
       element.addEventListener('pointermove', function (event) {
         if (prefersReducedMotion() || !fine.matches) return;
@@ -186,6 +188,8 @@
           var py = Math.max(0, Math.min(1, (y - bounds.top) / bounds.height));
           element.style.setProperty('--light-x', (px * 100) + '%');
           element.style.setProperty('--light-y', (py * 100) + '%');
+          element.style.setProperty('--depth-x', ((0.5 - py) * 4) + 'deg');
+          element.style.setProperty('--depth-y', ((px - 0.5) * 5) + 'deg');
           element.style.setProperty('--pointer-x', ((px - 0.5) * 10) + 'px');
           element.style.setProperty('--pointer-y', ((py - 0.5) * 7) + 'px');
           frame = 0;
@@ -193,12 +197,13 @@
       }, { passive: true });
       element.addEventListener('pointerleave', reset);
       reducedMotionQuery.addEventListener('change', reset);
+      fine.addEventListener('change', reset);
       document.addEventListener('visibilitychange', function () { if (document.hidden) reset(); });
     });
     reducedMotionQuery.addEventListener('change', function () {
       if (!prefersReducedMotion()) return;
       if (observer) observer.disconnect();
-      document.querySelectorAll('.story-card, .article-card, .collection-card, .editorial-note-card, .sidebar-card, .related-card, .author-box, .author-profile-header, #comments.comments-area, .social-share').forEach(function (element) {
+      document.querySelectorAll('.publication-story, .story-card, .article-card, .collection-card, .editorial-note-card, .sidebar-card, .related-card, .author-box, .author-profile-header, #comments.comments-area, .social-share').forEach(function (element) {
         element.classList.add('is-visible');
         element.style.opacity = '';
         element.style.transform = '';
@@ -226,6 +231,84 @@
     update();
   }
 
+  /* Progressive in-page navigation; article content and existing anchors remain intact. */
+  function initArticleContents() {
+    var content = document.querySelector('.article-content');
+    var toc = document.querySelector('.article-toc');
+    if (!content || !toc) return;
+    var headings = Array.from(content.querySelectorAll('h2')).filter(function (heading) { return heading.textContent.trim(); });
+    if (headings.length < 3) return;
+    var list = toc.querySelector('ol');
+    headings.forEach(function (heading, index) {
+      if (!heading.id) {
+        var id = 'journal-section-' + (index + 1);
+        while (document.getElementById(id)) id += '-section';
+        heading.id = id;
+      }
+      var item = document.createElement('li');
+      var link = document.createElement('a');
+      link.href = '#' + encodeURIComponent(heading.id);
+      link.textContent = heading.textContent.trim();
+      item.appendChild(link);
+      list.appendChild(item);
+    });
+    toc.hidden = false;
+    toc.open = window.matchMedia('(min-width: 769px)').matches;
+    var links = Array.from(list.querySelectorAll('a'));
+    var frame = 0;
+    function updateCurrentSection() {
+      var current = 0;
+      headings.forEach(function (heading, index) {
+        if (heading.getBoundingClientRect().top <= 145) current = index;
+      });
+      links.forEach(function (link, index) {
+        if (index === current) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+      frame = 0;
+    }
+    function schedule() { if (!frame) frame = requestAnimationFrame(updateCurrentSection); }
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule, { passive: true });
+    if ('ResizeObserver' in window) new ResizeObserver(schedule).observe(content);
+    updateCurrentSection();
+
+  }
+
+
+  function initTopicIndicator() {
+    var nav = document.querySelector('.publication-topics');
+    if (!nav) return;
+    var links = Array.from(nav.querySelectorAll('a'));
+    if (!links.length) return;
+    var marker = document.createElement('span');
+    marker.className = 'topic-indicator';
+    marker.setAttribute('aria-hidden', 'true');
+    nav.appendChild(marker);
+    var current = nav.querySelector('[aria-current="page"]') || links[0];
+    var active = current;
+    function move(link) {
+      active = link;
+      var bounds = link.getBoundingClientRect();
+      var parent = nav.getBoundingClientRect();
+      marker.style.width = bounds.width + 'px';
+      marker.style.transform = 'translateX(' + (bounds.left - parent.left + nav.scrollLeft) + 'px)';
+    }
+    function reset() {
+      move(links.includes(document.activeElement) ? document.activeElement : current);
+    }
+    links.forEach(function (link) {
+      link.addEventListener('pointerenter', function (event) { if (event.pointerType !== 'touch') move(link); });
+      link.addEventListener('focus', function () { move(link); });
+    });
+    nav.addEventListener('pointerleave', reset);
+    nav.addEventListener('focusout', function () { requestAnimationFrame(reset); });
+    if ('ResizeObserver' in window) new ResizeObserver(function () { move(active); }).observe(nav);
+    window.addEventListener('resize', function () { move(active); }, { passive: true });
+    if (document.fonts) document.fonts.ready.then(function () { move(active); });
+    move(current);
+  }
+
   /* ── Boot ── */
   document.addEventListener('DOMContentLoaded', function () {
     injectStyles();
@@ -236,6 +319,8 @@
     initImageShimmer();
     initReactiveLight();
     initReadingProgress();
+    initArticleContents();
+    initTopicIndicator();
   });
 
 }());

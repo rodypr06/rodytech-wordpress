@@ -5,7 +5,7 @@ export default defineConfig({
   workers: 2,
   use: {
     baseURL: process.env.RODYTECH_TEST_URL || 'http://127.0.0.1:5180',
-    reducedMotion: 'reduce',
+    contextOptions: { reducedMotion: 'reduce' },
     screenshot: 'only-on-failure',
     trace: 'retain-on-failure',
   },

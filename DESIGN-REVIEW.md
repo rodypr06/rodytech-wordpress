@@ -1,10 +1,10 @@
 # RodyTech Journal brand alignment
 
-This theme aligns the blog with the Rodytech website prototype: charcoal surfaces, Instrument Serif display typography, Inter reading text, silver/violet accents, the shared brand mark, and rounded editorial cards. The home page adds a decorative field-notes object that responds to the pointer. Article text stays still, with a small reading-progress line in the header. Headlines sit below featured images so long titles remain readable on phones.
+The theme shares the website's charcoal, silver/violet, Instrument Serif, and Inter identity. Version 7.1 changes the layout to prioritize published articles: a compact masthead, lead story, chronological article rows, topic navigation, bylines, and RSS. Articles show their headline before their featured image and provide collapsible section navigation for longer posts. See EDITORIAL-REVIEW.md for research and rationale.
 
-The archive, search, category, author, article, About, and error templates continue to use WordPress queries and navigation. This change does not migrate content, change URLs, alter SEO ownership, activate a newsletter, or modify publishing integrations. The disabled newsletter placeholder is hidden from visitors. Yoast remains responsible for SEO metadata. Public pricing is unchanged.
+WordPress owns content, queries, feeds, archive URLs, and pagination. Yoast remains responsible for SEO. The theme does not activate email subscriptions or change publishing integrations. The local preview uses public article copies and is separate from production.
 
-`style.css` contains the base palette and theme metadata. `brand-harmony.css` contains the editorial presentation shared across templates. `rodytech-animations.js` uses bounded reveals and event-driven pointer effects; the old continuous background canvas is retired. Reduced motion remains readable both on initial load and when the preference changes during a visit. The local WebP brand asset is copied from the website's existing approved mark.
+style.css holds base theme styles; brand-harmony.css defines the shared identity; publication.css defines the editorial layouts. Motion is event-driven and respects reduced motion. Theme and stylesheet versions are 7.1; the script version is 3.1.
 
 ## Local WordPress preview
 
@@ -31,4 +31,4 @@ Browser checks cover desktop, tablet, and phone layouts; real PHP template rende
 
 ## Review and release
 
-Theme version 7.0 and motion-script version 3.0 refresh asset cache keys. The existing gated deployment process in `DEPLOYMENT.md` remains intact. Review the branch and local preview before any production rollout; deployment should use the exact reviewed commit, a theme backup, and the existing route smoke tests. Do not deploy this repository's dev-only packages, fixtures, or test outputs into the theme directory.
+Theme version 7.1 and motion-script version 3.1 refresh asset cache keys. The existing gated deployment process in `DEPLOYMENT.md` remains intact. Review the branch and local preview before any production rollout; deployment should use the exact reviewed commit, a theme backup, and the existing route smoke tests. Do not deploy this repository's dev-only packages, fixtures, or test outputs into the theme directory.
