@@ -1,6 +1,6 @@
 <?php
 /**
- * RodyTech Theme v5 - Dark Modern
+ * RodyTech Journal v7 - Brand Harmony
  * functions.php
  *
  * SEO / Open Graph: Yoast SEO on the live server is the source of truth.
@@ -34,9 +34,10 @@ add_action('after_setup_theme', 'rodytech_setup');
 
 // Enqueue styles
 function rodytech_scripts() {
-    wp_enqueue_style('rodytech-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap', array(), null);
-    wp_enqueue_style('rodytech-style', get_stylesheet_uri(), array(), '6.9');
-    wp_enqueue_script('rodytech-animations', get_template_directory_uri() . '/rodytech-animations.js', array(), '2.3', true);
+    wp_enqueue_style('rodytech-fonts', 'https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap', array(), null);
+    wp_enqueue_style('rodytech-style', get_stylesheet_uri(), array('rodytech-fonts'), '7.0');
+    wp_enqueue_style('rodytech-brand-harmony', get_template_directory_uri() . '/brand-harmony.css', array('rodytech-style'), '7.0');
+    wp_enqueue_script('rodytech-animations', get_template_directory_uri() . '/rodytech-animations.js', array(), '3.0', true);
 }
 add_action('wp_enqueue_scripts', 'rodytech_scripts');
 
@@ -471,7 +472,7 @@ function rodytech_render_story_meta($post_id, $show_comments = true) {
     <div class="story-meta">
       <div class="story-author">
         <?php if ($author_avatar) : ?>
-          <img src="<?php echo esc_url($author_avatar); ?>" alt="<?php echo esc_attr($author_name); ?>" class="story-author-avatar">
+          <img src="<?php echo esc_url($author_avatar); ?>" alt="" class="story-author-avatar" width="28" height="28" loading="lazy">
         <?php endif; ?>
         <span class="story-author-name"><?php echo esc_html($author_name); ?></span>
       </div>

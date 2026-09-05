@@ -11,7 +11,7 @@
 
 <a class="skip-link screen-reader-text" href="#main-content">Skip to content</a>
 
-<canvas id="network" aria-hidden="true"></canvas>
+
 
 <header class="site-header" id="site-header">
   <div class="header-inner">
@@ -39,13 +39,13 @@
           'rel'    => '',
         ),
       ));
-      $lockup_src = get_template_directory_uri() . '/assets/rodytech-lockup.svg';
+      $lockup_src = get_template_directory_uri() . '/assets/rodytech-mark.webp';
     ?>
     <div class="site-branding">
-      <a href="<?php echo esc_url(home_url('/')); ?>" class="site-logo" aria-label="RodyTech Blog home">
-        <img src="<?php echo esc_url($lockup_src); ?>" alt="RodyTech" class="site-logo-mark" width="145" height="90">
+      <a href="<?php echo esc_url(home_url('/')); ?>" class="site-logo" aria-label="RodyTech Journal home">
+        <img src="<?php echo esc_url($lockup_src); ?>" alt="" class="site-logo-mark" width="84" height="36"><span class="brand-wordmark">RODYTECH</span>
         <span class="logo-sep"></span>
-        <span class="logo-tagline">Blog</span>
+        <span class="logo-tagline">Journal</span>
       </a>
     </div>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
@@ -88,6 +88,7 @@
       <a href="<?php echo esc_url(rodytech_marketing_url()); ?>" target="_blank" rel="noopener noreferrer" class="nav-cta">Visit RodyTech</a>
     </nav>
   </div>
+<?php if (is_single()) : ?><div class="reading-progress" aria-hidden="true"><span></span></div><?php endif; ?>
 </header>
 
 <noscript><style>@media (max-width:768px){.nav-toggle{display:none!important}.main-nav{display:flex!important;position:static!important;flex-wrap:wrap!important}}</style></noscript>

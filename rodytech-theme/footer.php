@@ -57,15 +57,15 @@
           'rel'    => '',
         ),
       ));
-      $lockup_src = get_template_directory_uri() . '/assets/rodytech-lockup.svg';
+      $lockup_src = get_template_directory_uri() . '/assets/rodytech-mark.webp';
     ?>
 
     <div class="footer-brand">
       <a href="<?php echo esc_url(home_url('/')); ?>" class="footer-logo-link">
-        <img src="<?php echo esc_url($lockup_src); ?>" alt="RodyTech" class="footer-logo-mark" width="145" height="90">
-        <span class="footer-logo-blog">Blog</span>
+        <img src="<?php echo esc_url($lockup_src); ?>" alt="" class="footer-logo-mark" width="84" height="36"><span class="brand-wordmark">RODYTECH</span>
+        <span class="footer-logo-blog">Journal</span>
       </a>
-      <p class="footer-tagline">Notes from an AI consultant and systems builder. Industry is how a system is tailored, not a specialist identity.</p>
+      <p class="footer-tagline">Practical AI. Thoughtfully applied. Field notes from the people building a better way to work.</p>
       <div class="footer-brand-actions">
         <a href="<?php echo esc_url(home_url('/articles')); ?>">Explore articles</a>
         <a href="<?php echo esc_url(rodytech_marketing_url()); ?>" target="_blank" rel="noopener noreferrer">Visit RodyTech</a>

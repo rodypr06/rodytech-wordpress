@@ -40,8 +40,8 @@ $paged = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
   <section class="editorial-hero">
     <div class="editorial-hero-copy">
       <span class="editorial-eyebrow">RodyTech Journal</span>
-      <h1><span class="editorial-gradient">Technical writing</span> from an AI consultant and systems builder.</h1>
-      <p>Field notes on applied AI, infrastructure, and software systems — written for operators who need judgment, not theater. Industry is how a system is tailored, not a specialist identity.</p>
+      <h1>Clear thinking.<br><span class="editorial-gradient">Better systems.</span></h1>
+      <p>Practical perspectives on AI, automation, and the systems behind a smoother working day. Ideas to help you build with confidence.</p>
       <div class="editorial-hero-actions">
         <a href="#latest-stories" class="editorial-btn editorial-btn-primary">Explore latest stories</a>
         <a href="<?php echo esc_url(home_url('/articles')); ?>" class="editorial-btn editorial-btn-secondary">Browse archive</a>
@@ -59,30 +59,24 @@ $paged = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
       <?php endif; ?>
     </div>
 
-    <aside class="editorial-hero-sidebar">
-      <div class="editorial-note-card">
-        <h2>Archive snapshot</h2>
-        <p>Fresh writing centered on infrastructure, applied AI, and the build systems behind modern internal products.</p>
-        <div class="editorial-note-stats">
-          <div>
-            <span>Published</span>
-            <strong><?php echo esc_html($stats['published_posts']); ?></strong>
-          </div>
-          <div>
-            <span>Fresh this month</span>
-            <strong><?php echo esc_html($stats['fresh_posts']); ?></strong>
-          </div>
+    <aside class="editorial-hero-sidebar journal-sidebar" aria-label="Inside the journal">
+      <div class="journal-object" aria-hidden="true">
+        <div class="journal-orbit"></div>
+        <div class="journal-sheet journal-sheet-back"></div>
+        <div class="journal-sheet journal-sheet-middle"></div>
+        <div class="journal-sheet journal-sheet-front">
+          <span class="journal-edition">RODYTECH / FIELD NOTES</span>
+          <span class="journal-title">The useful<br><em>side of AI.</em></span>
+          <span class="journal-rule"></span>
+          <span class="journal-subtitle">Ideas. Experiments.<br>Better ways to work.</span>
+          <span class="journal-monogram">R</span>
         </div>
+        <span class="journal-orbit-dot"></span>
       </div>
-
-      <div class="editorial-note-card">
-        <h2>Leading topic</h2>
-        <?php if (!empty($stats['top_category'])) : ?>
-          <p><?php echo esc_html($stats['top_category']->name); ?> currently anchors the archive and sets the pace for the most active writing lane.</p>
-          <a href="<?php echo esc_url(get_category_link($stats['top_category']->term_id)); ?>" class="inline-action-link">Open category</a>
-        <?php else : ?>
-          <p>The archive is ready for its first category cluster.</p>
-        <?php endif; ?>
+      <div class="journal-archive-note">
+        <span class="section-label">A growing collection</span>
+        <p><strong><?php echo esc_html($stats['published_posts']); ?></strong> articles on building useful systems.</p>
+        <a href="<?php echo esc_url(home_url('/articles')); ?>" class="inline-action-link">Find your next idea <span aria-hidden="true">↗</span></a>
       </div>
     </aside>
   </section>
