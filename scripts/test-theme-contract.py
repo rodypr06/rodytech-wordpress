@@ -32,7 +32,7 @@ assert 'class="nav-search"' in header and 'name="s"' in header
 assert "initMobileNav();" in scripts and "event.key === 'Escape'" in scripts
 assert "aria-expanded" in scripts and "nav-open" in scripts
 assert ".nav-enhanced .main-nav.nav-open" in styles
-assert "background: #06070d;" in styles
+assert "background: #09090b;" in styles
 assert "width: 44px;" in styles and "height: 44px;" in styles
 assert "min-height: 44px;" in styles
 assert "<main" not in author.lower(), "author template must rely on the single main landmark opened by header.php"
@@ -40,13 +40,13 @@ assert "$target === '_blank'" in functions and "noopener" in functions and "nore
 assert "wp_nav_menu" in header and "'depth'          => 3" in header
 assert "menu_item_parent !== 0" not in functions
 
-assert "--accent: #FF631F;" in styles
-assert "--accent-rgb: 255, 99, 31;" in styles
+assert "--accent: #8b8ff8;" in styles
+assert "--accent-rgb: 139, 143, 248;" in styles
 for legacy_orange in ("255,102,0", "255, 102, 0", "255,133,51", "255, 133, 51", "255,126,45", "255, 126, 45"):
     assert legacy_orange not in styles
 assert "#ff6600" not in styles.lower()
 muted = re.search(r"--text-muted:\s*(#[0-9a-fA-F]{6})", styles).group(1)
-assert contrast(muted, "#06070D") >= 4.5
+assert contrast(muted, "#09090B") >= 4.5
 
 assert 'TARGET="staging"' in deploy
 assert "--confirm-production" in deploy and "--expected-sha" in deploy
