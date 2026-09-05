@@ -45,10 +45,22 @@
   </header>
 
   <!-- Body -->
+  <div class="article-reading-layout">
+    <aside class="article-reading-rail" aria-label="Reading companion"></aside>
   <div class="article-body">
     <details class="article-toc" hidden><summary>In this article</summary><nav aria-label="In this article"><ol></ol></nav></details>
     <div class="article-content">
-      <?php the_content(); ?>
+      <?php get_template_part('template-parts/reader-guide'); ?>
+      <?php
+        $reading_content = apply_filters('the_content', get_the_content());
+        ob_start(); get_template_part('template-parts/reader-workflow'); $workflow = ob_get_clean();
+        if (trim($workflow)) {
+          $reading_content = preg_replace_callback('/<h2\\b[^>]*>\\s*Run one bounded incident from end to end\\s*<\\/h2>/i', function ($match) use ($workflow) { return $workflow . $match[0]; }, $reading_content, 1, $workflow_inserted);
+          if (!$workflow_inserted) $reading_content .= $workflow;
+        }
+        echo $reading_content;
+      ?>
+      <?php get_template_part('template-parts/reader-next-step'); ?>
     </div>
 
     <a class="article-back-top" href="#article-top">Back to top ↑</a>
@@ -71,6 +83,7 @@
         </a>
       </div>
     </div>
+  </div>
   </div>
 
   <!-- Author Box -->
@@ -130,13 +143,13 @@
   <?php
     $related = new WP_Query(array(
       'category__in'   => wp_get_post_categories(get_the_ID()),
-      'posts_per_page' => 3,
+      'posts_per_page' => 2,
       'post__not_in'   => array(get_the_ID()),
     ));
     if ($related->have_posts()) :
   ?>
   <div class="related-posts">
-    <h3 class="related-title">Related Articles</h3>
+    <h3 class="related-title">Read next</h3>
     <div class="related-grid">
       <?php while ($related->have_posts()) : $related->the_post();
         $rel_cat      = get_the_category();
@@ -151,6 +164,7 @@
             <?php endif; ?>
             <span class="related-category"><?php echo $rel_cat_name; ?></span>
             <h4 class="related-card-title"><?php the_title(); ?></h4>
+            <p class="related-reading-reason"><?php echo esc_html(rodytech_get_editorial_excerpt(get_the_ID(), 25)); ?></p>
           </a>
         </article>
       <?php endwhile; wp_reset_postdata(); ?>

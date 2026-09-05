@@ -1,4 +1,5 @@
 <?php
+if (is_admin()) require_once get_template_directory() . '/reader-editor.php';
 /**
  * RodyTech Journal v7 - Brand Harmony
  * functions.php
@@ -36,10 +37,15 @@ add_action('after_setup_theme', 'rodytech_setup');
 // Enqueue styles
 function rodytech_scripts() {
     wp_enqueue_style('rodytech-fonts', 'https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap', array(), null);
-    wp_enqueue_style('rodytech-style', get_stylesheet_uri(), array('rodytech-fonts'), '7.2');
-    wp_enqueue_style('rodytech-brand-harmony', get_template_directory_uri() . '/brand-harmony.css', array('rodytech-style'), '7.2');
-    wp_enqueue_style('rodytech-publication', get_template_directory_uri() . '/publication.css', array('rodytech-brand-harmony'), '7.2');
-    wp_enqueue_script('rodytech-animations', get_template_directory_uri() . '/rodytech-animations.js', array(), '3.2', true);
+    wp_enqueue_style('rodytech-style', get_stylesheet_uri(), array('rodytech-fonts'), '7.3');
+    wp_enqueue_style('rodytech-brand-harmony', get_template_directory_uri() . '/brand-harmony.css', array('rodytech-style'), '7.3');
+    wp_enqueue_style('rodytech-publication', get_template_directory_uri() . '/publication.css', array('rodytech-brand-harmony'), '7.3');
+    wp_enqueue_style('rodytech-appearance', get_template_directory_uri() . '/appearance.css', array('rodytech-publication'), '1.0');
+    if (is_single()) {
+        wp_enqueue_style('rodytech-reading', get_template_directory_uri() . '/reading.css', array('rodytech-appearance'), '1.0');
+        wp_enqueue_script('rodytech-reading', get_template_directory_uri() . '/reading.js', array('rodytech-animations'), '1.0', true);
+    }
+    wp_enqueue_script('rodytech-animations', get_template_directory_uri() . '/rodytech-animations.js', array(), '3.3', true);
 }
 add_action('wp_enqueue_scripts', 'rodytech_scripts');
 

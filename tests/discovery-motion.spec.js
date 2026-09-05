@@ -1,5 +1,27 @@
 import { test, expect } from '@playwright/test';
 
+test('replays the journal entrance and respects a live reduced-motion change', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/');
+  const masthead = page.locator('.publication-masthead');
+  const replay = page.getByRole('button', { name: 'Replay motion' });
+  await replay.click();
+  await expect(masthead.locator('.journal-page-cover')).toHaveCSS('animation-name', 'journal-open');
+  const box = await masthead.boundingBox();
+  await page.mouse.move(box.x + box.width * .8, box.y + box.height * .3);
+  await expect.poll(() => masthead.evaluate(n => n.style.getPropertyValue('--depth-y'))).not.toBe('');
+  await page.getByRole('button', { name: 'Pause motion', exact: true }).click();
+  await expect(masthead.locator('.journal-float')).toHaveCSS('animation-play-state', 'paused');
+  await page.getByRole('button', { name: 'Resume motion', exact: true }).click();
+  await expect(masthead.locator('.journal-float')).toHaveCSS('animation-play-state', 'running');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(replay).toBeHidden();
+  await expect(masthead.locator('.journal-page-cover')).toHaveCSS('animation-name', 'none');
+  await expect(masthead.locator('.journal-float')).toHaveCSS('animation-name', 'none');
+  await expect.poll(() => masthead.evaluate(n => n.style.getPropertyValue('--depth-y'))).toBe('');
+  await expect(masthead.locator('h1')).toBeVisible();
+});
+
 test('moves image depth while keeping the lead headline steady', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
