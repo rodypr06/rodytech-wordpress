@@ -1,0 +1,48 @@
+import { test, expect } from '@playwright/test';
+
+test('moves image depth while keeping the lead headline steady', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/');
+  const lead = page.locator('.publication-story-lead');
+  await lead.scrollIntoViewIfNeeded();
+  const title = lead.locator('h2');
+  const before = await title.boundingBox();
+  const box = await lead.boundingBox();
+  await page.mouse.move(box.x + box.width * .85, box.y + box.height * .35);
+  await expect.poll(() => lead.evaluate(n => n.style.getPropertyValue('--depth-y'))).not.toBe('');
+  await expect(lead.locator('.publication-story-image')).not.toHaveCSS('transform', 'none');
+  const after = await title.boundingBox();
+  expect(Math.abs(after.x - before.x)).toBeLessThan(1);
+  expect(Math.abs(after.y - before.y)).toBeLessThan(1);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect.poll(() => lead.evaluate(n => n.style.getPropertyValue('--depth-y'))).toBe('');
+  await expect(lead.locator('.publication-story-image')).toHaveCSS('transform', 'none');
+});
+
+test('tracks keyboard topic focus and the current reading section', async ({ page }) => {
+  await page.goto('/');
+  const nav = page.locator('.publication-topics');
+  const marker = nav.locator('.topic-indicator');
+  await expect(marker).toBeVisible();
+  const start = await marker.evaluate(n => n.style.transform);
+  await nav.getByRole('link').nth(1).focus();
+  await expect.poll(() => marker.evaluate(n => n.style.transform)).not.toBe(start);
+  await expect(marker).toHaveCSS('transition-duration', '0s');
+  await page.locator('.story-card-link').first().click();
+  const headings = page.locator('.article-content h2');
+  const target = headings.nth(1);
+  await target.evaluate(n => window.scrollTo(0, scrollY + n.getBoundingClientRect().top - 110));
+  const current = page.locator('.article-toc a[aria-current="location"]');
+  await expect(current).toHaveCount(1);
+  await expect(current).toHaveText(await target.textContent());
+});
+
+test('reveals article rows once and keeps them available after leaving view', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.goto('/');
+  const row = page.locator('.publication-story-list').last();
+  await row.scrollIntoViewIfNeeded();
+  await expect(row).toHaveCSS('opacity', '1');
+  await page.locator('h1').scrollIntoViewIfNeeded();
+  await expect(row).toHaveCSS('opacity', '1');
+});
