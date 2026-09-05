@@ -10,6 +10,7 @@
 .nav-toggle { order: 3; }
 .nav-toggle { flex-shrink: 0; }
 html[data-theme="light"] {
+  overflow-x: clip;
   color-scheme: light;
   --bg: #f5f3f0; --bg-card: #eeece8; --bg-card-hover: #e7e3ed; --bg-surface: #eeece8; --bg-elevated: #fffdfa;
   --text: #242331; --text-secondary: #3f3d49; --text-muted: #615d6b; --text-dim: #696574;
@@ -27,8 +28,17 @@ html[data-theme="light"] .about-hero h1 span { background: none; color: #6650a4;
   --accent: #b7bdf5; --accent-rgb: 139,143,248; --bg-surface: #17171a; --bg-card: #111113; --bg-elevated: #17171a; --border: #ffffff26;
   color: #d4d4d8; color-scheme: dark;
 }
-html[data-theme="light"] .publication-masthead { background: #09090b; box-shadow: 0 -60px 0 60px #09090b; margin-bottom: 28px; }
-html[data-theme="light"] .publication-masthead::before { background: radial-gradient(ellipse at var(--light-x,75%) var(--light-y,45%),#9c92ff20,transparent 64%); }
+html[data-theme="light"] .publication-masthead { background: #09090b; box-shadow: none; margin-bottom: 128px; }
+html[data-theme="light"] .publication-masthead::before {
+  inset: -60px calc((100% - 100vw) / 2) 0;
+  background: radial-gradient(ellipse at var(--light-x,75%) var(--light-y,35%),#9c92ff20,transparent 64%), #09090b;
+}
+html[data-theme="light"] .publication-masthead::after {
+  content: ''; position: absolute; top: calc(100% - 1px);
+  left: calc((100% - 100vw) / 2); right: calc((100% - 100vw) / 2);
+  height: 128px; pointer-events: none; z-index: -1;
+  background: linear-gradient(180deg,#09090b 0%,#191620 15%,#51485f 36%,#a399b0 59%,#ddd5e1 79%,#f5f3f0 100%);
+}
 html[data-theme="light"] .publication-masthead h1 { color: #fafaf9; }
 html[data-theme="light"] .main-content :is(.publication-story h2 a,.publication-sidebar h2,.article-title,.article-content h2,.article-content h3,.article-content h4,.about-title,.about-section-title,.author-profile-name,.related-card-title,.post-conversion-story strong) { color: var(--text); }
 html[data-theme="light"] .main-content :is(.publication-excerpt,.publication-meta,.publication-order,.sidebar-card p,.collection-card p,.article-content,.article-meta-header,.article-breadcrumbs,.publication-article-image figcaption,.publication-archive-heading p,.about-bio-description,.story-card-excerpt) { color: var(--text-secondary); }
@@ -59,6 +69,7 @@ html[data-theme="light"] .main-content :focus-visible { outline-color: #6650a4; 
 @media(max-width:768px) {
   .appearance-control { margin-left: auto; }
   .appearance-control select { min-height: 44px; max-width: 85px; }
-  html[data-theme="light"] .publication-masthead { box-shadow: 0 -40px 0 40px #09090b; }
+  html[data-theme="light"] .publication-masthead { margin-bottom: 96px; }
+  html[data-theme="light"] .publication-masthead::after { height: 96px; }
 }
 @media(max-width:380px) { .site-branding .brand-wordmark { display: none; } }
