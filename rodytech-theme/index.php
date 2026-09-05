@@ -10,14 +10,15 @@
   <div class="journal-masthead-copy"><span class="editorial-eyebrow"><span class="journal-signal" aria-hidden="true"></span> Ideas, experiments &amp; practical guides</span>
     <h1><span>RodyTech</span> <em>Journal<span class="journal-title-line" aria-hidden="true"></span></em></h1>
     <p>AI, automation, and software. What’s useful, what works, and how to build it.</p>
-    <div class="journal-masthead-actions"><a class="publication-rss" href="<?php echo esc_url(get_feed_link()); ?>">Follow via RSS <span aria-hidden="true">↗</span></a><button class="journal-replay" type="button" hidden>Replay motion <span aria-hidden="true">↻</span></button></div>
+    <div class="journal-masthead-actions"><a class="publication-rss" href="<?php echo esc_url(get_feed_link()); ?>">Follow via RSS <span aria-hidden="true">↗</span></a><button class="journal-replay" type="button" hidden>Replay motion <span aria-hidden="true">↻</span></button><button class="journal-pause journal-replay" type="button" aria-pressed="false" hidden>Pause motion</button></div>
   </div>
   <div class="journal-sculpture" aria-hidden="true">
     <div class="journal-orbit journal-orbit-outer"></div><div class="journal-orbit journal-orbit-inner"></div>
-    <div class="journal-pages">
+    <div class="journal-float"><div class="journal-pages">
       <div class="journal-page journal-page-back"></div><div class="journal-page journal-page-middle"></div>
       <div class="journal-page journal-page-cover"><span class="journal-cover-label">THE RODYTECH JOURNAL</span><span class="journal-cover-title">Ideas into<br><em>practice.</em></span><span class="journal-cover-lines"></span><span class="journal-cover-footer">AI / AUTOMATION / SOFTWARE <span>↗</span></span></div>
-    </div>
+    </div></div>
+    <span class="journal-fragment journal-fragment-code">&lt;/&gt;<small>BUILD</small></span><span class="journal-fragment journal-fragment-spark">✳<small>EXPLORE</small></span>
     <span class="journal-orbit-note">FIELD NOTES / OPEN POSSIBILITIES</span>
   </div>
 </section>

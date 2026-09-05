@@ -178,7 +178,7 @@
         element.style.removeProperty('--depth-y');
       }
       element.addEventListener('pointermove', function (event) {
-        if (prefersReducedMotion() || !fine.matches) return;
+        if (prefersReducedMotion() || !fine.matches || element.classList.contains('journal-paused')) return;
         var x = event.clientX;
         var y = event.clientY;
         cancelAnimationFrame(frame);
@@ -188,10 +188,11 @@
           var py = Math.max(0, Math.min(1, (y - bounds.top) / bounds.height));
           element.style.setProperty('--light-x', (px * 100) + '%');
           element.style.setProperty('--light-y', (py * 100) + '%');
-          element.style.setProperty('--depth-x', ((0.5 - py) * 10) + 'deg');
-          element.style.setProperty('--depth-y', ((px - 0.5) * 14) + 'deg');
-          element.style.setProperty('--pointer-x', ((px - 0.5) * 10) + 'px');
-          element.style.setProperty('--pointer-y', ((py - 0.5) * 7) + 'px');
+          var masthead = element.classList.contains('publication-masthead');
+          element.style.setProperty('--depth-x', ((0.5 - py) * (masthead ? 30 : 10)) + 'deg');
+          element.style.setProperty('--depth-y', ((px - 0.5) * (masthead ? 48 : 14)) + 'deg');
+          element.style.setProperty('--pointer-x', ((px - 0.5) * (masthead ? 28 : 10)) + 'px');
+          element.style.setProperty('--pointer-y', ((py - 0.5) * (masthead ? 22 : 7)) + 'px');
           frame = 0;
         });
       }, { passive: true });
@@ -313,18 +314,40 @@
     var masthead = document.querySelector('.publication-masthead');
     if (!masthead) return;
     var replay = masthead.querySelector('.journal-replay');
+    var pause = masthead.querySelector('.journal-pause');
+    var inView = true;
+    function visibilityChanged() {
+      masthead.classList.toggle('journal-offscreen', !inView || document.hidden);
+    }
+    function setPaused(value) {
+      masthead.classList.toggle('journal-paused', value);
+      if (value) masthead.classList.remove('journal-enter');
+      pause.setAttribute('aria-pressed', String(value));
+      pause.textContent = value ? 'Resume motion' : 'Pause motion';
+    }
     function play() {
       masthead.classList.remove('journal-enter');
       if (prefersReducedMotion()) return;
+      setPaused(false);
       // Restart the finite entrance without an idle animation loop.
       void masthead.offsetWidth;
       masthead.classList.add('journal-enter');
     }
     function preferenceChanged() {
       replay.hidden = prefersReducedMotion();
+      pause.hidden = prefersReducedMotion();
       if (prefersReducedMotion()) masthead.classList.remove('journal-enter');
     }
     replay.addEventListener('click', play);
+    pause.addEventListener('click', function () { setPaused(!masthead.classList.contains('journal-paused')); });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        inView = entries[0].isIntersecting;
+        visibilityChanged();
+      }).observe(masthead);
+    }
+    document.addEventListener('visibilitychange', visibilityChanged);
+    masthead.classList.add('journal-motion');
     reducedMotionQuery.addEventListener('change', preferenceChanged);
     preferenceChanged();
     play();

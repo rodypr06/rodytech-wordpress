@@ -2,7 +2,7 @@
 
 ## Masthead motion update — version 7.3
 
-The opening spread now pairs a larger two-line title and drawn underline with a layered journal cover. A finite entrance lasts under two seconds and can be replayed. Pointer movement controls the cover's perspective and local lighting; there is no continuous render loop. The cover is decorative and hidden from assistive technology. Reduced motion disables the entrance and pointer reaction and hides replay. The illustration stacks below the title on phones. Featured-story tilt and article-row entrances are stronger, while headlines remain steady.
+The opening spread pairs a larger two-line title and drawn underline with an expanded three-dimensional journal cover. Pages enter from depth over 2.6 seconds, with staggered rotation. Foreground fragments counter-track the pointer, and the journal gently turns on a seven-second CSS cycle. Pause/Resume controls ambient motion; replay restarts the entrance. Animations pause outside the viewport and in hidden tabs. Pointer movement controls perspective and lighting without a JavaScript idle render loop. Decorative artwork is hidden from assistive technology. Reduced motion disables the entrance, ambient movement, and pointer reaction and hides motion controls. The illustration stacks below the title on phones. Featured-story tilt and article-row entrances are stronger, while headlines remain steady.
 
 Asset cache versions: styles 7.3, script 3.3. Verification covers 1440, 768, and 390 pixels, native pagination, article reading, no-JavaScript navigation, pointer response, replay, and live reduced-motion changes. The prior 650px lead-position assertion now checks that the lead remains within the opening viewport, accommodating the requested larger masthead.
 
