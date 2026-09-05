@@ -1,5 +1,15 @@
 # RodyTech Journal brand alignment
 
+## Article reading experience
+
+Article templates now provide a sticky contents rail from 1100px upward and a collapsible contents block below that width, copy controls with language labels and accessible success/failure feedback, and two related articles with descriptive excerpts. The existing progress bar and active-section indication remain. Article content stays still.
+
+The Next.js debugging pipeline article is the authored example: three takeaways, audience/prerequisites, a four-step workflow placed before the bounded-incident section, Key insight and Watch out callouts, and a practical next-step checklist. This is a theme-rendered editorial supplement; the WordPress article body and its sources are preserved. No universal tooling claims were added.
+
+Editors can fill the Reader guide box on WordPress posts: takeaways, audience, prerequisites, a practical next step, and an optional approved service destination. Empty fields do not generate a summary for other articles. Use `reader-callout` for authored callout blocks and `reader-workflow` for an ordered, text-accessible diagram. Add language classes such as `language-javascript` to code; blocks without a declared language are labeled CODE rather than guessed. Related-reading descriptions use existing article excerpts and should be edited for relevance. Service links require an explicit editorial selection and a next step.
+
+Reading assets: version 1.0. The 42 existing browser checks and six new checks passed at desktop, tablet, and phone sizes. New checks exercise the guide, diagram, rail placement, successful clipboard copying, denied clipboard feedback, and related reading. A final six-check rerun passed after moving the diagram into the article. Editor save handling includes nonce and capability checks; editor save UI has not been browser-tested. Deployment is still pending host access.
+
 ## Masthead motion update — version 7.3
 
 ### Reader appearance
