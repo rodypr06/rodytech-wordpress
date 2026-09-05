@@ -3,6 +3,7 @@
 <head>
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="<?php echo esc_url(get_template_directory_uri() . '/appearance.js?ver=1.0'); ?>"></script>
   <?php wp_head(); ?>
   <!-- Open Graph / SEO metadata is owned by Yoast SEO on the live server. This theme does not duplicate Yoast output. -->
 </head>
@@ -48,6 +49,7 @@
         <span class="logo-tagline">Journal</span>
       </a>
     </div>
+    <label class="appearance-control" hidden><span class="screen-reader-text">Appearance</span><select aria-label="Appearance"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
       <span class="screen-reader-text">Toggle navigation</span>
       <span class="nav-toggle-lines" aria-hidden="true"><span></span><span></span><span></span></span>

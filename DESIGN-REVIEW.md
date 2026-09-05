@@ -2,6 +2,12 @@
 
 ## Masthead motion update — version 7.3
 
+### Reader appearance
+
+The header offers Light, Dark, and System. System is the default; a saved explicit choice wins and persists across pages. A small script resolves the theme before styles load; storage failures are caught. The control synchronizes after navigation and responds to system changes and cross-tab storage events. Without JavaScript the existing readable dark theme remains available and the inactive picker stays hidden.
+
+Light appearance uses soft paper (#f5f3f0), ink text, and deep violet links (#6650a4), while the header, footer, and animated masthead retain their dark brand frame. Articles, discovery, archives, About, forms, tables, quotations, and code receive deliberate light treatment. The selector stays outside the mobile navigation. Appearance assets are version 1.0. Tests cover system changes, persistence, storage failure, and responsive behavior; the existing route checks explicitly verify dark appearance.
+
 The opening spread pairs a larger two-line title and drawn underline with an expanded three-dimensional journal cover. Pages enter from depth over 2.6 seconds, with staggered rotation. Foreground fragments counter-track the pointer, and the journal gently turns on a seven-second CSS cycle. Pause/Resume controls ambient motion; replay restarts the entrance. Animations pause outside the viewport and in hidden tabs. Pointer movement controls perspective and lighting without a JavaScript idle render loop. Decorative artwork is hidden from assistive technology. Reduced motion disables the entrance, ambient movement, and pointer reaction and hides motion controls. The illustration stacks below the title on phones. Featured-story tilt and article-row entrances are stronger, while headlines remain steady.
 
 Asset cache versions: styles 7.3, script 3.3. Verification covers 1440, 768, and 390 pixels, native pagination, article reading, no-JavaScript navigation, pointer response, replay, and live reduced-motion changes. The prior 650px lead-position assertion now checks that the lead remains within the opening viewport, accommodating the requested larger masthead.

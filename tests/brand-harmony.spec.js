@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('renders the journal, archive, search, about, and missing-page templates', async ({ page }, testInfo) => {
+  await page.emulateMedia({ colorScheme: 'dark' });
   const errors=[];
   page.on('pageerror', error => errors.push(error.message));
   for (const path of ['/', '/articles/', '/about/', '/?s=automation', '/missing-brand-review-page/']) {
