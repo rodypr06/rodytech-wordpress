@@ -2,6 +2,8 @@
 
 Updated September 5, 2026. Owner authorization: complete this project autonomously; ask Roderick via Slack when a required decision or access is missing.
 
+For resuming in Codex on another computer, read the repository-root [HANDOFF.md](../../HANDOFF.md) first. It includes checkout instructions, preview reconstruction, verification evidence and coordination with the existing automation.
+
 ## Current state
 
 - Branch: codex/journal-growth-foundation, based on origin/main 0797f2b.
