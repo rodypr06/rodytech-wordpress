@@ -1,4 +1,5 @@
 <?php
+require_once get_template_directory() . '/journal-growth.php';
 if (is_admin()) require_once get_template_directory() . '/reader-editor.php';
 /**
  * RodyTech Journal v7 - Brand Harmony

@@ -119,7 +119,7 @@ test('puts stories first and paginates without losing or repeating articles', as
 
 test('provides working section links and an RSS feed', async ({ page }) => {
   await page.goto('/');
-  const feedUrl=await page.getByRole('link',{name:'Follow via RSS'}).getAttribute('href');
+  const feedUrl=await page.locator('.publication-rss').getAttribute('href');
   const feed=await page.request.get(feedUrl);
   expect(feed.status()).toBe(200);
   expect(await feed.text()).toContain('<rss');
