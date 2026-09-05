@@ -38,7 +38,7 @@
 
     targets.forEach(function (el, i) {
       el.style.opacity = '0';
-      el.style.transform = 'translateY(22px)';
+      el.style.transform = 'translateY(32px)';
       el.style.transition =
         'opacity 0.55s cubic-bezier(0.22,1,0.36,1) ' + ((i % 4) * 0.065) + 's, ' +
         'transform 0.55s cubic-bezier(0.22,1,0.36,1) ' + ((i % 4) * 0.065) + 's';
@@ -164,7 +164,7 @@
   /* Local light and notebook depth: event-driven, with no ambient render loop. */
   function initReactiveLight() {
     var fine = window.matchMedia('(hover: hover) and (pointer: fine)');
-    var targets = document.querySelectorAll('.story-card, .collection-card, .editorial-hero-copy, .journal-object, .publication-story');
+    var targets = document.querySelectorAll('.story-card, .collection-card, .editorial-hero-copy, .journal-object, .publication-story, .publication-masthead');
     targets.forEach(function (element) {
       var frame = 0;
       function reset() {
@@ -188,8 +188,8 @@
           var py = Math.max(0, Math.min(1, (y - bounds.top) / bounds.height));
           element.style.setProperty('--light-x', (px * 100) + '%');
           element.style.setProperty('--light-y', (py * 100) + '%');
-          element.style.setProperty('--depth-x', ((0.5 - py) * 4) + 'deg');
-          element.style.setProperty('--depth-y', ((px - 0.5) * 5) + 'deg');
+          element.style.setProperty('--depth-x', ((0.5 - py) * 10) + 'deg');
+          element.style.setProperty('--depth-y', ((px - 0.5) * 14) + 'deg');
           element.style.setProperty('--pointer-x', ((px - 0.5) * 10) + 'px');
           element.style.setProperty('--pointer-y', ((py - 0.5) * 7) + 'px');
           frame = 0;
@@ -309,6 +309,27 @@
     move(current);
   }
 
+  function initJournalMasthead() {
+    var masthead = document.querySelector('.publication-masthead');
+    if (!masthead) return;
+    var replay = masthead.querySelector('.journal-replay');
+    function play() {
+      masthead.classList.remove('journal-enter');
+      if (prefersReducedMotion()) return;
+      // Restart the finite entrance without an idle animation loop.
+      void masthead.offsetWidth;
+      masthead.classList.add('journal-enter');
+    }
+    function preferenceChanged() {
+      replay.hidden = prefersReducedMotion();
+      if (prefersReducedMotion()) masthead.classList.remove('journal-enter');
+    }
+    replay.addEventListener('click', play);
+    reducedMotionQuery.addEventListener('change', preferenceChanged);
+    preferenceChanged();
+    play();
+  }
+
   /* ── Boot ── */
   document.addEventListener('DOMContentLoaded', function () {
     injectStyles();
@@ -321,6 +342,7 @@
     initReadingProgress();
     initArticleContents();
     initTopicIndicator();
+    initJournalMasthead();
   });
 
 }());

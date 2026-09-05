@@ -1,4 +1,61 @@
 /* Publication layouts: article discovery first, with RodyTech's shared identity. */
+/* The journal's opening spread: finite entrance, then direct manipulation. */
+.publication-masthead { position: relative; isolation: isolate; }
+.publication-masthead::before { content: ''; position: absolute; inset: -30px -20px 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse at var(--light-x,75%) var(--light-y,45%), #9c92ff20, transparent 64%); }
+.publication-masthead .journal-masthead-copy { position: relative; z-index: 2; flex: 1; min-width: 0; padding-block: 25px; }
+.publication-masthead .journal-masthead-copy h1 { font-size: clamp(64px,7.6vw,104px); line-height: .91; letter-spacing: -.055em; margin-bottom: 25px; }
+.journal-masthead-copy h1 > span, .journal-masthead-copy h1 em { display: block; }
+.journal-masthead-copy h1 em { position: relative; width: fit-content; padding-bottom: 10px; }
+.journal-title-line { position: absolute; bottom: -2px; left: 1%; width: 99%; height: 9px; border-top: 2px solid #b7bdf5; border-radius: 50%; transform: rotate(-3deg); transform-origin: left; }
+.journal-masthead-copy .editorial-eyebrow { display: flex; align-items: center; gap: 9px; }
+.journal-signal { width: 6px; height: 6px; border-radius: 50%; background: #c5baff; box-shadow: 0 0 13px #a390ff; flex-shrink: 0; }
+.journal-masthead-actions { display: flex; align-items: center; gap: 25px; margin-top: 8px; }
+.journal-replay { appearance: none; border: 0; background: none; color: #b7b7c5; padding: 12px 0; min-height: 44px; font: 11px var(--font-body); cursor: pointer; }
+.journal-replay[hidden] { display: none; }
+.journal-replay:hover { color: #eee9ff; }
+.journal-replay:focus-visible { outline: 2px solid #b7bdf5; outline-offset: 5px; }
+.journal-sculpture { position: relative; flex: 0 0 40%; height: 360px; perspective: 1000px; pointer-events: none; }
+.journal-pages { position: absolute; width: 215px; height: 270px; left: 50%; top: 44%; transform-style: preserve-3d; transform: translate(-50%,-50%) rotateX(calc(8deg + var(--depth-x,0deg))) rotateY(calc(-16deg + var(--depth-y,0deg))) rotateZ(-9deg); transition: transform 650ms cubic-bezier(.22,1,.36,1); }
+.journal-page { position: absolute; inset: 0; border-radius: 3px 15px 15px 3px; border: 1px solid #dddfff70; transform-origin: 0 50%; box-shadow: 12px 25px 45px #0005; }
+.journal-page-back { background: linear-gradient(135deg,#7464b1,#292836); transform: translate3d(27px,4px,-36px) rotate(13deg); }
+.journal-page-middle { background: linear-gradient(135deg,#c8c6e4,#656681); transform: translate3d(13px,2px,-18px) rotate(6deg); }
+.journal-page-cover { display: flex; flex-direction: column; padding: 22px; color: #242136; background: radial-gradient(ellipse at var(--light-x,15%) var(--light-y,10%),#fff,#dedbf1 55%,#a9a2d5); overflow: hidden; }
+.journal-page-cover::after { content: ''; position: absolute; inset: 0 auto 0 7px; width: 3px; background: #ffffff70; box-shadow: 2px 0 4px #443a6e22; }
+.journal-cover-label { font: 600 7px var(--font-body); letter-spacing: .15em; border-bottom: 1px solid #49405c40; padding-bottom: 15px; }
+.journal-cover-title { font: 400 41px/.98 var(--font-display); letter-spacing: -.04em; margin-top: 25px; }
+.journal-cover-title em { color: #635283; }
+.journal-cover-lines { flex: 1; margin: 20px 0 12px; background: repeating-linear-gradient(0deg,transparent 0 8px,#6f61892b 8px 9px); width: 75%; }
+.journal-cover-footer { display: flex; justify-content: space-between; align-items: center; font: 600 6px var(--font-body); letter-spacing: .04em; }
+.journal-cover-footer > span { font-size: 23px; }
+.journal-orbit { position: absolute; border: 1px solid #b7a7ed30; border-radius: 50%; left: 50%; top: 44%; transform: translate(-50%,-50%) rotate(-28deg); }
+.journal-orbit-outer { width: 110%; height: 72%; }
+.journal-orbit-inner { width: 95%; height: 91%; transform: translate(-50%,-50%) rotate(28deg); border-style: dashed; opacity: .55; }
+.journal-orbit-outer::after { content: ''; position: absolute; top: 18%; right: 10%; width: 7px; height: 7px; background: #cbbaff; border-radius: 50%; box-shadow: 0 0 18px #b591ff; }
+.journal-orbit-note { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); white-space: nowrap; font: 500 7px var(--font-body); letter-spacing: .18em; color: #a8a3be; }
+@keyframes journal-open { from { opacity: 0; translate: 0 30px; rotate: -12deg; } to { opacity: 1; translate: 0 0; rotate: 0deg; } }
+@keyframes journal-title-enter { from { opacity: 0; translate: 0 22px; } to { opacity: 1; translate: 0 0; } }
+@keyframes journal-ink { from { scale: 0 1; } to { scale: 1 1; } }
+@media (prefers-reduced-motion: no-preference) {
+  .journal-enter .journal-page { animation: journal-open 1500ms cubic-bezier(.16,1,.3,1) both; }
+  .journal-enter .journal-page-middle { animation-delay: 100ms; }
+  .journal-enter .journal-page-cover { animation-delay: 210ms; }
+  .journal-enter h1 > span { animation: journal-title-enter 850ms cubic-bezier(.16,1,.3,1) both; }
+  .journal-enter h1 em { animation: journal-title-enter 1000ms 100ms cubic-bezier(.16,1,.3,1) both; }
+  .journal-enter .journal-title-line { animation: journal-ink 1000ms 450ms cubic-bezier(.16,1,.3,1) both; }
+}
+@media (max-width: 768px) {
+  .publication-masthead .journal-masthead-copy { padding-block: 14px 0; width: 100%; }
+  .publication-masthead .journal-masthead-copy h1 { font-size: clamp(64px,13vw,88px); }
+  .journal-sculpture { flex: auto; width: 100%; height: 225px; }
+  .journal-pages { scale: .68; transform-origin: 0 0; }
+  .journal-orbit-outer { width: 78%; height: 77%; }
+  .journal-orbit-inner { width: 62%; height: 91%; }
+  .journal-orbit-note { bottom: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .journal-pages { transition: none; }
+  .journal-replay { display: none; }
+}
 :root { --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
 .main-content { padding-top: 30px; }
 .publication-masthead { display: flex; justify-content: space-between; gap: 28px; align-items: end; padding: 12px 0 30px; margin: 0; }

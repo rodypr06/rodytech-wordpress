@@ -1,5 +1,13 @@
 # RodyTech Journal brand alignment
 
+## Masthead motion update — version 7.3
+
+The opening spread now pairs a larger two-line title and drawn underline with a layered journal cover. A finite entrance lasts under two seconds and can be replayed. Pointer movement controls the cover's perspective and local lighting; there is no continuous render loop. The cover is decorative and hidden from assistive technology. Reduced motion disables the entrance and pointer reaction and hides replay. The illustration stacks below the title on phones. Featured-story tilt and article-row entrances are stronger, while headlines remain steady.
+
+Asset cache versions: styles 7.3, script 3.3. Verification covers 1440, 768, and 390 pixels, native pagination, article reading, no-JavaScript navigation, pointer response, replay, and live reduced-motion changes. The prior 650px lead-position assertion now checks that the lead remains within the opening viewport, accommodating the requested larger masthead.
+
+This update is awaiting production deployment; SSH access to the existing deployment host timed out during preparation.
+
 The theme shares the website's charcoal, silver/violet, Instrument Serif, and Inter identity. Version 7.1 changes the layout to prioritize published articles: a compact masthead, lead story, chronological article rows, topic navigation, bylines, and RSS. Articles show their headline before their featured image and provide collapsible section navigation for longer posts. See EDITORIAL-REVIEW.md for research and rationale.
 
 WordPress owns content, queries, feeds, archive URLs, and pagination. Yoast remains responsible for SEO. The theme does not activate email subscriptions or change publishing integrations. The local preview uses public article copies and is separate from production.

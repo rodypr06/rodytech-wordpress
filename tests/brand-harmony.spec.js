@@ -97,7 +97,8 @@ test('keeps the archive readable without JavaScript', async ({ browser }, testIn
 test('puts stories first and paginates without losing or repeating articles', async ({ page }) => {
   await page.goto('/');
   const lead=page.locator('.publication-story-lead h2');
-  expect((await lead.boundingBox()).y).toBeLessThan(650);
+  // The illustrated masthead is taller; keep the lead within the opening viewport.
+  expect((await lead.boundingBox()).y).toBeLessThan(page.viewportSize().height - 80);
   await expect(page.getByRole('navigation',{name:'Topics',exact:true})).toBeVisible();
   const ids=await page.locator('[data-post-id]').evaluateAll(nodes=>nodes.map(node=>node.dataset.postId));
   expect(ids.length).toBe(9);
