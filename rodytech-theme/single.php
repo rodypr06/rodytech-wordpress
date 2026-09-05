@@ -18,87 +18,40 @@
 
 <article class="single-article">
 
-  <!-- Hero -->
-  <?php if (has_post_thumbnail()) : ?>
-    <header class="article-hero">
-      <div class="hero-image-wrapper">
-        <?php the_post_thumbnail('featured-large', array('class' => 'hero-image')); ?>
-        <span class="hero-category"><?php echo $cat_name; ?></span>
-        <div class="hero-overlay">
-          <h1 class="article-title"><?php the_title(); ?></h1>
-          <div class="article-meta-header">
-            <div class="meta-authors">
-              <?php echo get_avatar($author_id, 40, '', '', array('class' => 'author-avatar-large')); ?>
-              <div class="meta-author-info">
-                <a href="<?php echo get_author_posts_url($author_id); ?>" class="author-name-link"><?php echo $author_name; ?></a>
-                <?php if ($author_position) : ?>
-                  <span class="author-position"><?php echo $author_position; ?></span>
-                <?php endif; ?>
-              </div>
-            </div>
-            <div class="meta-stats">
-              <time><?php echo get_the_date('M j, Y'); ?></time>
-              <span class="meta-separator">•</span>
-              <span><?php echo rodytech_reading_time(); ?></span>
-              <span class="meta-separator">•</span>
-              <a href="#comments"><?php echo rodytech_comment_count(); ?></a>
-            </div>
-          </div>
-        </div>
+  <nav class="article-breadcrumbs" aria-label="Breadcrumb">
+    <a href="<?php echo esc_url(home_url('/')); ?>">Journal</a><span aria-hidden="true">/</span>
+    <a href="<?php echo esc_url($category_url); ?>"><?php echo esc_html($primary_category ? $primary_category->name : 'Articles'); ?></a>
+  </nav>
+  <header class="article-hero publication-article-header" id="article-top">
+    <span class="editorial-eyebrow"><?php echo esc_html($primary_category ? $primary_category->name : 'Article'); ?></span>
+    <h1 class="article-title"><?php the_title(); ?></h1>
+    <div class="article-meta-header">
+      <div class="meta-authors">
+        <?php echo get_avatar($author_id, 40, '', '', array('class' => 'author-avatar-large')); ?>
+        <a href="<?php echo esc_url(get_author_posts_url($author_id)); ?>" class="author-name-link"><?php echo $author_name; ?></a>
       </div>
-    </header>
-  <?php else : ?>
-    <header class="hero-no-image">
-      <span class="hero-category"><?php echo $cat_name; ?></span>
-      <h1 class="article-title"><?php the_title(); ?></h1>
-      <div class="article-meta-header">
-        <div class="meta-authors">
-          <?php echo get_avatar($author_id, 40, '', '', array('class' => 'author-avatar-large')); ?>
-          <div class="meta-author-info">
-            <a href="<?php echo get_author_posts_url($author_id); ?>" class="author-name-link"><?php echo $author_name; ?></a>
-            <?php if ($author_position) : ?>
-              <span class="author-position"><?php echo $author_position; ?></span>
-            <?php endif; ?>
-          </div>
-        </div>
-        <div class="meta-stats">
-          <time><?php echo get_the_date('M j, Y'); ?></time>
-          <span class="meta-separator">•</span>
-          <span><?php echo rodytech_reading_time(); ?></span>
-          <span class="meta-separator">•</span>
-          <a href="#comments"><?php echo rodytech_comment_count(); ?></a>
-        </div>
+      <div class="meta-stats">
+        <time datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(get_the_date('M j, Y')); ?></time>
+        <span class="meta-separator" aria-hidden="true">·</span><span><?php echo esc_html(rodytech_reading_time()); ?></span>
+        <?php if (comments_open() || get_comments_number()) : ?><span class="meta-separator" aria-hidden="true">·</span><a href="#comments"><?php echo esc_html(rodytech_comment_count()); ?></a><?php endif; ?>
       </div>
-    </header>
-  <?php endif; ?>
+    </div>
+    <?php if (has_post_thumbnail()) : ?>
+      <figure class="publication-article-image">
+        <?php the_post_thumbnail('featured-large', array('class' => 'hero-image', 'loading' => 'eager')); ?>
+        <?php if (get_the_post_thumbnail_caption()) : ?><figcaption><?php echo wp_kses_post(get_the_post_thumbnail_caption()); ?></figcaption><?php endif; ?>
+      </figure>
+    <?php endif; ?>
+  </header>
 
   <!-- Body -->
   <div class="article-body">
+    <details class="article-toc" hidden><summary>In this article</summary><nav aria-label="In this article"><ol></ol></nav></details>
     <div class="article-content">
       <?php the_content(); ?>
     </div>
 
-    <section class="article-inline-cta" aria-labelledby="article-inline-cta-title">
-      <div class="article-inline-cta-copy">
-        <span class="article-inline-cta-kicker">Keep exploring</span>
-        <h2 id="article-inline-cta-title">Find more practical writing from the RodyTech archive.</h2>
-        <p>RodyTech publishes practical writing on AI systems, infrastructure, and software that teams can actually ship. Use the archive paths below to keep reading by topic or browse the full library.</p>
-        <ul class="article-inline-cta-points" aria-label="Reading paths">
-          <li>Browse the full archive by publication date and topic</li>
-          <li>Hands-on notes from real builds, deployments, and ops work</li>
-          <li>Category paths for AI, infrastructure, developer tools, and security</li>
-        </ul>
-      </div>
-      <div class="article-inline-cta-form-wrap">
-        <div class="article-inline-cta-actions article-inline-cta-actions-stacked">
-          <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="article-inline-btn article-inline-btn-primary">Browse all articles</a>
-          <?php if ($primary_category) : ?>
-            <a href="<?php echo esc_url($category_url); ?>" class="article-inline-btn article-inline-btn-secondary">More in <?php echo esc_html($primary_category->name); ?></a>
-          <?php endif; ?>
-          <a href="<?php echo esc_url(rodytech_marketing_url()); ?>" target="_blank" rel="noopener noreferrer" class="article-inline-link">Visit the main RodyTech site</a>
-        </div>
-      </div>
-    </section>
+    <a class="article-back-top" href="#article-top">Back to top ↑</a>
 
     <!-- Share -->
     <div class="social-share">
@@ -147,18 +100,7 @@
     </div>
   </div>
 
-  <section class="post-conversion-band" aria-labelledby="post-conversion-title">
-    <div class="post-conversion-card post-conversion-card-primary">
-      <span class="post-conversion-kicker">Next step</span>
-      <h3 id="post-conversion-title">Turn one article into a working reading loop.</h3>
-      <p>Keep the context warm: revisit the archive or stay inside the same topic while the thread is still fresh.</p>
-      <div class="post-conversion-actions">
-        <a href="<?php echo esc_url(home_url('/articles/')); ?>" class="post-conversion-btn post-conversion-btn-primary">Explore the archive</a>
-        <?php if ($primary_category) : ?>
-          <a href="<?php echo esc_url($category_url); ?>" class="post-conversion-btn post-conversion-btn-secondary">More <?php echo esc_html($primary_category->name); ?></a>
-        <?php endif; ?>
-      </div>
-    </div>
+  <nav class="post-conversion-band publication-adjacent" aria-label="Adjacent articles">
     <div class="post-conversion-card post-conversion-card-secondary">
       <span class="post-conversion-kicker">Keep reading</span>
       <div class="post-conversion-links">
@@ -182,7 +124,7 @@
         <?php endif; ?>
       </div>
     </div>
-  </section>
+  </nav>
 
   <!-- Related Posts -->
   <?php

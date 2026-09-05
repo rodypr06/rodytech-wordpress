@@ -69,16 +69,16 @@ test('keeps real long headlines and article reading content readable', async ({ 
 test('reacts to pointer movement and stops when reduced motion is enabled', async ({ page }) => {
   await page.emulateMedia({reducedMotion:'no-preference'});
   await page.goto('/');
-  const object=page.locator('.journal-object');
+  const object=page.locator('.publication-story-lead');
   await object.scrollIntoViewIfNeeded();
   const box=await object.boundingBox();
   await page.mouse.move(box.x+box.width*.8,box.y+box.height*.4);
   await expect.poll(()=>object.evaluate(node=>node.style.getPropertyValue('--pointer-x'))).not.toBe('');
   await page.emulateMedia({reducedMotion:'reduce'});
   await expect.poll(()=>object.evaluate(node=>node.style.getPropertyValue('--pointer-x'))).toBe('');
-  await page.locator('.collection-card').first().scrollIntoViewIfNeeded();
-  await expect(page.locator('.collection-card').first()).toHaveCSS('opacity','1');
-  await expect(page.locator('.journal-sheet-front')).toHaveCSS('transition-duration','0s');
+  await page.locator('.sidebar-card').first().scrollIntoViewIfNeeded();
+  await expect(page.locator('.sidebar-card').first()).toHaveCSS('opacity','1');
+  await expect(page.locator('.publication-story-image img').first()).toHaveCSS('transition-duration','0s');
 });
 
 test('keeps the archive readable without JavaScript', async ({ browser }, testInfo) => {
@@ -92,4 +92,58 @@ test('keeps the archive readable without JavaScript', async ({ browser }, testIn
     await page.locator('.story-card-link').first().click();
     await expect(page.locator('.article-content')).toBeVisible();
   } finally { await context.close(); }
+});
+
+test('puts stories first and paginates without losing or repeating articles', async ({ page }) => {
+  await page.goto('/');
+  const lead=page.locator('.publication-story-lead h2');
+  expect((await lead.boundingBox()).y).toBeLessThan(650);
+  await expect(page.getByRole('navigation',{name:'Topics',exact:true})).toBeVisible();
+  const ids=await page.locator('[data-post-id]').evaluateAll(nodes=>nodes.map(node=>node.dataset.postId));
+  expect(ids.length).toBe(9);
+  await page.locator('.pagination .next').click();
+  await expect(page).toHaveURL(/page\/2/);
+  const older=await page.locator('[data-post-id]').evaluateAll(nodes=>nodes.map(node=>node.dataset.postId));
+  expect(older.length).toBeGreaterThan(0);
+  expect(older.every(id=>!ids.includes(id))).toBe(true);
+  await page.goto('/articles/');
+  await expect(page.locator('.pagination .next')).toHaveAttribute('href',/\/articles\/page\/2\//);
+  await page.locator('.pagination .next').click();
+  await expect(page.locator('.publication-story')).toHaveCount(1);
+  await page.getByRole('navigation',{name:'Topics',exact:true}).getByRole('link',{name:'Developer',exact:true}).click();
+  await expect(page.locator('h1')).toHaveText('Developer');
+  await expect(page.getByRole('navigation',{name:'Topics',exact:true}).getByRole('link',{name:'Developer',exact:true})).toHaveAttribute('aria-current','page');
+});
+
+test('provides working section links and an RSS feed', async ({ page }) => {
+  await page.goto('/');
+  const feedUrl=await page.getByRole('link',{name:'Follow via RSS'}).getAttribute('href');
+  const feed=await page.request.get(feedUrl);
+  expect(feed.status()).toBe(200);
+  expect(await feed.text()).toContain('<rss');
+  await page.locator('.story-card-link').first().click();
+  const toc=page.locator('.article-toc');
+  await expect(toc).toBeVisible();
+  if(!(await toc.evaluate(node=>node.open))) await toc.locator('summary').click();
+  const links=toc.getByRole('link');
+  expect(await links.count()).toBeGreaterThanOrEqual(3);
+  const link=links.last();
+  const anchor=await link.getAttribute('href');
+  const title=await link.textContent();
+  await link.click();
+  expect(new URL(page.url()).hash).toBe(anchor);
+  const heading=page.locator('.article-content h2').filter({hasText:title}).last();
+  await expect(heading).toBeInViewport();
+  expect((await heading.boundingBox()).y).toBeGreaterThanOrEqual(65);
+});
+
+test('connects bylines to a readable author archive', async ({ page }) => {
+  await page.goto('/');
+  const author=page.locator('.publication-meta a').first();
+  const name=await author.textContent();
+  await author.click();
+  await expect(page.locator('h1')).toHaveText(name);
+  await expect(page.locator('main')).toHaveCount(1);
+  await expect(page.locator('.publication-story').first()).toBeVisible();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(page.viewportSize().width);
 });

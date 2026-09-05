@@ -15,6 +15,7 @@ function rodytech_marketing_url() {
 // Theme setup
 function rodytech_setup() {
     add_theme_support('title-tag');
+    add_theme_support('automatic-feed-links');
     add_theme_support('post-thumbnails');
     add_theme_support('html5', array('search-form', 'comment-form', 'comment-list', 'gallery', 'caption'));
     
@@ -35,9 +36,10 @@ add_action('after_setup_theme', 'rodytech_setup');
 // Enqueue styles
 function rodytech_scripts() {
     wp_enqueue_style('rodytech-fonts', 'https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap', array(), null);
-    wp_enqueue_style('rodytech-style', get_stylesheet_uri(), array('rodytech-fonts'), '7.0');
-    wp_enqueue_style('rodytech-brand-harmony', get_template_directory_uri() . '/brand-harmony.css', array('rodytech-style'), '7.0');
-    wp_enqueue_script('rodytech-animations', get_template_directory_uri() . '/rodytech-animations.js', array(), '3.0', true);
+    wp_enqueue_style('rodytech-style', get_stylesheet_uri(), array('rodytech-fonts'), '7.1');
+    wp_enqueue_style('rodytech-brand-harmony', get_template_directory_uri() . '/brand-harmony.css', array('rodytech-style'), '7.1');
+    wp_enqueue_style('rodytech-publication', get_template_directory_uri() . '/publication.css', array('rodytech-brand-harmony'), '7.1');
+    wp_enqueue_script('rodytech-animations', get_template_directory_uri() . '/rodytech-animations.js', array(), '3.1', true);
 }
 add_action('wp_enqueue_scripts', 'rodytech_scripts');
 
@@ -556,6 +558,47 @@ function rodytech_render_story_card($post_id, $variant = 'standard') {
           </div>
         <?php endif; ?>
       </a>
+    </article>
+    <?php
+    return ob_get_clean();
+}
+
+
+// Keep the homepage's display and WordPress's pagination in the same query.
+function rodytech_publication_query($query) {
+    if (!is_admin() && $query->is_main_query() && $query->is_home()) {
+        $query->set('posts_per_page', 9);
+        $query->set('ignore_sticky_posts', true);
+        $query->set('orderby', 'date');
+        $query->set('order', 'DESC');
+    }
+}
+add_action('pre_get_posts', 'rodytech_publication_query');
+
+function rodytech_render_publication_story($post_id, $variant = 'list') {
+    $story = get_post($post_id);
+    if (!$story instanceof WP_Post) return '';
+    $category = rodytech_get_primary_category($post_id);
+    $author_id = (int) $story->post_author;
+    $variant = in_array($variant, array('lead', 'brief', 'list'), true) ? $variant : 'list';
+    ob_start();
+    ?>
+    <article class="publication-story publication-story-<?php echo esc_attr($variant); ?>" data-post-id="<?php echo esc_attr($post_id); ?>">
+      <a class="publication-story-image" href="<?php echo esc_url(get_permalink($post_id)); ?>" tabindex="-1" aria-hidden="true">
+        <?php if (has_post_thumbnail($post_id)) : ?>
+          <?php echo get_the_post_thumbnail($post_id, $variant === 'lead' ? 'featured-large' : 'featured-medium', array('alt' => '', 'loading' => $variant === 'lead' ? 'eager' : 'lazy', 'fetchpriority' => $variant === 'lead' ? 'high' : 'auto')); ?>
+        <?php else : ?><span class="publication-image-fallback" aria-hidden="true">R<span>FIELD NOTES</span></span><?php endif; ?>
+      </a>
+      <div class="publication-story-copy">
+        <?php if ($category) : ?><a class="publication-category" href="<?php echo esc_url(get_category_link($category->term_id)); ?>"><?php echo esc_html($category->name); ?></a><?php endif; ?>
+        <h2><a href="<?php echo esc_url(get_permalink($post_id)); ?>" class="story-card-link"><?php echo esc_html(get_the_title($post_id)); ?></a></h2>
+        <p class="publication-excerpt"><?php echo esc_html(rodytech_get_editorial_excerpt($post_id, $variant === 'lead' ? 32 : 24)); ?></p>
+        <div class="publication-meta">
+          <a href="<?php echo esc_url(get_author_posts_url($author_id)); ?>"><?php echo esc_html(get_the_author_meta('display_name', $author_id)); ?></a>
+          <span aria-hidden="true">·</span><time datetime="<?php echo esc_attr(get_the_date('c', $post_id)); ?>"><?php echo esc_html(get_the_date('M j, Y', $post_id)); ?></time>
+          <span aria-hidden="true">·</span><span><?php echo esc_html(rodytech_reading_time($post_id)); ?></span>
+        </div>
+      </div>
     </article>
     <?php
     return ob_get_clean();

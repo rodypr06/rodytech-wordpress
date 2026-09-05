@@ -164,7 +164,7 @@
   /* Local light and notebook depth: event-driven, with no ambient render loop. */
   function initReactiveLight() {
     var fine = window.matchMedia('(hover: hover) and (pointer: fine)');
-    var targets = document.querySelectorAll('.story-card, .collection-card, .editorial-hero-copy, .journal-object');
+    var targets = document.querySelectorAll('.story-card, .collection-card, .editorial-hero-copy, .journal-object, .publication-story');
     targets.forEach(function (element) {
       var frame = 0;
       function reset() {
@@ -226,6 +226,31 @@
     update();
   }
 
+  /* Progressive in-page navigation; article content and existing anchors remain intact. */
+  function initArticleContents() {
+    var content = document.querySelector('.article-content');
+    var toc = document.querySelector('.article-toc');
+    if (!content || !toc) return;
+    var headings = Array.from(content.querySelectorAll('h2')).filter(function (heading) { return heading.textContent.trim(); });
+    if (headings.length < 3) return;
+    var list = toc.querySelector('ol');
+    headings.forEach(function (heading, index) {
+      if (!heading.id) {
+        var id = 'journal-section-' + (index + 1);
+        while (document.getElementById(id)) id += '-section';
+        heading.id = id;
+      }
+      var item = document.createElement('li');
+      var link = document.createElement('a');
+      link.href = '#' + encodeURIComponent(heading.id);
+      link.textContent = heading.textContent.trim();
+      item.appendChild(link);
+      list.appendChild(item);
+    });
+    toc.hidden = false;
+    toc.open = window.matchMedia('(min-width: 769px)').matches;
+  }
+
   /* ── Boot ── */
   document.addEventListener('DOMContentLoaded', function () {
     injectStyles();
@@ -236,6 +261,7 @@
     initImageShimmer();
     initReactiveLight();
     initReadingProgress();
+    initArticleContents();
   });
 
 }());

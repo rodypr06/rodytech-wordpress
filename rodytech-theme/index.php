@@ -1,227 +1,43 @@
 <?php get_header(); ?>
-
-<?php
-$paged = max(1, (int) get_query_var('paged'), (int) get_query_var('page'));
+<?php if (is_home() || is_front_page()) :
+  global $wp_query;
+  $paged = max(1, (int) get_query_var('paged'));
+  $stories = $wp_query->posts;
+  $featured = $paged === 1 ? array_slice($stories, 0, 3) : array();
+  $latest = $paged === 1 ? array_slice($stories, 3) : $stories;
 ?>
-
-<?php if (is_home() || is_front_page()) : ?>
-  <?php
-    $stats = rodytech_get_blog_stats();
-    $top_categories = rodytech_get_editorial_categories(5);
-    $featured_count = min(3, (int) $stats['published_posts']);
-    $featured_posts = ($paged === 1) ? get_posts(array(
-      'post_type'           => 'post',
-      'post_status'         => 'publish',
-      'numberposts'         => $featured_count,
-      'orderby'             => 'date',
-      'order'               => 'DESC',
-      'ignore_sticky_posts' => true,
-    )) : array();
-    $featured_ids = wp_list_pluck($featured_posts, 'ID');
-
-    $river_per_page = 6;
-    $river_offset = $featured_count + (($paged - 1) * $river_per_page);
-    $river_query = new WP_Query(array(
-      'post_type'           => 'post',
-      'post_status'         => 'publish',
-      'posts_per_page'      => $river_per_page,
-      'offset'              => $river_offset,
-      'orderby'             => 'date',
-      'order'               => 'DESC',
-      'ignore_sticky_posts' => true,
-    ));
-
-    $total_posts = (int) $stats['published_posts'];
-    $remaining_posts = max(0, $total_posts - $featured_count);
-    $total_pages = max(1, (int) ceil($remaining_posts / $river_per_page));
-    $collection_categories = rodytech_get_editorial_categories(3);
-  ?>
-
-  <section class="editorial-hero">
-    <div class="editorial-hero-copy">
-      <span class="editorial-eyebrow">RodyTech Journal</span>
-      <h1>Clear thinking.<br><span class="editorial-gradient">Better systems.</span></h1>
-      <p>Practical perspectives on AI, automation, and the systems behind a smoother working day. Ideas to help you build with confidence.</p>
-      <div class="editorial-hero-actions">
-        <a href="#latest-stories" class="editorial-btn editorial-btn-primary">Explore latest stories</a>
-        <a href="<?php echo esc_url(home_url('/articles')); ?>" class="editorial-btn editorial-btn-secondary">Browse archive</a>
-        <a href="<?php echo esc_url(rodytech_marketing_url()); ?>" class="editorial-btn editorial-btn-secondary" target="_blank" rel="noopener noreferrer">Visit RodyTech</a>
-      </div>
-      <?php if (!empty($top_categories)) : ?>
-        <div class="editorial-topic-row" aria-label="Top categories">
-          <?php foreach ($top_categories as $category) : ?>
-            <a href="<?php echo esc_url(get_category_link($category->term_id)); ?>" class="editorial-topic-pill">
-              <span><?php echo esc_html($category->name); ?></span>
-              <strong><?php echo esc_html($category->count); ?></strong>
-            </a>
-          <?php endforeach; ?>
-        </div>
-      <?php endif; ?>
+<section class="editorial-hero publication-masthead">
+  <div><span class="editorial-eyebrow">Ideas, experiments &amp; practical guides</span>
+    <h1>RodyTech <em>Journal</em></h1>
+    <p>AI, automation, and software. What’s useful, what works, and how to build it.</p>
+  </div>
+  <a class="publication-rss" href="<?php echo esc_url(get_feed_link()); ?>">Follow via RSS <span aria-hidden="true">↗</span></a>
+</section>
+<?php get_template_part('template-parts/topic-nav'); ?>
+<?php if ($featured) : ?>
+  <section class="publication-front" aria-label="Latest stories">
+    <?php echo rodytech_render_publication_story($featured[0]->ID, 'lead'); ?>
+    <div class="publication-briefs"><span class="section-label">More from the journal</span>
+      <?php foreach (array_slice($featured, 1) as $story) echo rodytech_render_publication_story($story->ID, 'brief'); ?>
     </div>
-
-    <aside class="editorial-hero-sidebar journal-sidebar" aria-label="Inside the journal">
-      <div class="journal-object" aria-hidden="true">
-        <div class="journal-orbit"></div>
-        <div class="journal-sheet journal-sheet-back"></div>
-        <div class="journal-sheet journal-sheet-middle"></div>
-        <div class="journal-sheet journal-sheet-front">
-          <span class="journal-edition">RODYTECH / FIELD NOTES</span>
-          <span class="journal-title">The useful<br><em>side of AI.</em></span>
-          <span class="journal-rule"></span>
-          <span class="journal-subtitle">Ideas. Experiments.<br>Better ways to work.</span>
-          <span class="journal-monogram">R</span>
-        </div>
-        <span class="journal-orbit-dot"></span>
-      </div>
-      <div class="journal-archive-note">
-        <span class="section-label">A growing collection</span>
-        <p><strong><?php echo esc_html($stats['published_posts']); ?></strong> articles on building useful systems.</p>
-        <a href="<?php echo esc_url(home_url('/articles')); ?>" class="inline-action-link">Find your next idea <span aria-hidden="true">↗</span></a>
-      </div>
-    </aside>
   </section>
-
-  <?php if (!empty($featured_posts)) : ?>
-    <section class="editorial-feature-grid">
-      <div class="editorial-feature-main">
-        <?php echo rodytech_render_story_card($featured_posts[0]->ID, 'featured'); ?>
-      </div>
-
-      <div class="editorial-feature-stack">
-        <?php foreach (array_slice($featured_posts, 1) as $featured_post) : ?>
-          <?php echo rodytech_render_story_card($featured_post->ID, 'compact'); ?>
-        <?php endforeach; ?>
-      </div>
-    </section>
-  <?php endif; ?>
-
-  <section class="editorial-content-grid" id="latest-stories">
-    <div class="editorial-main-column">
-      <div class="editorial-section-heading">
-        <div>
-          <span class="section-label">Recent stories</span>
-          <h2><?php echo ($paged > 1) ? 'More from the archive' : 'New writing from the main feed'; ?></h2>
-        </div>
-        <a href="<?php echo esc_url(home_url('/articles')); ?>" class="inline-action-link">View all articles</a>
-      </div>
-
-      <?php if ($river_query->have_posts()) : ?>
-        <div class="story-grid">
-          <?php while ($river_query->have_posts()) : $river_query->the_post(); ?>
-            <?php echo rodytech_render_story_card(get_the_ID(), 'standard'); ?>
-          <?php endwhile; ?>
-        </div>
-
-        <?php if ($total_pages > 1) : ?>
-          <div class="pagination editorial-pagination">
-            <?php
-              echo paginate_links(array(
-                'base'      => str_replace(999999999, '%#%', esc_url(get_pagenum_link(999999999))),
-                'format'    => '?paged=%#%',
-                'current'   => $paged,
-                'total'     => $total_pages,
-                'prev_text' => '← Newer',
-                'next_text' => 'Older →',
-                'mid_size'  => 2,
-              ));
-            ?>
-          </div>
-        <?php endif; ?>
-      <?php elseif ($paged === 1 && !empty($featured_posts)) : ?>
-        <div class="no-posts no-posts-curated">
-          <h2>Curated archive in progress</h2>
-          <p>The strongest articles are featured above while the broader archive is being reviewed and tightened for publication.</p>
-          <p class="no-posts-actions">
-            <a href="<?php echo esc_url(home_url('/articles')); ?>" class="inline-action-link">Open the curated archive</a>
-          </p>
-        </div>
-      <?php else : ?>
-        <div class="no-posts">
-          <h2>No articles yet</h2>
-          <p>Check back soon for new content.</p>
-        </div>
-      <?php endif; wp_reset_postdata(); ?>
+<?php endif; ?>
+<section class="editorial-content-grid publication-feed" id="latest-stories">
+  <div class="editorial-main-column">
+    <div class="editorial-section-heading"><h2><?php echo $paged > 1 ? 'Older articles' : 'Latest articles'; ?></h2><span class="publication-order">Newest first<?php if ($paged > 1) echo ' · Page ' . esc_html($paged); ?></span></div>
+    <div class="publication-list">
+      <?php foreach ($latest as $story) echo rodytech_render_publication_story($story->ID, 'list'); ?>
     </div>
-
-    <aside class="editorial-sidebar">
-      <div class="sidebar-card">
-        <span class="sidebar-card-label">About this blog</span>
-        <h3>Built around practical technical systems.</h3>
-        <p>RodyTech covers applied AI, cloud infrastructure, and software delivery with a bias toward concrete implementation details.</p>
-      </div>
-
-      <?php if (!empty($top_categories)) : ?>
-        <div class="sidebar-card">
-          <span class="sidebar-card-label">Top categories</span>
-          <ul class="sidebar-category-list">
-            <?php foreach ($top_categories as $category) : ?>
-              <li>
-                <a href="<?php echo esc_url(get_category_link($category->term_id)); ?>">
-                  <span><?php echo esc_html($category->name); ?></span>
-                  <strong><?php echo esc_html($category->count); ?></strong>
-                </a>
-              </li>
-            <?php endforeach; ?>
-          </ul>
-        </div>
-      <?php endif; ?>
-
-      <div class="sidebar-card sidebar-card-accent">
-        <span class="sidebar-card-label">Start here</span>
-        <h3>Use the archive as a map, not a feed.</h3>
-        <p>Pick a category, follow the latest stories, or jump into a collection built around the systems RodyTech is actively exploring.</p>
-        <a href="<?php echo esc_url(home_url('/articles')); ?>" class="inline-action-link">Open the full archive</a>
-      </div>
-    </aside>
-  </section>
-
-  <?php if (!empty($collection_categories)) : ?>
-    <section class="editorial-collections">
-      <div class="editorial-section-heading">
-        <div>
-          <span class="section-label">Collections</span>
-          <h2>Category-led entry points into the archive</h2>
-        </div>
-      </div>
-
-      <div class="collection-grid">
-        <?php foreach ($collection_categories as $category) : ?>
-          <?php
-            $collection_posts = get_posts(array(
-              'post_type'           => 'post',
-              'post_status'         => 'publish',
-              'numberposts'         => 2,
-              'orderby'             => 'date',
-              'order'               => 'DESC',
-              'ignore_sticky_posts' => true,
-              'category'            => $category->term_id,
-            ));
-          ?>
-          <article class="collection-card">
-            <div class="collection-card-head">
-              <span class="collection-dot"></span>
-              <span class="collection-count"><?php echo esc_html($category->count); ?> posts</span>
-            </div>
-            <h3><?php echo esc_html($category->name); ?></h3>
-            <p><?php echo esc_html(rodytech_get_category_summary($category)); ?></p>
-            <?php if (!empty($collection_posts)) : ?>
-              <ul class="collection-post-list">
-                <?php foreach ($collection_posts as $collection_post) : ?>
-                  <li>
-                    <a href="<?php echo esc_url(get_permalink($collection_post->ID)); ?>"><?php echo esc_html(get_the_title($collection_post->ID)); ?></a>
-                  </li>
-                <?php endforeach; ?>
-              </ul>
-            <?php endif; ?>
-            <a href="<?php echo esc_url(get_category_link($category->term_id)); ?>" class="collection-link">Explore collection</a>
-          </article>
-        <?php endforeach; ?>
-      </div>
-    </section>
-  <?php endif; ?>
-
+    <?php if (!$stories) : ?><div class="no-posts"><h2>No articles yet</h2><p>New writing will appear here.</p></div><?php endif; ?>
+    <?php if ($wp_query->max_num_pages > 1) : ?>
+      <nav class="pagination editorial-pagination" aria-label="Article pages">
+        <?php echo paginate_links(array('current' => $paged, 'total' => $wp_query->max_num_pages, 'prev_text' => '← Newer', 'next_text' => 'Older →', 'mid_size' => 1)); ?>
+      </nav>
+    <?php endif; ?>
+  </div>
+  <?php get_template_part('template-parts/publication-sidebar'); ?>
+</section>
 <?php else : ?>
   <?php get_template_part('template-parts/editorial-archive'); ?>
 <?php endif; ?>
-
 <?php get_footer(); ?>
