@@ -1,6 +1,6 @@
 # Resume RodyTech Journal growth in Codex
 
-Handoff prepared September 5, 2026. This file is committed to GitHub so the work can resume on another computer without the original local session.
+Handoff prepared September 5 and updated September 15, 2026. This file is committed to GitHub so the work can resume on another computer without the original local session.
 
 ## Start here
 
@@ -10,16 +10,16 @@ Open this repository in Codex and use this prompt:
 
 Repository: https://github.com/rodypr06/rodytech-wordpress
 
-Branch: `codex/journal-growth-foundation`
+Resume from: `main`. PR #5's `codex/journal-growth-foundation` branch has been merged; create a fresh `codex/` branch for subsequent implementation.
 
 PR: https://github.com/rodypr06/rodytech-wordpress/pull/5
 
-Last verified remote code/document state before this handoff: `bfa7beed15a640b7b6906264754af2009c394a0a`. The feature implementation is `dd6caca4cc142bdf877000cfb9b74db56886645a`. This handoff is a later documentation commit; fetch the current branch rather than resetting to either older SHA. At handoff, main is `0797f2b2db67263bd0f24157209aa573dab4b5c8`; PR #5 is open, unmerged and undeployed. Recheck before acting.
+PR #5 merged September 15 as `dc83b2bf18ab9dcfeb827ca1b6bbdd788f37dd0f`, including verification fix `36ec23512b9c67365dba203e088697d5eec0741d`. It is NOT deployed. Fetch current main rather than resetting to an older handoff SHA. The latest execution receipt, test details and pending Flowspace update are in `docs/growth/EXECUTION.md`.
 
 For a new checkout:
 
 ```sh
-git clone --branch codex/journal-growth-foundation https://github.com/rodypr06/rodytech-wordpress.git
+git clone --branch main https://github.com/rodypr06/rodytech-wordpress.git
 cd rodytech-wordpress
 git status --short
 ```
@@ -70,7 +70,7 @@ Flowspace contains 15 implementation cards plus the research receipt. Research a
 
 1. Read the existing Slack thread. No reply had arrived at the last check. Roderick was asked which newsletter account to use and to leave its dashboard signed in in Chrome. Kit is a provisional recommendation; its help pages gave conflicting free-plan automation descriptions, so verify actual account entitlements. Do not ask for credentials in Slack.
 2. The configured SSH route on the original computer timed out. Roderick was asked to restore access or identify the approved route. The destination computer may already have working host/VPN access; inspect its approved configuration instead of assuming the old machine's failure applies. Do not guess production hosts or copy secret files into Git.
-3. Review current PR #5 state and finish merge/deploy using `scripts/deploy-theme.sh` and `DEPLOYMENT.md`. A Git push is not a deployment. Record the backup, deployed SHA and live smoke results. The script deploys theme files only; it does not publish article drafts or configure the provider.
+3. PR #5 is merged; deploy the verified current main using `scripts/deploy-theme.sh` and `DEPLOYMENT.md` when access returns. A merge is not a deployment. Record the backup, deployed SHA and live smoke results. The script deploys theme files only; it does not publish article drafts or configure the provider.
 4. Connect the selected provider, including consent/confirmation, operator/builder interests, sender authentication, privacy, suppression, preferences and unsubscribe. Verify the entire journey before enabling the public signup path. No subscribers have been collected and no emails have been sent by this implementation.
 5. Integrate the local hooks with the actual consent-aware analytics stack and establish authenticated baseline data. Traffic, subscribers and conversion are unknown, not zero.
 6. Finish editorial verification and publish the first article/resources through the approved route. Replace proposed draft URLs with verified live URLs before promotion. Check for duplicates against the current archive.
