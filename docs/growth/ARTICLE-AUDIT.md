@@ -25,4 +25,6 @@ The About page's “intentionally small archive” wording was removed in the lo
 
 ## Baseline still required
 
+September 15 progress on “After the Timeout”: `examples/reconciliation_lab.py` now exercises seven local failure/replay scenarios, all passing. `week-04-reconciliation-package.md` contains results, model limitations, primary-source checks and proposed reader-facing additions. It is not published; AWS-specific citations and actual provider behavior still need their own verification.
+
 Authenticated traffic, Search Console, email delivery and conversion data are unavailable. Prioritize the final ten-article editing queue after that data is supplied. The public archive count and publication dates can verify inventory and cadence; they cannot establish audience size or commercial demand.

@@ -48,3 +48,10 @@ The plan assumes at most six founder hours a week and a proposed $0–$100 month
 - Merged only after the fix and validation. No live deployment, subscriber collection, provider configuration, analytics baseline or email sends occurred.
 - Slack thread still had no owner reply at the September 15 check. SSH timed out at the September 7 check; recheck actual access before the next deployment attempt.
 - Flowspace session expired and now shows its public landing page. Board update is pending authenticated access; do not claim its cards reflect the merge yet. Pending receipt: newsletter foundation merged in PR #5; verification review finding fixed; deployment/provider dependencies remain open.
+
+## September 15 editorial continuation
+
+- No new reply in the existing Slack dependency thread; did not send another access reminder.
+- Prepared the Week 4 article update package in `week-04-reconciliation-package.md` and runnable `examples/reconciliation_lab.py`. Seven scenarios passed on Python 3.12.14 / SQLite 3.53.1, including controlled lost-response, rollback, concurrency, changed-payload and retention cases. Scope and untested boundaries are explicit.
+- Verified the existing article, SQLite transaction documentation and Stripe's idempotency contract; did not claim all existing AWS citations are verified. No provider API calls, live content edits, or campaign sends occurred.
+- The package includes a proposed decision summary, practical-example copy, email draft, two LinkedIn drafts and publication gates. Flowspace Week 4 evidence update remains pending sign-in. Its completion criteria are not met by drafts alone.
