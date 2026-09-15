@@ -16,7 +16,7 @@ if (!$avatar_url) {
     <div class="about-hero-inner">
       <span class="about-eyebrow">Start Here</span>
       <h1>AI consulting and systems<br>for <span>operators who build</span></h1>
-      <p>RodyTech Blog is a small, curated field notebook from an AI consultant and systems builder. Industry is how a system is tailored, not a specialist identity. The goal is useful judgment, not content volume.</p>
+      <p>RodyTech Journal is a field notebook about practical AI, automation, and software. For operators, it explains the decisions behind a useful workflow. For builders, it explores how to implement, test, and maintain one.</p>
     </div>
   </section>
 
@@ -31,7 +31,7 @@ if (!$avatar_url) {
         <h2 class="about-bio-name">Roderick <span>"Rody"</span> Rabelo</h2>
         <span class="about-bio-role">AI consultant &amp; systems builder · RodyTech LLC</span>
         <p>Based in Iowa. I design and ship practical systems: automation, applied AI, and software that helps operators move with more judgment and less waste. Vertical is a tailor, never a brand claim.</p>
-        <p>The public archive is intentionally small while older drafts are reviewed. I would rather publish fewer pieces that hold up than flood the site with generic tech commentary.</p>
+        <p>The archive brings together guides, experiments, and implementation notes. Start with the problem you are trying to solve; use the examples and sources to decide what applies to your own system.</p>
         <div class="about-bio-links">
           <a href="<?php echo esc_url(rodytech_marketing_url()); ?>" target="_blank" rel="noopener noreferrer" class="about-bio-btn primary">Visit RodyTech</a>
           <a href="https://linkedin.com/in/roderick-rabelo-78ba9648/" target="_blank" rel="noopener noreferrer" class="about-bio-btn secondary">LinkedIn</a>

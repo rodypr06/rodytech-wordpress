@@ -1,0 +1,12 @@
+{
+  "steps": [
+    {
+      "step": "runPHP",
+      "code": "<?php require '/wordpress/wp-load.php'; switch_theme('rodytech-theme');"
+    },
+    {
+      "step": "runPHP",
+      "code": "<?php require '/wordpress/wp-load.php'; define('RODYTECH_DISPOSABLE_TEST', true); require '/tests/newsletter-wordpress.php';"
+    }
+  ]
+}

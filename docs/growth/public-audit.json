@@ -1,0 +1,236 @@
+{
+  "captured": "2026-09-05",
+  "published_post_count": 144,
+  "sample": "10 most recent posts, not a traffic-ranked sample",
+  "analytics": {
+    "visits": null,
+    "subscribers": null,
+    "conversion_rate": null,
+    "reason": "Authenticated analytics and email accounts unavailable"
+  },
+  "articles": [
+    {
+      "id": 856,
+      "title": "After the Timeout: How to Reconcile Uncertain API Writes Safely",
+      "url": "https://blog.rodytech.ai/after-the-timeout-how-to-reconcile-uncertain-api-writes-safely/",
+      "published": "2026-09-05T11:39:34",
+      "modified": "2026-09-05T11:39:34",
+      "words": 2455,
+      "headings": [
+        "The timeout is not the outcome",
+        "Model delivery uncertainty explicitly",
+        "Give the logical write one stable identity",
+        "Make the receiver’s decision atomic",
+        "Reconcile before creating a new operation",
+        "Treat stale INPROGRESS records as ambiguous",
+        "Match retry semantics to the side effect",
+        "Build reconciliation as an operating capability",
+        "Test the gaps between state transitions",
+        "A practical decision sequence after a timeout",
+        "Sources and further reading"
+      ],
+      "external_links": 9,
+      "flags": [],
+      "opening": "A timeout is not a failed write. It is a missing answer. That distinction is the foundation of a reliable recovery design. A client may stop waiting after five seconds while the server continues processing. The server may have committed the mutation and then lost the response. It is also possible that the request never reached the server. A blind retry can create a duplicate. Recording the operation as failed without evidence creates a different problem: your database may now disagree with the remote system. The operator’s job is not to infer an outcome from a broken connection. It is to preserve the original operation’s identity, obtain an authoritative result, and avoid issuing a second logical write while the first remains unresolved. The timeout is not the outcome Consider a request that creates a payment, provisions an account, submits an order, or starts a long-running workflow. The client sends the write. The provider commits it. Then the connection resets before the success response reaches the client. The client sees a timeout. The provider sees a successful operation. This "
+    },
+    {
+      "id": 848,
+      "title": "Reliable Browser Automation: Drawing the Line Between Playwright and AI Agents",
+      "url": "https://blog.rodytech.ai/reliable-browser-automation-drawing-the-line-between-playwright-and-ai-agents/",
+      "published": "2026-09-04T15:15:09",
+      "modified": "2026-09-04T15:16:08",
+      "words": 2342,
+      "headings": [
+        "Decide whether the browser belongs in the workflow",
+        "What deterministic Playwright handles well",
+        "What an agent can inspect",
+        "When deterministic automation starts to strain",
+        "What an agent adds—and what it breaks",
+        "Keep the adaptive segment narrow",
+        "Choose the integration path by job type",
+        "Runtime infrastructure is a separate decision",
+        "Security boundaries belong in the runtime",
+        "Set the boundary with evidence",
+        "Sources and further reading"
+      ],
+      "external_links": 29,
+      "flags": [],
+      "opening": "Reliable browser automation depends less on how much autonomy a system has than on whether each step can be specified, constrained, and verified. If the next action and its expected result are known, deterministic code is the better tool. When the page has to be interpreted at runtime, model reasoning can help at that boundary. The mistake is letting that uncertainty spread through the rest of the pipeline. This is often framed as Playwright versus AI agents, but that is the wrong comparison. Playwright commonly provides the browser-control layer in either design. The real architectural decision is where explicit execution ends and adaptive reasoning begins. The practical default is conservative: keep the pipeline deterministic until observed failures show that semantic ambiguity or interface variability cannot be handled reasonably with locators, waits, assertions, and explicit branches. Decide whether the browser belongs in the workflow Before choosing Playwright, an agent, or a hybrid, check whether the workflow should use a browser at all. When a supported API provides the requir"
+    },
+    {
+      "id": 836,
+      "title": "A Resilient Next.js 16 DevTools MCP Debugging Pipeline",
+      "url": "https://blog.rodytech.ai/a-resilient-next-js-16-devtools-mcp-debugging-pipeline/",
+      "published": "2026-08-30T15:06:28",
+      "modified": "2026-08-31T20:12:00",
+      "words": 1838,
+      "headings": [
+        "Preserve correlation, not volume",
+        "Separate official capabilities from experimental claims",
+        "Run one bounded incident from end to end",
+        "Encode the operating boundaries in AGENTS.md",
+        "Use explicit defaults and narrow exceptions",
+        "Know when the pipeline cannot establish a cause",
+        "Reliability comes from bounded evidence",
+        "Sources and further reading"
+      ],
+      "external_links": 8,
+      "flags": [],
+      "opening": "A hydration failure appears on one route, but only after deployment. The browser reports a client exception. Server logs look clean. The component renders normally on the first local run. Dumping the entire console history into an AI agent and asking, “What’s broken?” usually makes the investigation worse. A reliable pipeline gives the agent a small, correlated evidence bundle: the failing route, deployment revision, timestamp, stack trace, relevant server event, network failure, and only the component state needed to test a hypothesis. One naming caveat matters from the start. The official Next.js 16 release post documents Next.js DevTools MCP . The “Next.js 16.2 Agent DevTools” terminology and several related capabilities in secondary articles are practitioner or experimental descriptions, not official guarantees established by the cited Next.js documentation. Verify the installed version, feature flag, package, and official feature name before relying on any version-specific behavior. The operational problem is not a lack of data. It is lost correlation. A resilient debugging pipe"
+    },
+    {
+      "id": 835,
+      "title": "Designing Cloudflare Agents for Disconnects, Durable Work, and Route Failures",
+      "url": "https://blog.rodytech.ai/designing-cloudflare-agents-for-disconnects-durable-work-and-route-failures/",
+      "published": "2026-08-30T06:23:19",
+      "modified": "2026-08-30T06:23:19",
+      "words": 2612,
+      "headings": [
+        "Reliability Is More Than an Open WebSocket",
+        "What Agents SDK v0.12.4 Changes",
+        "Chat Recovery Separates Work From Connectivity",
+        "Durable Think Submissions Give Work an Identity",
+        "Routing Retries Need a Defined Boundary",
+        "How the Reliability Layers Fit Together",
+        "SDK Defaults Cannot Make Product Decisions",
+        "Test Failure Boundaries Before Release",
+        "Observability Should Expose Limbo",
+        "What I Would Require Before Shipping",
+        "The Skeptical Takeaway",
+        "Sources and further reading"
+      ],
+      "external_links": 8,
+      "flags": [],
+      "opening": "A production agent cannot depend on a browser tab staying open until the work is done. If a refresh, dropped connection, or temporary routing error can erase a turn—or run the same operation twice—the model is not the problem. The pipeline is. That is what makes Cloudflare Agents SDK v0.12.4 relevant. Released on May 13, 2026, it adds or improves several reliability primitives: chat recovery, reconnect state synchronization, durable Think submissions, configurable routing retries, and Voice connection control. The important part is not the mere presence of retries. Any team can write a retry loop. What matters is that interrupted streams, accepted work, and agent resolution can now be treated as separate lifecycle problems. That separation is the difference between a resilient pipeline and several overlapping retry loops that nobody fully controls. Reliability Is More Than an Open WebSocket Take a typical long-running interaction. A user starts an agent turn. The application resolves a route to the agent, and the server begins streaming a response. Halfway through, the browser goes o"
+    },
+    {
+      "id": 834,
+      "title": "Cloudflare Workers AI or Direct APIs? Designing a Resilient Inference Pipeline",
+      "url": "https://blog.rodytech.ai/cloudflare-workers-ai-or-direct-apis-designing-a-resilient-inference-pipeline/",
+      "published": "2026-08-28T15:06:20",
+      "modified": "2026-08-28T15:06:20",
+      "words": 2486,
+      "headings": [
+        "Separate the Deployment Decisions",
+        "The Operating Models at a Glance",
+        "What Workers AI Removes—and What It Does Not",
+        "Model Access and Output Quality Set the Boundary",
+        "Latency Is a Pipeline Property",
+        "Cost Requires Workload-Level Measurement",
+        "Direct Calls, Gateway Controls, and Failure Behavior",
+        "Elastic Compute Can Expose a Stateful Bottleneck",
+        "Portability Is an Interface Design Problem",
+        "A Resilient Hybrid Pipeline",
+        "Pre-Ship Decision Record",
+        "Sources and further reading"
+      ],
+      "external_links": 18,
+      "flags": [],
+      "opening": "A production inference pipeline is only as credible as its behavior under model errors, quota pressure, dependency failures, and sudden concurrency. The useful question is not which AI platform is “best.” It is which requests belong on which infrastructure—and what the system does when that infrastructure fails. Cloudflare Workers AI, direct model APIs, and provisioned inference are different operating models. Each relocates complexity. Workers AI removes much of the compute management but limits model choice to Cloudflare’s catalog. Direct APIs expose the models available to an account through a provider’s API, while cross-provider controls remain application concerns. Self-hosted or provisioned inference offers more infrastructure control, but capacity, scaling, and recovery become the operator’s responsibility. Resilience rarely comes from choosing one path for every request. It comes from routing by quality, latency, state, cost, and failure requirements—and refusing to send work down a path that cannot preserve its contract. Separate the Deployment Decisions Workers AI runs mode"
+    },
+    {
+      "id": 833,
+      "title": "AI-Ready React Apps Need a Failure Pipeline",
+      "url": "https://blog.rodytech.ai/ai-ready-react-apps-need-a-failure-pipeline/",
+      "published": "2026-08-28T09:16:57",
+      "modified": "2026-08-28T09:16:57",
+      "words": 2454,
+      "headings": [
+        "Map Error Surfaces Before Choosing Tools",
+        "Place Boundaries Around Recoverable Units",
+        "Build a Browser Telemetry Pipeline, Not a Bigger Console",
+        "Sanitize Before Data Leaves the Browser",
+        "Treat Recovery as UI State",
+        "Harden Data Fetching and State Boundaries",
+        "Run a Compact Six-Dimension Audit",
+        "Test Failure Paths as Product Flows",
+        "A Lean Definition of Done",
+        "Sources and further reading"
+      ],
+      "external_links": 10,
+      "flags": [],
+      "opening": "A polished React screen says almost nothing about production readiness. I would not ship AI-generated React code until its failure pipeline had received the same attention as its happy path. That pipeline has three jobs: contain a failure at an honest boundary, send enough browser context for diagnosis, and move the interface into a valid recovery state. A top-level try/catch cannot do all three. Forwarding console output to an error service cannot either. As I’ve argued before, an AI-ready application is defined by resilience , not by whether it includes a generative feature. Generated components can compile and look convincing while still mishandling asynchronous work, state transitions, accessibility, or uncommon browser conditions. The practical response is not to reject generated code. It is to review it as code that will eventually encounter something its author did not model. Map Error Surfaces Before Choosing Tools A global error handler can look like coverage while leaving the product without a coherent failure model. Start by mapping where failures can occur: Component rend"
+    },
+    {
+      "id": 832,
+      "title": "MCP Is the Pipe, Not the Permission Boundary",
+      "url": "https://blog.rodytech.ai/mcp-is-the-pipe-not-the-permission-boundary/",
+      "published": "2026-08-28T06:13:48",
+      "modified": "2026-08-28T06:13:48",
+      "words": 1966,
+      "headings": [
+        "Start with the boundary, not the endpoint",
+        "Give actions explicit grants",
+        "Enforce policy where the action happens",
+        "Keep credentials constrained",
+        "Make prompt injection fail at the same boundary",
+        "Test the failures, not just the demo",
+        "Roll out from the safest path",
+        "Sources and further reading"
+      ],
+      "external_links": 21,
+      "flags": [],
+      "opening": "The useful test for an internal MCP deployment is not whether the happy path works. It is whether a leaked token, compromised client, or manipulated agent produces a small, predictable failure. MCP standardizes how clients exchange context and invoke tools. It does not, by itself, decide who may search documents, modify calendars, create payments, or trigger deployments. Those decisions belong to the authorization architecture around the protocol, and the right architecture depends on the transport and deployment model. For HTTP-based deployments, the current MCP authorization specification defines an OAuth-based authorization flow and treats the MCP server as an OAuth resource server. It also says authorization is optional and that implementations using STDIO should retrieve credentials from the environment rather than use that HTTP flow. That distinction matters: one resource-server pattern does not apply universally to every MCP transport. The operational goal is a resilient pipeline. Assume prompts, clients, and credentials can eventually be compromised. Then make sure every unsa"
+    },
+    {
+      "id": 829,
+      "title": "Stop Managing API Keys: Why Small Teams Need Vercel AI Gateway",
+      "url": "https://blog.rodytech.ai/stop-managing-api-keys-why-small-teams-need-vercel-ai-gateway/",
+      "published": "2026-08-16T06:05:04",
+      "modified": "2026-08-16T06:05:22",
+      "words": 1298,
+      "headings": [
+        "The Small Team’s AI Infrastructure Trap",
+        "What is Vercel AI Gateway?",
+        "Model Routing and Fallbacks in Production",
+        "Budget Guardrails and Cost Control",
+        "Vercel AI Gateway vs. Self-Hosted and Competitors",
+        "When NOT to Use Vercel AI Gateway",
+        "Sources and further reading"
+      ],
+      "external_links": 7,
+      "flags": [],
+      "opening": "Stop Managing API Keys: Why Small Teams Need Vercel AI Gateway If you are a small team shipping AI features today, you are likely drowning in API sprawl. You have keys scattered across GitHub repositories, rate limits hitting at unpredictable moments, and vendor-specific quirks that force you to write custom adapters for every new model you evaluate. The operational cost of maintaining this chaos is invisible until it isn’t—until a provider goes down, a key expires, or your bill spikes because you forgot to cap a test environment. Relying on a single provider is no longer just a convenience choice; it is a strategic liability. When you build your entire inference layer on one vendor, you are betting your product’s reliability on their uptime and pricing stability. For small teams with limited engineering bandwidth, the alternative—building a custom abstraction layer—is often a trap. It requires managing database states, cache layers, and on-call rotations for infrastructure that should be solved once and forgotten. This is where a managed gateway shifts from “nice-to-have” to critica"
+    },
+    {
+      "id": 826,
+      "title": "Next.js 16.2: Why Agent-First Debugging Replaces Manual Console Work",
+      "url": "https://blog.rodytech.ai/next-js-16-2-why-agent-first-debugging-replaces-manual-console-work/",
+      "published": "2026-08-15T15:05:08",
+      "modified": "2026-08-15T15:05:23",
+      "words": 1232,
+      "headings": [
+        "Killing the Copy-Paste Cycle",
+        "What Agent DevTools Actually Does",
+        "Browser Log Forwarding: Unifying the Terminal",
+        "Infrastructure for AI-First Development",
+        "Beyond Debugging: Performance and Production Readiness",
+        "Migration and Breaking Changes",
+        "Sources and further reading"
+      ],
+      "external_links": 4,
+      "flags": [],
+      "opening": "Next.js 16.2: Why Agent-First Debugging Replaces Manual Console Work When you introduce AI agents into your frontend loop, the traditional debugging workflow collapses. Agents don’t context-switch between a browser DevTools panel, a terminal, and documentation. They operate in linear, stateful loops: execute, evaluate, iterate. Forcing that stateful process into the linear, stateless box of legacy debugging tools isn’t just inefficient; it’s a fundamental mismatch in how runtime state is exposed. Next.js 16.2 stops treating AI agents as second-class citizens. It shifts the debugging paradigm from manual, UI-driven inspection to terminal-based, structured diagnostics. This isn’t a minor feature bump. It’s a structural change that allows you to build resilient pipelines where the feedback loop is immediate and machine-readable. Killing the Copy-Paste Cycle For years, debugging production frontends has been a manual exercise in data extraction. You open the browser console, copy a stack trace, paste it into a terminal, and pray the context survives the transfer. That workflow is fatal f"
+    },
+    {
+      "id": 823,
+      "title": "Beyond Demos: Building Resilient Cloudflare Agents with v0.12.4",
+      "url": "https://blog.rodytech.ai/beyond-demos-building-resilient-cloudflare-agents-with-v0-12-4/",
+      "published": "2026-08-15T06:03:41",
+      "modified": "2026-08-15T06:03:56",
+      "words": 1333,
+      "headings": [
+        "The Problem: Fragile AI Agents in Production",
+        "Chat Recovery: Keeping the Conversation Alive",
+        "Durable Submissions and Think",
+        "Routing Retries and State Synchronization",
+        "Architecting for Resilience: Best Practices",
+        "Conclusion: Building Agents That Actually Work",
+        "Sources and further reading"
+      ],
+      "external_links": 4,
+      "flags": [],
+      "opening": "The Problem: Fragile AI Agents in Production We need to stop treating AI agents like demos and start treating them like infrastructure. For the last year, the gap between a working prototype and a production-ready agent has been defined by one thing: fragility. In a demo, the WebSocket connection is stable, the Durable Object is warm, and the user is sitting right there. In production, the network drops, the browser tab sleeps, the Durable Object migrates, and the routing layer throws a transient error. Most developers try to patch this gap with custom retry logic, manual state reconciliation, and fragile WebSocket negotiation code. This is a maintenance trap. You are spending engineering cycles building the plumbing for your agent instead of building the agent itself. The release of Cloudflare Agents SDK v0.12.4 marks a shift in how we should approach this. It isn’t just about new features; it’s about acknowledging that resilience is a core primitive, not an afterthought. The SDK now provides durable programmatic submissions, robust chat recovery, and automatic routing retries. Thes"
+    }
+  ]
+}

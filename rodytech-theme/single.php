@@ -63,6 +63,7 @@
       <?php get_template_part('template-parts/reader-next-step'); ?>
     </div>
 
+    <?php get_template_part('template-parts/newsletter', null, array('placement' => 'article')); ?>
     <a class="article-back-top" href="#article-top">Back to top ↑</a>
 
     <!-- Share -->

@@ -71,15 +71,7 @@
         <a href="<?php echo esc_url(rodytech_marketing_url()); ?>" target="_blank" rel="noopener noreferrer">Visit RodyTech</a>
       </div>
 
-      <div class="footer-newsletter" aria-labelledby="footer-newsletter-title">
-        <p id="footer-newsletter-title" class="footer-newsletter-label">Newsletter <span class="coming-soon-badge">Coming soon</span></p>
-        <p class="footer-newsletter-note">Email updates are not live yet. No mailing list provider is connected.</p>
-        <form class="footer-newsletter-form" action="#" method="post" onsubmit="return false;">
-          <label class="screen-reader-text" for="newsletter_email">Email</label>
-          <input id="newsletter_email" type="email" name="newsletter_email" placeholder="your@email.com" autocomplete="email" disabled>
-          <button type="button" disabled>Coming soon</button>
-        </form>
-      </div>
+      <?php get_template_part('template-parts/newsletter', null, array('placement' => 'footer')); ?>
     </div>
 
     <div class="footer-col-group">
