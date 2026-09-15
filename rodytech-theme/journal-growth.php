@@ -14,12 +14,24 @@ function rodytech_newsletter_ready() {
     return (bool) get_theme_mod('rodytech_newsletter_verified', false) && rodytech_newsletter_url() !== '';
 }
 
+// Verification applies only to the signup destination that was tested.
+// Update the complete option atomically: a nested set_theme_mod() would be
+// overwritten by the outer save's previously loaded options.
+add_filter('pre_update_option_theme_mods_' . get_stylesheet(), function ($value, $previous) {
+    if (!is_array($value)) return $value;
+    $old_url = is_array($previous) ? ($previous['rodytech_newsletter_url'] ?? '') : '';
+    if (rodytech_newsletter_url($value['rodytech_newsletter_url'] ?? '') !== rodytech_newsletter_url($old_url)) {
+        $value['rodytech_newsletter_verified'] = false;
+    }
+    return $value;
+}, 10, 2);
+
 add_action('customize_register', function ($customizer) {
     $customizer->add_section('rodytech_newsletter', array('title' => 'Journal newsletter', 'priority' => 140));
     $customizer->add_setting('rodytech_newsletter_url', array('default' => '', 'sanitize_callback' => 'rodytech_newsletter_url'));
     $customizer->add_control('rodytech_newsletter_url', array(
         'section' => 'rodytech_newsletter', 'type' => 'url', 'label' => 'Hosted signup page (HTTPS)',
-        'description' => 'Use the public signup page from your email provider. Never enter an API key. Subscribers enter their email on that page.',
+        'description' => 'Use the public signup page from your email provider. Changing this URL clears its verification. Never enter an API key. Subscribers enter their email on that page.',
     ));
     $customizer->add_setting('rodytech_newsletter_verified', array('default' => false, 'sanitize_callback' => function ($value) { return (bool) $value; }));
     $customizer->add_control('rodytech_newsletter_verified', array(

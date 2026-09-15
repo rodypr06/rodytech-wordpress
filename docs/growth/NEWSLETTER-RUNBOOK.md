@@ -6,6 +6,10 @@ WordPress remains the publication. An established email provider owns the hosted
 
 Configure Appearance → Customize → Journal newsletter. Enter the provider's public signup page URL. Leave the verified checkbox OFF until the checks below pass. URLs with credentials or a non-HTTPS scheme are rejected. With the flag off, both placements offer the free field kit and RSS.
 
+Changing or removing the signup URL clears verification automatically, including a bulk theme-option update. Save the new URL first, test that destination, then enable verification in a separate save. An unchanged URL or unrelated theme setting preserves verification.
+
+Regression checks: `php tests/newsletter-contract.php` covers the isolated template/configuration contract. For real WordPress persistence, use Playground CLI `run-blueprint --wp=6.9.1 --mount-dir ./rodytech-theme /wordpress/wp-content/themes/rodytech-theme --mount-dir ./tests /tests --blueprint=tests/newsletter-wordpress.blueprint.json` in a disposable instance. The latter verifies URL replacement/removal/restoration, bulk option writes, unrelated settings, explicit re-verification and the rendered fallback; it does not test provider delivery.
+
 This is the initial hosted signup journey. An inline provider form can be added after the actual account supplies its embed code and confirmed field requirements; do not fabricate a form endpoint or conceal a broken integration behind a success message.
 
 ## Provider configuration
