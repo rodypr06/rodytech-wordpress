@@ -1,6 +1,6 @@
 # RodyTech Journal growth execution
 
-Updated September 15, 2026. Owner authorization: complete this project autonomously; ask Roderick via Slack when a required decision or access is missing.
+Updated September 28, 2026. Owner authorization: complete this project autonomously; ask Roderick via Slack when a required decision or access is missing.
 
 For resuming in Codex on another computer, read the repository-root [HANDOFF.md](../../HANDOFF.md) first. It includes checkout instructions, preview reconstruction, verification evidence and coordination with the existing automation.
 
@@ -55,3 +55,10 @@ The plan assumes at most six founder hours a week and a proposed $0–$100 month
 - Prepared the Week 4 article update package in `week-04-reconciliation-package.md` and runnable `examples/reconciliation_lab.py`. Seven scenarios passed on Python 3.12.14 / SQLite 3.53.1, including controlled lost-response, rollback, concurrency, changed-payload and retention cases. Scope and untested boundaries are explicit.
 - Verified the existing article, SQLite transaction documentation and Stripe's idempotency contract; did not claim all existing AWS citations are verified. No provider API calls, live content edits, or campaign sends occurred.
 - The package includes a proposed decision summary, practical-example copy, email draft, two LinkedIn drafts and publication gates. Flowspace Week 4 evidence update remains pending sign-in. Its completion criteria are not met by drafts alone.
+
+## September 28 source audit
+
+- PR #6 is merged (613d597); no remote code changes followed it at this run's initial fetch. No new Slack reply appeared in the dependency thread or recent direct-message history. SSH still timed out. No repeated reminder was sent.
+- Prepared a targeted MCP article update in `mcp-article-audit.md` and `mcp-transport-checklist.html`. Verified the current specification revision and selected Glean/Scalekit claims. Three article citations still link to 2025-06-18 while describing the specification as current; the official version page now identifies 2026-07-28.
+- The live article changed September 13, after the original inventory. The audit records its rendered-content hash and requires reconciliation with current editable content before publishing; do not overwrite from the September 5 snapshot.
+- This is a source review and draft fragment, not a production security test. Nothing was published or sent. Pending Flowspace article-audit update: selected MCP claims reviewed and draft prepared; publication and the wider audit remain incomplete. Last known Flowspace session was expired; it was not rechecked during this source-only work.

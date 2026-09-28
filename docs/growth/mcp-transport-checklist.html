@@ -1,0 +1,13 @@
+<!-- Draft fragment for existing WordPress post 832. Not published. -->
+<h2>Choose the checks for your transport</h2>
+<p>Start with how the client reaches the server, then check who may perform the requested action.</p>
+<table>
+  <thead><tr><th>Deployment</th><th>Check first</th><th>Keep separate</th></tr></thead>
+  <tbody>
+    <tr><td>OAuth-protected HTTP</td><td>Validate the token for this server and the required grants on each request.</td><td>Do not pass the incoming bearer token to a downstream service.</td></tr>
+    <tr><td>Direct STDIO</td><td>Review the launched process, its environment credentials and operating-system access.</td><td>The HTTP authorization flow is not the credential model for this transport.</td></tr>
+    <tr><td>Proxy that launches STDIO servers</td><td>Restrict process spawning and the proxy's privileges; validate untrusted inputs.</td><td>A protected proxy endpoint does not justify unrestricted local command execution.</td></tr>
+  </tbody>
+</table>
+<p>Protocol references: <a href="https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization">MCP authorization, revision 2026-07-28</a>, and <a href="https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices#stdio-transport-security-in-proxy-scenarios">proxy security guidance</a>.</p>
+<p><strong>Application policy still needs its own checks:</strong> confirm the caller's trusted tenant, the target record's permissions and any required business approval. Test a permitted read, a denied write and an attempted cross-tenant action. Record the outcome without logging credentials. These are proposed acceptance checks, not results from a tested deployment.</p>
